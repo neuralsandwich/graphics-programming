@@ -15,4 +15,4 @@ add_executable(second second.cpp)
 
 # linking "glfw" and not "glfw3" 
 # assumes that glfw was built with BUILD_SHARED_LIBS to ON
-target_link_libraries(first glfw ${GL_LIBRARY} m)
+target_link_libraries(second glfw ${GL_LIBRARY} m)

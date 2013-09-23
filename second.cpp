@@ -1,9 +1,9 @@
 /*
  * =====================================================================================
  *
- *       Filename:  first.cpp
+ *       Filename:  second.cpp
  *
- *    Description:  First glfw application
+ *    Description:  Second glfw application
  *
  *        Version:  1.0
  *        Created:  23/09/13 14:13:06
@@ -28,7 +28,10 @@ bool running = true;
 
 bool initialise()
 {
+  // Set Color to cyan
   glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+  //Enable face culling
+  glEnable(GL_CULL_FACE);
   return true;
 }
 
@@ -45,6 +48,17 @@ void render()
 {
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT);
+
+  //Set the colour
+  glColor3f(1.0f, 0.0f, 0.0f);
+
+  //Render a triangle
+  glBegin(GL_TRIANGLES);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.0f);
+    glVertex3f(0.5f, -0.5f, 0.0f);
+  glEnd();
+
   // Swap front and back buffers
   glfwSwapBuffers(window);
 }
