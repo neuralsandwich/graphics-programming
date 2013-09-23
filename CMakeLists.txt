@@ -11,7 +11,7 @@ endif(NOT OPENGL_FOUND)
 set(GL_LIBRARY GL GLU X11)
 set(CMAKE_CXX_FLAGS "-std=c++0x")
 
-add_executable(first first.cpp)
+add_executable(second second.cpp)
 
 # linking "glfw" and not "glfw3" 
 # assumes that glfw was built with BUILD_SHARED_LIBS to ON
