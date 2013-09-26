@@ -54,10 +54,14 @@ void render()
   //Render a Quad
   glBegin(GL_TRIANGLE_STRIP);
     // Quad has four vertexes (corners)
-    glVertex3f(0.5f, 0.5f, 0.0f);
-    glVertex3f(-0.5f, 0.5f, 0.0f);
-    glVertex3f(-0.5f, -0.5f, 0.0f);
+    // Bottom Right
     glVertex3f(0.5f, -0.5f, 0.0f);
+    // Top Right
+    glVertex3f(0.5f, 0.5f, 0.0f);
+    // Bottom Left
+    glVertex3f(-0.5f, -0.5f, 0.0f);
+    // Top Left
+    glVertex3f(-0.5f, 0.5f, 0.0f);
   glEnd();
 
   // Swap front and back buffers
