@@ -52,21 +52,12 @@ void render()
   glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
   //Render a Quad
-  glBegin(GL_LINES);
+  glBegin(GL_LINE_STRIP);
 
-    // Line 1
+    // Four corners required again, but also connect back to the start point
     glVertex3f(0.5f, 0.5f, 0.0f);
     glVertex3f(-0.5f, 0.5f, 0.0f);
-
-    // Line 2
-    glVertex3f(-0.5f, 0.5f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.0f);
-
-    // Line 3
-    glVertex3f(-0.5f, -0.5f, 0.0f);
-    glVertex3f(0.5f, -0.5f, 0.0f);
-
-    // Line 4
     glVertex3f(0.5f, -0.5f, 0.0f);
     glVertex3f(0.5f, 0.5f, 0.0f);
 
