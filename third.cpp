@@ -1,12 +1,11 @@
 /*
  * =====================================================================================
  *
- *       Filename:  second.cpp
+ *       Filename:  third.cpp
  *
- *    Description:  Second glfw application
+ *    Description:  Third glfw application
  *
  *        Version:  1.0
- *        Created:  23/09/13 14:13:06
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -50,15 +49,18 @@ void render()
   glClear(GL_COLOR_BUFFER_BIT);
 
   //Set the colour
-  glColor3f(1.0f, 0.0f, 0.0f);
+  glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
-  //Render a triangle
+  //Render a Quad
   glBegin(GL_TRIANGLES);
-    glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-    glVertex3f(0.0f, 0.5f, 0.0f);
-    glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+    // Triangle 1
+    glVertex3f(-0.5f, 0.5f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.0f);
-    glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+    glVertex3f(0.5f, 0.5f, 0.0f);
+
+    // Triangle 2
+    glVertex3f(0.5f, 0.5f, 0.0f);
+    glVertex3f(-0.5f, -0.5f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.0f);
   glEnd();
 
