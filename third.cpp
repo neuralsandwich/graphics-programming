@@ -52,14 +52,10 @@ void render()
   glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
   //Render a Quad
-  glBegin(GL_TRIANGLES);
-    // Triangle 1
+  glBegin(GL_QUADS);
+    // Quad has four vertexes (corners)
+    glVertex3f(0.5f, 0.5f, 0.0f);
     glVertex3f(-0.5f, 0.5f, 0.0f);
-    glVertex3f(-0.5f, -0.5f, 0.0f);
-    glVertex3f(0.5f, 0.5f, 0.0f);
-
-    // Triangle 2
-    glVertex3f(0.5f, 0.5f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.0f);
     glVertex3f(0.5f, -0.5f, 0.0f);
   glEnd();
