@@ -43,7 +43,13 @@ void update(double deltaTime)
 void render()
 {
   // Create rotation transform. Use Z-axis
-  glm::mat4 model = glm::scale(2.0f/orientation, 2.0f/orientation, 2.0f/orientation);
+  glm::mat4 model = glm::rotate(glm::mat4(10.f),
+                                glm::degrees(orientation),
+                                glm::vec3(0.0f, 0.0f, 1.0f));
+
+  // Now scale the triangle
+  model *= glm::scale(1.0f/orientation, 1.0f/orientation, 1.0f/orientation);
+
   // Set the matrix we are using
   glMatrixMode(GL_MODELVIEW);
   // Load the matrix (use it)
