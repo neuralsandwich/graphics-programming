@@ -9,6 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/core/type_vec3.hpp>
 
 using namespace std::chrono;
 
@@ -17,7 +18,7 @@ GLFWwindow* window;
 bool running = true;
 
 // Value to keep track of current orientation on axis
-vec3 position(0.0f, 0.0f, 0.0f);
+glm::vec3 position(0.0f, 0.0f, 0.0f);
 
 bool initialise()
 {
@@ -35,23 +36,33 @@ void update(double deltaTime)
     !glfwWindowShouldClose(window);
 
   // Move the quad when arrow keys are pressed
-  if (glfwGetKey(window, GLFW_KET_RIGHT)){
-    position += vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_RIGHT)){
+    position += glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
   }
-  if (glfwGetKey(window, GLFW_KET_LEFT)){
-    position -= vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_LEFT)){
+    position -= glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
   }
-  if (glfwGetKey(window, GLFW_KET_UP)){
-    position += vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_UP)){
+    position += glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
   }
-  if (glfwGetKey(window, GLFW_KET_DOWN)){
-    position -= vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_DOWN)){
+    position -= glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
   }
 } // update
 
 //renders the application
 void render()
 {
+
+  // Create model matrix
+  auto model = glm::translate(glm::mat4(1.0f), position);
+
+  // Set matrix mode
+  glMatrixMode(GL_MODELVIEW);
+
+  // Load model matrix
+  glLoadMatrixf(glm::value_ptr(model));
+
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT);
 
@@ -70,6 +81,10 @@ void render()
 
   // Swap front and back buffers
   glfwSwapBuffers(window);
+
+  // Set transform matrix to identity (no transform)
+  glLoadIdentity();
+
 } // render
 
 int main(void)
