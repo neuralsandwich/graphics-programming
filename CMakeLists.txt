@@ -24,7 +24,7 @@ endif(NOT OPENGL_FOUND)
 set(GL_LIBRARY GL GLU X11)
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
-include_directories(${GLM_INCLUDE_DIRS})
+include_directories(${GLM_INCLUDE_DIR})
 
 # Source file list
 set(SOURCES "${CMAKE_SOURCE_DIR}/src/test.cpp")

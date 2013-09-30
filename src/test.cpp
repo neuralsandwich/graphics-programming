@@ -4,6 +4,10 @@
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
 #include <chrono>
+#include <glm/glm.hpp>
+#include <glm/gtx/constants.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std::chrono;
 
@@ -29,11 +33,24 @@ void update(double deltaTime)
   // Check if escape pressed or window is closed
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
     !glfwWindowShouldClose(window);
+
+  // Rotate at half a rotation (pi radians) per second
+  orientation += (deltaTime * glm::pi<float>());
+
 } // update
 
 //renders the application
 void render()
 {
+  // Create rotation transform. Use Z-axis
+  glm::mat4 model = glm::rotate(glm::mat4(10.f),
+                                glm::degrees(orientation),
+                                glm::vec3(0.0f, 0.0f, 1.0f));
+  // Set the matrix we are using
+  glMatrixMode(GL_MODELVIEW);
+  // Load the matrix (use it)
+  glLoadMatrixf(glm::value_ptr(model));
+
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT);
 
@@ -54,6 +71,7 @@ void render()
 
   // Swap front and back buffers
   glfwSwapBuffers(window);
+  // Load the identity matrix (ensures transformation is reset)
 } // render
 
 int main(void)
