@@ -52,19 +52,6 @@ void update(double deltaTime)
 //renders the application
 void render()
 {
-  // Create rotation transform. Use Z-axis
-  glm::mat4 model = glm::rotate(glm::mat4(10.f),
-                                glm::degrees(orientation),
-                                glm::vec3(0.0f, 0.0f, 1.0f));
-
-  // Now scale the triangle
-  model *= glm::scale(1.0f/orientation, 1.0f/orientation, 1.0f/orientation);
-
-  // Set the matrix we are using
-  glMatrixMode(GL_MODELVIEW);
-  // Load the matrix (use it)
-  glLoadMatrixf(glm::value_ptr(model));
-
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT);
 
@@ -72,21 +59,17 @@ void render()
   glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
   //Render a Triangel
-  glBegin(GL_TRIANGLES);
+  glBegin(GL_QUADS);
 
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.5f, 0.0f);
-    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(0.5f, 0.5f, 0.0f);
+    glVertex3f(-0.5f, 0.5f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.0f);
-    glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(0.5f, -0.5f, 0.0f);
 
   glEnd();
 
   // Swap front and back buffers
   glfwSwapBuffers(window);
-  // Load the identity matrix (ensures transformation is reset)
-  glLoadIdentity();
 } // render
 
 int main(void)
