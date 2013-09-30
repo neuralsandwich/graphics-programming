@@ -17,7 +17,7 @@ GLFWwindow* window;
 bool running = true;
 
 // Value to keep track of current orientation on axis
-float orientation = 0.0f;
+vec3 position(0.0f, 0.0f, 0.0f);
 
 bool initialise()
 {
