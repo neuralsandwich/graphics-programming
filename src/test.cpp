@@ -34,9 +34,19 @@ void update(double deltaTime)
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
     !glfwWindowShouldClose(window);
 
-  // Rotate at half a rotation (pi radians) per second
-  orientation += (deltaTime * glm::pi<float>());
-
+  // Move the quad when arrow keys are pressed
+  if (glfwGetKey(window, GLFW_KET_RIGHT)){
+    position += vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+  }
+  if (glfwGetKey(window, GLFW_KET_LEFT)){
+    position -= vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+  }
+  if (glfwGetKey(window, GLFW_KET_UP)){
+    position += vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+  }
+  if (glfwGetKey(window, GLFW_KET_DOWN)){
+    position -= vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+  }
 } // update
 
 //renders the application
