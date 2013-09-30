@@ -1,19 +1,5 @@
-/*
- * =====================================================================================
- *
- *       Filename:  third.cpp
- *
- *    Description:  Third glfw application
- *
- *        Version:  1.0
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Sean Jones (SJ), NeuralSandwich@gmail.com
- *        Company:  NeuralSandwich
- *
- * =====================================================================================
- */
+// Test.cpp
+// Sean Jones
 
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
@@ -51,13 +37,14 @@ void render()
   //Set the colour
   glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 
-  //Render a Quad
-  glBegin(GL_LINE_LOOP);
+  //Render a Triangel
+  glBegin(GL_TRIANGLES);
 
-    // Four corners required again, but also connect back to the start point
-    glVertex3f(0.5f, 0.5f, 0.0f);
-    glVertex3f(-0.5f, 0.5f, 0.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.5f, 0.0f);
+    glColor3f(0.0f, 1.0f, 0.0f);
     glVertex3f(-0.5f, -0.5f, 0.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(0.5f, -0.5f, 0.0f);
 
   glEnd();
