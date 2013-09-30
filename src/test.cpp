@@ -18,7 +18,7 @@ bool initialise()
   //Enable face culling
   glEnable(GL_CULL_FACE);
   return true;
-}
+} // initialise
 
 //updates the application
 void update(double deltaTime)
@@ -26,7 +26,7 @@ void update(double deltaTime)
   // Check if escape pressed or window is closed
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
     !glfwWindowShouldClose(window);
-}
+} // update
 
 //renders the application
 void render()
@@ -51,7 +51,7 @@ void render()
 
   // Swap front and back buffers
   glfwSwapBuffers(window);
-}
+} // render
 
 int main(void)
 {
@@ -112,4 +112,4 @@ int main(void)
 
     glfwTerminate();
     return 0;
-}
+} // main
