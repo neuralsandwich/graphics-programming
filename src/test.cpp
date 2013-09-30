@@ -37,17 +37,28 @@ void update(double deltaTime)
 
   // Move the quad when arrow keys are pressed
   if (glfwGetKey(window, GLFW_KEY_RIGHT)){
-    position += glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+    if (position.x < 0.5) {
+      position += glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+    }
   }
   if (glfwGetKey(window, GLFW_KEY_LEFT)){
-    position -= glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+    if (position.x > -0.5) {
+      position -= glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+    }
   }
   if (glfwGetKey(window, GLFW_KEY_UP)){
-    position += glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+    if (position.y < 0.5) {
+      position += glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+    }
   }
   if (glfwGetKey(window, GLFW_KEY_DOWN)){
-    position -= glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+    if (position.y > -0.5) {
+      position -= glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+    }
   }
+
+
+
 } // update
 
 //renders the application
