@@ -22,8 +22,7 @@ bool initialise()
 {
   // Set Color to cyan
   glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
-  //Enable face culling
-  glEnable(GL_CULL_FACE);
+
   return true;
 } // initialise
 
@@ -45,7 +44,7 @@ void render()
   // Create rotation transform. Use Z-axis
   glm::mat4 model = glm::rotate(glm::mat4(10.f),
                                 glm::degrees(orientation),
-                                glm::vec3(0.0f, 0.0f, 1.0f));
+                                glm::vec3(0.0f, 1.0f, 0.0f));
   // Set the matrix we are using
   glMatrixMode(GL_MODELVIEW);
   // Load the matrix (use it)
