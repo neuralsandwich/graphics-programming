@@ -30,6 +30,15 @@ const int num_points = 50000;
 // Points generated
 vector<vec2> points;
 
+// Value to keep track of current orientation on axis
+float objOrientation = 0.0f;
+// Keep track of position
+glm::vec3 objPosition(0.0f, 0.0f, 0.0f);
+// Keep track of scale
+float objScale = 1.0f;
+
+// Keep track of current mode
+bool TRANSLATIONMODE = true;
 
 bool initialise()
 {
@@ -74,16 +83,106 @@ bool initialise()
 	return true;
 } // initialise
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+		if (TRANSLATIONMODE == true) {
+			TRANSLATIONMODE = false;
+		} else {
+			TRANSLATIONMODE = true;
+		}
+
+	}
+} // Key_callback
+
+void userRotation(double deltaTime) {
+
+	if (glfwGetKey(window, GLFW_KEY_RIGHT)){
+		objOrientation += (deltaTime * pi<float>());
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT)){
+		objOrientation -= (deltaTime * pi<float>());
+	}
+
+}
+
+/*
+ * userScale
+ *
+ * Increases and decreases the scale of the object.
+ */
+void userScale(double deltaTime) {
+	if (glfwGetKey(window, GLFW_KEY_UP)){
+		objScale += 1.0f * float(deltaTime);
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN)){
+		objScale -= 1.0f * float(deltaTime);
+	}
+
+}
+
+/*
+ * userTranslation
+ *
+ * moves the object around inside the window using the keyboard arrow keys.
+ */
+void userTranslation(double deltaTime) {
+	// Move the quad when arrow keys are pressed
+	if (glfwGetKey(window, GLFW_KEY_RIGHT)){
+		if (objPosition.x < (1 - (objScale/2))) {
+			objPosition += vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT)){
+		if (objPosition.x > (-1.0 + (objScale/2))) {
+			objPosition -= vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_UP)){
+		if (objPosition.y < (1.0 - (objScale/2))) {
+			objPosition += vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN)){
+		if (objPosition.y > (-1.0 + (objScale/2))) {
+			objPosition -= vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+		}
+	}
+
+} // userTranslation
+
 //updates the application
 void update(double deltaTime)
 {
+	// Check if escape pressed or window is closed
+	running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
+			!glfwWindowShouldClose(window);
 
+	if (TRANSLATIONMODE) {
+		userTranslation(deltaTime);
+	} else {
+		userScale(deltaTime);
+		userRotation(deltaTime);
+	}
 
 } // update
 
 //renders the application
 void render()
 {
+	// Create model matrix
+	auto model = translate(mat4(1.0f), objPosition);
+	// Scale the triangle
+	model *= scale(objScale, objScale, objScale);
+	// Create rotation transform. Use Z-axis
+	model *= rotate(mat4(10.f),
+					degrees(objOrientation),
+			        vec3(0.0f, 0.0f, 1.0f));
+
+	// Set matrix mode
+	glMatrixMode(GL_MODELVIEW);
+	// Load model matrix
+	glLoadMatrixf(value_ptr(model));
+
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT);
 	// Set Colour to black
@@ -106,7 +205,7 @@ void render()
 
 int main(void)
 {
-	/* Initialize the library */
+	/* Initialise the library */
 	if (!glfwInit())
 	{
 		return -1;
@@ -122,6 +221,8 @@ int main(void)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+
+    glfwSetKeyCallback(window, key_callback);
 
 	//initialise the window
 	if (!initialise())
