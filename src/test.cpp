@@ -25,8 +25,10 @@ GLFWwindow* window;
 
 bool running = true;
 
+// Keep track of camera orientation
 float cameraOrientation = 0.0f;
-
+// Keep track of cube position
+vec3 position(0.0f, 0.0f, 0.0f);
 /*
  * Initialise()
  *
@@ -57,14 +59,44 @@ bool initialise()
 
 
 /*
+ * userTranslation
+ *
+ * moves the object around inside the window using the keyboard arrow keys.
+ */
+void userTranslation(double deltaTime) {
+  // Move the quad when arrow keys are pressed
+  if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
+    position.x += 1.0f * deltaTime;
+  }
+  if (glfwGetKey(window, GLFW_KEY_LEFT)) {
+    position.x -= 1.0f * deltaTime;
+  }
+  if (glfwGetKey(window, GLFW_KEY_UP)) {
+    position.z += 1.0f * deltaTime;
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN)) {
+    position.z -= 1.0f * deltaTime;
+  }
+  if (glfwGetKey(window, 'W')) {
+    position.y += 1.0f * deltaTime;
+  }
+  if (glfwGetKey(window, 'S')) {
+    position.y -= 1.0f * deltaTime;
+  }
+}
+
+
+/*
  * update()
  *
  * Updates the application state
  */
 void update(double deltaTime) {
 
-  cameraOrientation += (deltaTime * pi<float>());
+  // Check if escape pressed of window is closed
+  running = !glfwGetKey(window, GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(window);
 
+  userTranslation(deltaTime);
 } // update
 
 /*
@@ -81,14 +113,12 @@ void render()
                      vec3(0.0f, 0.0f, 0.0f),
                      vec3(0.0f, 1.0f, 0.0f));
 
-  view *= rotate(mat4(10.f),
-                      degrees(cameraOrientation),
-                      vec3(0.0f, 1.0f, 0.0f));
+  auto model = glm::translate(mat4(1.0f), position);
 
   // Set matrix mode
   glMatrixMode(GL_MODELVIEW);
   // Load view matrix
-  glLoadMatrixf(value_ptr(view));
+  glLoadMatrixf(value_ptr(view * model));
 
   // Render a cube
   glBegin(GL_QUADS);
