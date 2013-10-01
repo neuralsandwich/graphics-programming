@@ -18,7 +18,14 @@ GLFWwindow* window;
 bool running = true;
 
 // Value to keep track of current orientation on axis
+float orientation = 0.0f;
+// Keep track of position
 glm::vec3 position(0.0f, 0.0f, 0.0f);
+// Keep track of scale
+float scale = 1.0f;
+
+// Keep track of current mode
+bool TRANSLATIONMODE = true;
 
 bool initialise()
 {
@@ -28,6 +35,74 @@ bool initialise()
   return true;
 } // initialise
 
+
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+    if (TRANSLATIONMODE == true) {
+      TRANSLATIONMODE = false;
+    } else {
+      TRANSLATIONMODE = true;
+    }
+
+  }
+}
+
+void userRotation(double deltaTime) {
+
+  if (glfwGetKey(window, GLFW_KEY_RIGHT)){
+    orientation += (deltaTime * glm::pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_LEFT)){
+    orientation -= (deltaTime * glm::pi<float>());
+  }
+
+}
+
+/*
+ * userScale
+ *
+ * Increases and decreases the scale of the object.
+ */
+void userScale(double deltaTime) {
+  if (glfwGetKey(window, GLFW_KEY_UP)){
+    scale += 1.0f * float(deltaTime);
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN)){
+    scale -= 1.0f * float(deltaTime);
+  }
+
+}
+
+/*
+ * userTranslation
+ *
+ * moves the object around inside the window using the keyboard arrow keys.
+ */
+void userTranslation(double deltaTime) {
+  // Move the quad when arrow keys are pressed
+  if (glfwGetKey(window, GLFW_KEY_RIGHT)){
+    if (position.x < (1 - (scale/2))) {
+      position += glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+    }
+  }
+  if (glfwGetKey(window, GLFW_KEY_LEFT)){
+    if (position.x > (-1.0 + (scale/2))) {
+      position -= glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
+    }
+  }
+  if (glfwGetKey(window, GLFW_KEY_UP)){
+    if (position.y < (1.0 - (scale/2))) {
+      position += glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+    }
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN)){
+    if (position.y > (-1.0 + (scale/2))) {
+      position -= glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
+    }
+  }
+
+} // userTranslation
+
 //updates the application
 void update(double deltaTime)
 {
@@ -35,29 +110,12 @@ void update(double deltaTime)
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
     !glfwWindowShouldClose(window);
 
-  // Move the quad when arrow keys are pressed
-  if (glfwGetKey(window, GLFW_KEY_RIGHT)){
-    if (position.x < 0.5) {
-      position += glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
-    }
+  if (TRANSLATIONMODE) {
+    userTranslation(deltaTime);
+  } else {
+    userScale(deltaTime);
+    userRotation(deltaTime);
   }
-  if (glfwGetKey(window, GLFW_KEY_LEFT)){
-    if (position.x > -0.5) {
-      position -= glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime);
-    }
-  }
-  if (glfwGetKey(window, GLFW_KEY_UP)){
-    if (position.y < 0.5) {
-      position += glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
-    }
-  }
-  if (glfwGetKey(window, GLFW_KEY_DOWN)){
-    if (position.y > -0.5) {
-      position -= glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime);
-    }
-  }
-
-
 
 } // update
 
@@ -67,6 +125,11 @@ void render()
 
   // Create model matrix
   auto model = glm::translate(glm::mat4(1.0f), position);
+  // Scale the triangle
+  model *= glm::scale(scale, scale, scale);
+  // Create rotation transform. Use Z-axis
+  model *= glm::rotate(glm::mat4(10.f), glm::degrees(orientation),
+                       glm::vec3(0.0f, 0.0f, 1.0f));
 
   // Set matrix mode
   glMatrixMode(GL_MODELVIEW);
@@ -116,6 +179,8 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+
+    glfwSetKeyCallback(window, key_callback);
 
     //initialise the window
     if (!initialise())
