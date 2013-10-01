@@ -83,7 +83,7 @@ void render()
 
   view *= rotate(mat4(10.f),
                       degrees(cameraOrientation),
-                      vec3(1.0f, 1.0f, 1.0f));
+                      vec3(0.0f, 1.0f, 0.0f));
 
   // Set matrix mode
   glMatrixMode(GL_MODELVIEW);
