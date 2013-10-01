@@ -25,10 +25,16 @@ GLFWwindow* window;
 
 bool running = true;
 
+// Keep track of current mode
+bool TRANSLATIONMODE = true;
+
 // Keep track of camera orientation
 float cameraOrientation = 0.0f;
 // Keep track of cube position
 vec3 position(0.0f, 0.0f, 0.0f);
+// Keep track of cube rotation
+vec3 rotation(0.0f, 0.0f, 0.0f);
+
 /*
  * Initialise()
  *
@@ -56,6 +62,51 @@ bool initialise()
 
   return true;
 } // initialise
+
+/*
+ * key_callback
+ *
+ * used for identifying key presses
+ */
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+    if (TRANSLATIONMODE == true) {
+      TRANSLATIONMODE = false;
+    } else {
+      TRANSLATIONMODE = true;
+    }
+
+  }
+} // key_callback
+
+
+/*
+ * userRation
+ *
+ * rotates the object
+ */
+void userRotation(double deltaTime) {
+
+  if (glfwGetKey(window, GLFW_KEY_UP)) {
+    rotation.z -= (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN)) {
+    rotation.z += (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
+    rotation.x += (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_LEFT)) {
+    rotation.x -= (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, 'W')) {
+    rotation.y += (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, 'S')) {
+    rotation.y -= (deltaTime * pi<float>());
+  }
+
+} // userRoation
 
 
 /*
@@ -96,8 +147,17 @@ void update(double deltaTime) {
   // Check if escape pressed of window is closed
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(window);
 
-  userTranslation(deltaTime);
+  // Check if escape pressed or window is closed
+  running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
+    !glfwWindowShouldClose(window);
+
+  if (TRANSLATIONMODE) {
+    userTranslation(deltaTime);
+  } else {
+    userRotation(deltaTime);
+  }
 } // update
+
 
 /*
  * render()
@@ -113,7 +173,10 @@ void render()
                      vec3(0.0f, 0.0f, 0.0f),
                      vec3(0.0f, 1.0f, 0.0f));
 
-  auto model = glm::translate(mat4(1.0f), position);
+  auto model = translate(mat4(1.0f), position);
+  model = rotate(model, degrees(rotation.y), vec3(0.0f, 1.0f, 0.0f));
+  model = rotate(model, degrees(rotation.x), vec3(1.0f, 0.0f, 0.0f));
+  model = rotate(model, degrees(rotation.z), vec3(0.0f, 0.0f, 1.0f));
 
   // Set matrix mode
   glMatrixMode(GL_MODELVIEW);
@@ -185,6 +248,8 @@ int main(void)
 
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
+  /* Set the function for the key callback */
+  glfwSetKeyCallback(window, key_callback);
 
   //initialise the window
   if (!initialise())
