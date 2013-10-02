@@ -12,7 +12,7 @@
 #include <vector>
 #include <random>
 #include <chrono>
-
+#include <array>
 // For Debug
 #include <iostream>
 
@@ -36,6 +36,42 @@ vec3 position(0.0f, 0.0f, 0.0f);
 vec3 rotation(0.0f, 0.0f, 0.0f);
 // Keep track of cube scale
 vec3 cube_scale(1.0f, 1.0f, 1.0f);
+
+
+array<float, 24> vertices =
+    {
+     -1.0f, 1.0f, 1.0f,       // 0
+     1.0f, 1.0f, 1.0f,        // 1
+     1.0f, -1.0f, 1.0f,       // 2
+     -1.0f, -1.0f, 1.0f,      // 3
+     1.0f, 1.0f, -1.0f,       // 4
+     -1.0f, 1.0f, -1.0f,      // 5
+     -1.0f, -1.0f, -1.0f,     // 6
+     1.0f, -1.0f, -1.0f       // 7
+    };
+
+
+array<unsigned int, 36> indices =
+    {
+     // Side 1
+     0, 1, 3,
+     1, 2, 3,
+     // Side 2
+     1, 4, 2,
+     4, 7, 2,
+     // Side 3
+     4, 5, 7,
+     5, 6, 7,
+     // Side 4
+     5, 0, 6,
+     0, 3, 6,
+     // Side 5
+     5, 4, 0,
+     4, 1, 0,
+     // Side 6
+     3, 2, 6,
+     2, 7, 6
+    };
 
 
 /*
@@ -62,6 +98,8 @@ bool initialise()
   glMatrixMode(GL_MODELVIEW);
   // Enable depth testing
   glEnable(GL_DEPTH_TEST);
+  // Enable vertex arrays
+  glEnableClientState(GL_VERTEX_ARRAY);
 
   return true;
 } // initialise
@@ -83,9 +121,6 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         MODE = 2;
         break;
       case 2:
-        MODE = 3;
-        break;
-      case 3:
         MODE = 0;
         break;
       default:
@@ -195,7 +230,7 @@ void update(double deltaTime) {
 
   // Check if escape pressed or window is closed
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
-    !glfwWindowShouldClose(window);
+      !glfwWindowShouldClose(window);
 
   switch (MODE) {
     case 0:
@@ -240,44 +275,17 @@ void render()
   // Load view matrix
   glLoadMatrixf(value_ptr(view * model));
 
+  // Point to the vertex data - vec3 of float.  Start at index 0
+  glVertexPointer(3, GL_FLOAT, 0, &vertices);
+  // Set the colour
+  glColor3f(1.0f, 0.0f, 0.0f);
+  // Draw the triangles using the index data
+  glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, &indices);
+
   // Render a cube
   glBegin(GL_QUADS);
-    // Face 1
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    // Face 2
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    // Face 3
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    // Face 4
-    glColor3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    // Face 5
-    glColor3f(1.0f, 0.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    // Face 6
-    glColor3f(0.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
+
+
   glEnd();
   // Swap front and back buffers
   glfwSwapBuffers(window);
