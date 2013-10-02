@@ -26,7 +26,7 @@ GLFWwindow* window;
 bool running = true;
 
 // Keep track of current mode
-bool TRANSLATIONMODE = true;
+int MODE = 0;
 
 // Keep track of camera orientation
 float cameraOrientation = 0.0f;
@@ -34,6 +34,9 @@ float cameraOrientation = 0.0f;
 vec3 position(0.0f, 0.0f, 0.0f);
 // Keep track of cube rotation
 vec3 rotation(0.0f, 0.0f, 0.0f);
+// Keep track of cube scale
+vec3 cube_scale(1.0f, 1.0f, 1.0f);
+
 
 /*
  * Initialise()
@@ -67,17 +70,60 @@ bool initialise()
  * key_callback
  *
  * used for identifying key presses
+ * and switching the current mode
  */
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
   if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-    if (TRANSLATIONMODE == true) {
-      TRANSLATIONMODE = false;
-    } else {
-      TRANSLATIONMODE = true;
-    }
 
+    switch (MODE) {
+      case 0:
+        MODE = 1;
+        break;
+      case 1:
+        MODE = 2;
+        break;
+      case 2:
+        MODE = 3;
+        break;
+      case 3:
+        MODE = 0;
+        break;
+      default:
+        MODE = 0;
+        break;
+    }
   }
+
 } // key_callback
+
+
+/*
+ * userScale
+ *
+ * Increases and decreases the scale of the object.
+ */
+void userScale(double deltaTime) {
+
+  if (glfwGetKey(window, GLFW_KEY_UP)) {
+    cube_scale.z -= (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN)) {
+    cube_scale.z += (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
+    cube_scale.x += (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, GLFW_KEY_LEFT)) {
+    cube_scale.x -= (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, 'W')) {
+    cube_scale.y += (deltaTime * pi<float>());
+  }
+  if (glfwGetKey(window, 'S')) {
+    cube_scale.y -= (deltaTime * pi<float>());
+  }
+
+} // userScale
 
 
 /*
@@ -151,11 +197,20 @@ void update(double deltaTime) {
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
     !glfwWindowShouldClose(window);
 
-  if (TRANSLATIONMODE) {
-    userTranslation(deltaTime);
-  } else {
-    userRotation(deltaTime);
+  switch (MODE) {
+    case 0:
+      userTranslation(deltaTime);
+      break;
+    case 1:
+      userRotation(deltaTime);
+      break;
+    case 2:
+      userScale(deltaTime);
+      break;
+    default:
+      break;
   }
+
 } // update
 
 
@@ -173,10 +228,12 @@ void render()
                      vec3(0.0f, 0.0f, 0.0f),
                      vec3(0.0f, 1.0f, 0.0f));
 
-  auto model = translate(mat4(1.0f), position);
-  model = rotate(model, degrees(rotation.y), vec3(0.0f, 1.0f, 0.0f));
+  auto model = rotate(mat4(1.0f), degrees(rotation.y), vec3(0.0f, 1.0f, 0.0f));
   model = rotate(model, degrees(rotation.x), vec3(1.0f, 0.0f, 0.0f));
   model = rotate(model, degrees(rotation.z), vec3(0.0f, 0.0f, 1.0f));
+  model = scale(model, cube_scale);
+  model = translate(model, position);
+
 
   // Set matrix mode
   glMatrixMode(GL_MODELVIEW);
