@@ -46,6 +46,10 @@ void triangle(const vec2& a, const vec2& b, const vec2& c)
 
 void divide_triangle(const vec2& a, const vec2& b, const vec2& c, int count)
 {
+  // If subdivisions (count) is zero just output the triangle defined it initialise
+  if (count == 0) {
+    triangle(a, b, c);
+  }
 }
 
 
