@@ -44,13 +44,43 @@ void triangle(const vec2& a, const vec2& b, const vec2& c)
 } // Triangle
 
 
+/*
+ * divide_triange()
+ *
+ * const vec2& a - Pointer to vector a
+ * const vec2& b - Pointer to vector b
+ * const vec2& c - Pointer to vector c
+ * int count - integer counter for the levels for subdivision
+ *
+ * divide_trinagle creates different subdivided levels of the sierpinski
+ * triangle.
+ */
 void divide_triangle(const vec2& a, const vec2& b, const vec2& c, int count)
 {
-  // If subdivisions (count) is zero just output the triangle defined it initialise
+  // If subdivisions (count) is zero just output the triangle defined it
+  // initialise
   if (count == 0) {
     triangle(a, b, c);
+  } else {
+    array<vec2, 3> tmpTriangle;
+
+    // find midpoint ab
+    tmpTriangle[0].x = (a.x+b.x)/2;
+    tmpTriangle[0].y = (a.y+b.y)/2;
+    // find midpoint ac
+    tmpTriangle[1].x = (a.x+c.x)/2;
+    tmpTriangle[1].y = (a.y+c.y)/2;
+    // find midpoint bc
+    tmpTriangle[2].x = (b.x+c.x)/2;
+    tmpTriangle[2].y = (b.y+c.y)/2;
+
+    // triangle 1
+    triangle(b, tmpTriangle[2], tmpTriangle[0]);
+    triangle(tmpTriangle[1], tmpTriangle[2], c);
+    triangle(a, tmpTriangle[0], tmpTriangle[1]);
+
   }
-}
+} // divide_triangle
 
 
 /*
@@ -78,7 +108,7 @@ bool initialise()
       };
 
   // Divide the triangle first - you will need to modify this
-  divide_triangle(v[0], v[1], v[2], 0);
+  divide_triangle(v[0], v[1], v[2], 1);
 
   return true;
 } // initialise
