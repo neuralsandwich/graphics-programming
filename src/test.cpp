@@ -75,9 +75,9 @@ void divide_triangle(const vec2& a, const vec2& b, const vec2& c, int count)
     tmpTriangle[2].y = (b.y+c.y)/2;
 
     // triangle 1
-    triangle(b, tmpTriangle[2], tmpTriangle[0]);
-    triangle(tmpTriangle[1], tmpTriangle[2], c);
-    triangle(a, tmpTriangle[0], tmpTriangle[1]);
+    divide_triangle(b, tmpTriangle[2], tmpTriangle[0], count-1);
+    divide_triangle(tmpTriangle[1], tmpTriangle[2], c, count-1);
+    divide_triangle(a, tmpTriangle[0], tmpTriangle[1], count-1);
 
   }
 } // divide_triangle
@@ -108,7 +108,7 @@ bool initialise()
       };
 
   // Divide the triangle first - you will need to modify this
-  divide_triangle(v[0], v[1], v[2], 1);
+  divide_triangle(v[0], v[1], v[2], 7);
 
   return true;
 } // initialise
