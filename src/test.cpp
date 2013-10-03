@@ -25,53 +25,28 @@ GLFWwindow* window;
 
 bool running = true;
 
-// Keep track of current mode
-int MODE = 0;
 
-// Keep track of camera orientation
-float cameraOrientation = 0.0f;
-// Keep track of cube position
-vec3 position(0.0f, 0.0f, 0.0f);
-// Keep track of cube rotation
-vec3 rotation(0.0f, 0.0f, 0.0f);
-// Keep track of cube scale
-vec3 cube_scale(1.0f, 1.0f, 1.0f);
+// Vector containing vector data
+vector<vec2> vertices;
 
 
-array<float, 24> vertices =
-    {
-     -1.0f, 1.0f, 1.0f,       // 0
-     1.0f, 1.0f, 1.0f,        // 1
-     1.0f, -1.0f, 1.0f,       // 2
-     -1.0f, -1.0f, 1.0f,      // 3
-     1.0f, 1.0f, -1.0f,       // 4
-     -1.0f, 1.0f, -1.0f,      // 5
-     -1.0f, -1.0f, -1.0f,     // 6
-     1.0f, -1.0f, -1.0f       // 7
-    };
+/*
+ * triangle()
+ *
+ * Helper function to create a triangle
+ */
+void triangle(const vec2& a, const vec2& b, const vec2& c)
+{
+  // Push the vertices onto the vector
+  vertices.push_back(a);
+  vertices.push_back(b);
+  vertices.push_back(c);
+} // Triangle
 
 
-array<unsigned int, 36> indices =
-    {
-     // Side 1
-     0, 1, 3,
-     1, 2, 3,
-     // Side 2
-     1, 4, 2,
-     4, 7, 2,
-     // Side 3
-     4, 5, 7,
-     5, 6, 7,
-     // Side 4
-     5, 0, 6,
-     0, 3, 6,
-     // Side 5
-     5, 4, 0,
-     4, 1, 0,
-     // Side 6
-     3, 2, 6,
-     2, 7, 6
-    };
+void divide_triangle(const vec2& a, const vec2& b, const vec2& c, int count)
+{
+}
 
 
 /*
@@ -85,137 +60,24 @@ bool initialise()
   glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
   // Enable face culling
   glEnable(GL_CULL_FACE);
-  // Create projection matrix
-  auto projection = perspective(degrees(quarter_pi<float>()),
-                                800.0f / 600.0f,
-                                2.414f,
-                                10000.0f);
-  // Set matrix mode to projection
-  glMatrixMode(GL_PROJECTION);
-  // Load projection matrix
-  glLoadMatrixf(value_ptr(projection));
-  // Set matrix mode back to model view
-  glMatrixMode(GL_MODELVIEW);
   // Enable depth testing
   glEnable(GL_DEPTH_TEST);
   // Enable vertex arrays
   glEnableClientState(GL_VERTEX_ARRAY);
 
+  // Starting vertices - edge of the screen
+  array<vec2, 3> v =
+      {
+       vec2(1.0f, -1.0f),
+       vec2(0.0f, 1.0f),
+       vec2(-1.0f, -1.0f)
+      };
+
+  // Divide the triangle first - you will need to modify this
+  divide_triangle(v[0], v[1], v[2], 0);
+
   return true;
 } // initialise
-
-/*
- * key_callback
- *
- * used for identifying key presses
- * and switching the current mode
- */
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-
-    switch (MODE) {
-      case 0:
-        MODE = 1;
-        break;
-      case 1:
-        MODE = 2;
-        break;
-      case 2:
-        MODE = 0;
-        break;
-      default:
-        MODE = 0;
-        break;
-    }
-  }
-
-} // key_callback
-
-
-/*
- * userScale
- *
- * Increases and decreases the scale of the object.
- */
-void userScale(double deltaTime) {
-
-  if (glfwGetKey(window, GLFW_KEY_UP)) {
-    cube_scale.z -= (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-    cube_scale.z += (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-    cube_scale.x += (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-    cube_scale.x -= (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, 'W')) {
-    cube_scale.y += (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, 'S')) {
-    cube_scale.y -= (deltaTime * pi<float>());
-  }
-
-} // userScale
-
-
-/*
- * userRation
- *
- * rotates the object
- */
-void userRotation(double deltaTime) {
-
-  if (glfwGetKey(window, GLFW_KEY_UP)) {
-    rotation.z -= (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-    rotation.z += (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-    rotation.x += (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-    rotation.x -= (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, 'W')) {
-    rotation.y += (deltaTime * pi<float>());
-  }
-  if (glfwGetKey(window, 'S')) {
-    rotation.y -= (deltaTime * pi<float>());
-  }
-
-} // userRoation
-
-
-/*
- * userTranslation
- *
- * moves the object around inside the window using the keyboard arrow keys.
- */
-void userTranslation(double deltaTime) {
-  // Move the quad when arrow keys are pressed
-  if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-    position.x += 1.0f * deltaTime;
-  }
-  if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-    position.x -= 1.0f * deltaTime;
-  }
-  if (glfwGetKey(window, GLFW_KEY_UP)) {
-    position.z += 1.0f * deltaTime;
-  }
-  if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-    position.z -= 1.0f * deltaTime;
-  }
-  if (glfwGetKey(window, 'W')) {
-    position.y += 1.0f * deltaTime;
-  }
-  if (glfwGetKey(window, 'S')) {
-    position.y -= 1.0f * deltaTime;
-  }
-}
 
 
 /*
@@ -225,26 +87,9 @@ void userTranslation(double deltaTime) {
  */
 void update(double deltaTime) {
 
-  // Check if escape pressed of window is closed
-  running = !glfwGetKey(window, GLFW_KEY_ESCAPE) && !glfwWindowShouldClose(window);
-
   // Check if escape pressed or window is closed
   running = !glfwGetKey(window, GLFW_KEY_ESCAPE) &&
       !glfwWindowShouldClose(window);
-
-  switch (MODE) {
-    case 0:
-      userTranslation(deltaTime);
-      break;
-    case 1:
-      userRotation(deltaTime);
-      break;
-    case 2:
-      userScale(deltaTime);
-      break;
-    default:
-      break;
-  }
 
 } // update
 
@@ -258,35 +103,16 @@ void render()
 {
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  // Create view matrix
-  auto view = lookAt(vec3(10.0f, 10.0f, 10.0f),
-                     vec3(0.0f, 0.0f, 0.0f),
-                     vec3(0.0f, 1.0f, 0.0f));
 
-  auto model = rotate(mat4(1.0f), degrees(rotation.y), vec3(0.0f, 1.0f, 0.0f));
-  model = rotate(model, degrees(rotation.x), vec3(1.0f, 0.0f, 0.0f));
-  model = rotate(model, degrees(rotation.z), vec3(0.0f, 0.0f, 1.0f));
-  model = scale(model, cube_scale);
-  model = translate(model, position);
+  // Point to the internal array of the vector
+  glVertexPointer(2, GL_FLOAT, 0, &vertices[0]);
 
-
-  // Set matrix mode
-  glMatrixMode(GL_MODELVIEW);
-  // Load view matrix
-  glLoadMatrixf(value_ptr(view * model));
-
-  // Point to the vertex data - vec3 of float.  Start at index 0
-  glVertexPointer(3, GL_FLOAT, 0, &vertices);
   // Set the colour
   glColor3f(1.0f, 0.0f, 0.0f);
-  // Draw the triangles using the index data
-  glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, &indices);
 
-  // Render a cube
-  glBegin(GL_QUADS);
+  // Draw the arrays - start at 0 and have n vertices
+  glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
-
-  glEnd();
   // Swap front and back buffers
   glfwSwapBuffers(window);
 
@@ -304,7 +130,7 @@ int main(void)
   }
 
   /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+  window = glfwCreateWindow(640, 480, "Sierpinski", NULL, NULL);
   if (!window)
   {
     glfwTerminate();
@@ -314,7 +140,6 @@ int main(void)
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
   /* Set the function for the key callback */
-  glfwSetKeyCallback(window, key_callback);
 
   //initialise the window
   if (!initialise())
