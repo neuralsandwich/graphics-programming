@@ -22,7 +22,7 @@ if(NOT OPENGL_FOUND)
   message("ERROR: OpenGL not found")
 endif(NOT OPENGL_FOUND)
 set(GL_LIBRARY GL GLU X11)
-set(CMAKE_CXX_FLAGS "-std=c++0x")
+set(CMAKE_CXX_FLAGS "-std=c++0x -fpermissive")
 
 include_directories(${GLM_INCLUDE_DIR})
 
