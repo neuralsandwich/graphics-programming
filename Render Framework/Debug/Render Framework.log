@@ -1,0 +1,39 @@
+﻿Build started 07/10/2013 19:02:15.
+     1>Project "C:\Users\Sean Jones\dev\graphics-programming\Render Framework\Render Framework.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt render_framework\camera.cpp render_framework\content_manager.cpp render_framework\effect.cpp render_framework\geometry.cpp render_framework\light.cpp render_framework\material.cpp render_framework\model.cpp render_framework\renderer.cpp render_framework\scene.cpp render_framework\terrain.cpp render_framework\texture.cpp render_framework\util.cpp
+         util.cpp
+         texture.cpp
+         terrain.cpp
+         scene.cpp
+         renderer.cpp
+         model.cpp
+         material.cpp
+     1>c:\users\sean jones\dev\graphics-programming\render framework\render_framework\material.cpp(239): warning C4244: 'initializing' : conversion from 'unsigned int' to 'float', possible loss of data
+         light.cpp
+         geometry.cpp
+     1>c:\users\sean jones\dev\graphics-programming\render framework\render_framework\geometry.cpp(75): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\sean jones\dev\graphics-programming\render framework\render_framework\geometry.cpp(117): warning C4018: '<' : signed/unsigned mismatch
+         effect.cpp
+         content_manager.cpp
+         camera.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Users\Sean Jones\dev\graphics-programming\Debug\Render Framework.lib" /NOLOGO Debug\camera.obj
+         Debug\content_manager.obj
+         Debug\effect.obj
+         Debug\geometry.obj
+         Debug\light.obj
+         Debug\material.obj
+         Debug\model.obj
+         Debug\renderer.obj
+         Debug\scene.obj
+         Debug\terrain.obj
+         Debug\texture.obj
+         Debug\util.obj
+         Render Framework.vcxproj -> C:\Users\Sean Jones\dev\graphics-programming\Debug\Render Framework.lib
+     1>Done Building Project "C:\Users\Sean Jones\dev\graphics-programming\Render Framework\Render Framework.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:53.27
