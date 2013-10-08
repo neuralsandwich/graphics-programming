@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "src\Test.vcxproj", "{A347201E-D362-4511-AAD3-48AA4064C653}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Render Framework", "lib\include\Render Framework.vcxproj", "{B1260807-A895-4E33-9CAD-F72DCD149F18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A347201E-D362-4511-AAD3-48AA4064C653}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A347201E-D362-4511-AAD3-48AA4064C653}.Debug|Win32.Build.0 = Debug|Win32
+		{A347201E-D362-4511-AAD3-48AA4064C653}.Release|Win32.ActiveCfg = Release|Win32
+		{A347201E-D362-4511-AAD3-48AA4064C653}.Release|Win32.Build.0 = Release|Win32
+		{B1260807-A895-4E33-9CAD-F72DCD149F18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B1260807-A895-4E33-9CAD-F72DCD149F18}.Debug|Win32.Build.0 = Debug|Win32
+		{B1260807-A895-4E33-9CAD-F72DCD149F18}.Release|Win32.ActiveCfg = Release|Win32
+		{B1260807-A895-4E33-9CAD-F72DCD149F18}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
