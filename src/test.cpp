@@ -3,8 +3,11 @@
 #include <render_framework\render_framework.h>
 #pragma comment (lib , "Render Framework" )
 
-using namespace render_framework;
+using namespace std;
 using namespace glm;
+using namespace render_framework;
+
+
 
 int main()
 {
@@ -34,12 +37,19 @@ int main()
 					vec3(0.0f, 1.0f, 0.0f));	// Up vector
 	renderer::get_instance().set_view(view);
 
+	// Create Cube
+	auto box = make_shared<mesh>();
+	box->geom = geometry_builder::create_box();
+
 	// Main render loop
 	while (renderer::get_instance().is_running())
 	{
 		// Check if running
 		if (renderer::get_instance().begin_render())
 		{
+			// Render Cube
+			renderer::get_instance().render(box);
+
 			// End the render
 			renderer::get_instance().end_render();
 		}
