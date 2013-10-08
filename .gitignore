@@ -14,3 +14,4 @@
 
 # Visual studio files
 *.sdf
+**Debug
