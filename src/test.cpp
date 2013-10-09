@@ -38,7 +38,7 @@ int main()
 	renderer::get_instance().set_view(view);
 
 	// Create Object
-	auto object = geometry_builder::create_pyramid();
+	auto object = geometry_builder::create_disk();
 
 	// Main render loop
 	while (renderer::get_instance().is_running())
