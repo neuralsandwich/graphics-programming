@@ -29,11 +29,11 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         MODE = 1;
         break;
       case 1:
-        MODE = 2;
-        break;
-      case 2:
         MODE = 0;
         break;
+//      case 2:
+//        MODE = 0;
+//        break;
       default:
         MODE = 0;
         break;
@@ -70,6 +70,36 @@ void userTranslation(float deltaTime)
 	}
 } // userTranslation()
 
+
+/*
+ * userRotation
+ *
+ * rotates the object
+ */
+void userRotation(float deltaTime) {
+
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+	  box->trans.rotate(vec3(-pi<float>(), 0.0, 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+	  box->trans.rotate(vec3(pi<float>(), 0.0, 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+	  box->trans.rotate(vec3(0.0, -pi<float>(), 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+	  box->trans.rotate(vec3(0.0, pi<float>(), 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+	  box->trans.rotate(vec3(0.0, 0.0, pi<float>()) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+	  box->trans.rotate(vec3(0.0, 0.0, -pi<float>()) * deltaTime);
+  }
+
+} // userRotation
+
+
 /*
  * Update routine
  *
@@ -81,10 +111,10 @@ void update(float deltaTime)
 	case 0:
 		userTranslation(deltaTime);
 		break;
-//    case 1:
-//      userRotation(deltaTime);
-//      break;
-//    case 2:
+    case 1:
+		userRotation(deltaTime);
+		break;
+//	case 2:
 //      userScale(deltaTime);
 //      break;
 	default:
@@ -120,6 +150,9 @@ int main()
 					vec3(0.0f, 0.0f, 0.0f),		// Target
 					vec3(0.0f, 1.0f, 0.0f));	// Up vector
 	renderer::get_instance().set_view(view);
+
+	/* Set the function for the key callback */
+	glfwSetKeyCallback(renderer::get_instance().get_window(), key_callback);
 
 	// Create box
 	box = make_shared<mesh>();
