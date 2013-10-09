@@ -37,8 +37,8 @@ int main()
 					vec3(0.0f, 1.0f, 0.0f));	// Up vector
 	renderer::get_instance().set_view(view);
 
-	// Create Cube
-	auto object = geometry_builder::create_tetrahedron();
+	// Create Object
+	auto object = geometry_builder::create_pyramid();
 
 	// Main render loop
 	while (renderer::get_instance().is_running())
