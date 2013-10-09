@@ -38,7 +38,7 @@ int main()
 	renderer::get_instance().set_view(view);
 
 	// Create Cube
-	auto box = geometry_builder::create_box();
+	auto object = geometry_builder::create_torus();
 
 	// Main render loop
 	while (renderer::get_instance().is_running())
@@ -47,7 +47,7 @@ int main()
 		if (renderer::get_instance().begin_render())
 		{
 			// Render Cube
-			renderer::get_instance().render(box);
+			renderer::get_instance().render(object);
 
 			// End the render
 			renderer::get_instance().end_render();
