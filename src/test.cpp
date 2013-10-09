@@ -38,7 +38,7 @@ int main()
 	renderer::get_instance().set_view(view);
 
 	// Create Object
-	auto object = geometry_builder::create_cylinder();
+	auto object = geometry_builder::create_sphere();
 
 	// Main render loop
 	while (renderer::get_instance().is_running())
