@@ -125,6 +125,18 @@ int main()
 	box = make_shared<mesh>();
 	box->geom = geometry_builder::create_box();
 
+	
+	// Load in effect.  Start with shaders
+	auto eff = make_shared<effect>();
+	eff->add_shader("shader.vert", GL_VERTEX_SHADER);
+	eff->add_shader("shader.frag", GL_FRAGMENT_SHADER);
+	if (!effect_loader::build_effect(eff)) {
+		return -1;
+	}
+
+	// Create material for box
+	box->mat = make_shared<material>();
+	box->mat->effect = eff;
 
 	// Monitor the elapsed time per frame
 	auto currentTimeStamp = system_clock::now();
@@ -148,7 +160,7 @@ int main()
 		if (renderer::get_instance().begin_render())
 		{
 			// Render Cube
-			renderer::get_instance().render(object);
+			renderer::get_instance().render(box);
 
 			// End the render
 			renderer::get_instance().end_render();
