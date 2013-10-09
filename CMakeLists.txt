@@ -24,7 +24,10 @@ endif(NOT OPENGL_FOUND)
 set(GL_LIBRARY GL GLU X11)
 set(CMAKE_CXX_FLAGS "-std=c++0x")
 
-include_directories(${GLM_INCLUDE_DIR})
+set(RF_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/renderframework")
+set(RF_LIBRARY "${RF_INCLUDE_DIR}/render_framework.h")
+
+include_directories(${GLM_INCLUDE_DIR} ${RF_INCLUDE_DIR})
 
 # Source file list
 set(SOURCES "${CMAKE_SOURCE_DIR}/src/test.cpp")
@@ -34,4 +37,4 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Linking Libraries
 # Linking glfw and not glfw3
-target_link_libraries(${PROJECT_NAME} glfw ${GL_LIBRARY} m)
+target_link_libraries(${PROJECT_NAME} glfw ${GL_LIBRARY} ${RF_LIBRARY})
