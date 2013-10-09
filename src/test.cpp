@@ -38,7 +38,7 @@ int main()
 	renderer::get_instance().set_view(view);
 
 	// Create Cube
-	auto object = geometry_builder::create_torus();
+	auto object = geometry_builder::create_tetrahedron();
 
 	// Main render loop
 	while (renderer::get_instance().is_running())
