@@ -38,8 +38,7 @@ int main()
 	renderer::get_instance().set_view(view);
 
 	// Create Cube
-	auto box = make_shared<mesh>();
-	box->geom = geometry_builder::create_box();
+	auto box = geometry_builder::create_box();
 
 	// Main render loop
 	while (renderer::get_instance().is_running())
