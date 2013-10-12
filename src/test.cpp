@@ -123,6 +123,29 @@ void update(float deltaTime)
 } // update()
 
 
+bool load_content() {
+
+	// Create box
+	object = make_shared<mesh>();
+	object->geom = geometry_builder::create_box();
+
+	
+	// Load in effect.  Start with shaders
+	auto eff = make_shared<effect>();
+	eff->add_shader("shader.vert", GL_VERTEX_SHADER);
+	eff->add_shader("shader.frag", GL_FRAGMENT_SHADER);
+	if (!effect_loader::build_effect(eff)) {
+		return -1;
+	}
+
+	// Create material for box
+	object->mat = make_shared<material>();
+	object->mat->effect = eff;
+	object->mat->set_texture("tex", texture_loader::load("Checkered.png"));
+
+}
+
+
 int main()
 {
 	// Initialize the renderer
@@ -154,24 +177,9 @@ int main()
 	/* Set the function for the key callback */
 	glfwSetKeyCallback(renderer::get_instance().get_window(), key_callback);
 
-	// Create box
-	object = make_shared<mesh>();
-	object->geom = geometry_builder::create_box();
-
-	
-	// Load in effect.  Start with shaders
-	auto eff = make_shared<effect>();
-	eff->add_shader("shader.vert", GL_VERTEX_SHADER);
-	eff->add_shader("shader.frag", GL_FRAGMENT_SHADER);
-	if (!effect_loader::build_effect(eff)) {
+	if (!load_content()) {
 		return -1;
 	}
-
-	// Create material for box
-	object->mat = make_shared<material>();
-	object->mat->effect = eff;
-	object->mat->set_uniform_value("colour", vec4(0.0, 1.0, 0.0, 1.0));
-	object->mat->set_uniform_value("hue", vec4(1.0, 0.0, 0.0, 1.0));
 
 	// Monitor the elapsed time per frame
 	auto currentTimeStamp = system_clock::now();
