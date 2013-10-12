@@ -170,6 +170,8 @@ int main()
 	// Create material for box
 	box->mat = make_shared<material>();
 	box->mat->effect = eff;
+	box->mat->set_uniform_value("colour", vec4(0.0, 1.0, 0.0, 1.0));
+	box->mat->set_uniform_value("hue", vec4(1.0, 0.0, 0.0, 1.0));
 
 	// Monitor the elapsed time per frame
 	auto currentTimeStamp = system_clock::now();
