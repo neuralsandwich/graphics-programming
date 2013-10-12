@@ -1,9 +1,15 @@
 #version 400
 
-in vec4 vertex_colour;
+// The texture to be used
+uniform sampler2D tex;
+
+// Incoming texture co-ordinate
+in vec2 vertex_tex_coord;
+// The outgoing colour for the pixel
 out vec4 col;
 
 void main ()
 {
-	col = vertex_colour;
+	// Sample the texture to get the pixel colour
+	col = texture(tex, vertex_tex_coord);
 }

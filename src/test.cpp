@@ -10,94 +10,7 @@ using namespace render_framework;
 using namespace chrono;
 
 // Global scop box
-shared_ptr<mesh> object;
-// Keep track of current mode
-int MODE = 0;
-
-
-/*
- * key_callback
- *
- * used for identifying key presses
- * and switching the current mode
- */
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-  if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-
-    switch (MODE) {
-      case 0:
-        MODE = 1;
-        break;
-      case 1:
-        MODE = 0;
-        break;
-//      case 2:
-//        MODE = 0;
-//        break;
-      default:
-        MODE = 0;
-        break;
-    }
-  }
-
-} // key_callback
-
-/*
- * userTranslation
- *
- * Moves the object around inside the window using the keyboard arrow keys.
- */
-void userTranslation(float deltaTime)
-{
-	// Move the quad when arrow keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		object->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		object->trans.translate(vec3(-10.0, 0.0, 0.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		object->trans.translate(vec3(0.0, 0.0, -10.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		object->trans.translate(vec3(0.0, 0.0, 10.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		object->trans.translate(vec3(0.0, 10.0, 0.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		object->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
-	}
-} // userTranslation()
-
-
-/*
- * userRotation
- *
- * rotates the object
- */
-void userRotation(float deltaTime) {
-
-  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-	  object->trans.rotate(vec3(-pi<float>(), 0.0, 0.0f) * deltaTime);
-  }
-  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-	  object->trans.rotate(vec3(pi<float>(), 0.0, 0.0f) * deltaTime);
-  }
-  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-	  object->trans.rotate(vec3(0.0, -pi<float>(), 0.0f) * deltaTime);
-  }
-  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-	  object->trans.rotate(vec3(0.0, pi<float>(), 0.0f) * deltaTime);
-  }
-  if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-	  object->trans.rotate(vec3(0.0, 0.0, pi<float>()) * deltaTime);
-  }
-  if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-	  object->trans.rotate(vec3(0.0, 0.0, -pi<float>()) * deltaTime);
-  }
-
-} // userRotation
+shared_ptr<mesh> object[5];
 
 
 /*
@@ -105,22 +18,37 @@ void userRotation(float deltaTime) {
  *
  * Updates the application state
  */
-void update(float deltaTime)
-{
-	switch (MODE) {
-	case 0:
-		userTranslation(deltaTime);
-		break;
-    case 1:
-		userRotation(deltaTime);
-		break;
-//	case 2:
-//      userScale(deltaTime);
-//      break;
-	default:
-		break;
+void update(float deltaTime) {} // update()
+
+
+bool load_content() {
+
+	int i = 0;
+	for (i=0;i<4;i++) {
+		// Create box
+		object[i] = make_shared<mesh>();
+		object[i]->geom = geometry_builder::create_box();
+
+
+		// Load in effect.  Start with shaders
+		auto eff = make_shared<effect>();
+		eff->add_shader("shader.vert", GL_VERTEX_SHADER);
+		eff->add_shader("shader.frag", GL_FRAGMENT_SHADER);
+		if (!effect_loader::build_effect(eff)) {
+			return false;
+		}
+
+		// Create material for box
+		object[i]->mat = make_shared<material>();
+		object[i]->mat->effect = eff;
+		object[i]->mat->set_texture("tex", texture_loader::load("Checkered.png"));
+
+		object[i]->trans.translate(vec3(0.0, (float) i*2+1, 0.0));
 	}
-} // update()
+
+	return true;
+
+}
 
 
 int main()
@@ -151,27 +79,9 @@ int main()
 					vec3(0.0f, 1.0f, 0.0f));	// Up vector
 	renderer::get_instance().set_view(view);
 
-	/* Set the function for the key callback */
-	glfwSetKeyCallback(renderer::get_instance().get_window(), key_callback);
-
-	// Create box
-	object = make_shared<mesh>();
-	object->geom = geometry_builder::create_box();
-
-	
-	// Load in effect.  Start with shaders
-	auto eff = make_shared<effect>();
-	eff->add_shader("shader.vert", GL_VERTEX_SHADER);
-	eff->add_shader("shader.frag", GL_FRAGMENT_SHADER);
-	if (!effect_loader::build_effect(eff)) {
+	if (!load_content()) {
 		return -1;
 	}
-
-	// Create material for box
-	object->mat = make_shared<material>();
-	object->mat->effect = eff;
-	object->mat->set_uniform_value("colour", vec4(0.0, 1.0, 0.0, 1.0));
-	object->mat->set_uniform_value("hue", vec4(1.0, 0.0, 0.0, 1.0));
 
 	// Monitor the elapsed time per frame
 	auto currentTimeStamp = system_clock::now();
@@ -195,7 +105,11 @@ int main()
 		if (renderer::get_instance().begin_render())
 		{
 			// Render Cube
-			renderer::get_instance().render(object);
+			int i = 0;
+			for (i = 0; i <4; i++) {
+				renderer::get_instance().render(object[i]);
+			}
+
 
 			// End the render
 			renderer::get_instance().end_render();
