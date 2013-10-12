@@ -1,9 +1,9 @@
 #version 400
 
-in vec4 colour;
+in vec4 vertex_colour;
 out vec4 col;
 
 void main ()
 {
-	col = colour;
+	col = vertex_colour;
 }

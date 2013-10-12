@@ -10,7 +10,7 @@ using namespace render_framework;
 using namespace chrono;
 
 // Global scop box
-shared_ptr<mesh> box;
+shared_ptr<mesh> object;
 // Keep track of current mode
 int MODE = 0;
 
@@ -51,22 +51,22 @@ void userTranslation(float deltaTime)
 {
 	// Move the quad when arrow keys are pressed
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		box->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
+		object->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		box->trans.translate(vec3(-10.0, 0.0, 0.0) * deltaTime);
+		object->trans.translate(vec3(-10.0, 0.0, 0.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		box->trans.translate(vec3(0.0, 0.0, -10.0) * deltaTime);
+		object->trans.translate(vec3(0.0, 0.0, -10.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		box->trans.translate(vec3(0.0, 0.0, 10.0) * deltaTime);
+		object->trans.translate(vec3(0.0, 0.0, 10.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		box->trans.translate(vec3(0.0, 10.0, 0.0) * deltaTime);
+		object->trans.translate(vec3(0.0, 10.0, 0.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		box->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
+		object->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
 	}
 } // userTranslation()
 
@@ -79,22 +79,22 @@ void userTranslation(float deltaTime)
 void userRotation(float deltaTime) {
 
   if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-	  box->trans.rotate(vec3(-pi<float>(), 0.0, 0.0f) * deltaTime);
+	  object->trans.rotate(vec3(-pi<float>(), 0.0, 0.0f) * deltaTime);
   }
   if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-	  box->trans.rotate(vec3(pi<float>(), 0.0, 0.0f) * deltaTime);
+	  object->trans.rotate(vec3(pi<float>(), 0.0, 0.0f) * deltaTime);
   }
   if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-	  box->trans.rotate(vec3(0.0, -pi<float>(), 0.0f) * deltaTime);
+	  object->trans.rotate(vec3(0.0, -pi<float>(), 0.0f) * deltaTime);
   }
   if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-	  box->trans.rotate(vec3(0.0, pi<float>(), 0.0f) * deltaTime);
+	  object->trans.rotate(vec3(0.0, pi<float>(), 0.0f) * deltaTime);
   }
   if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-	  box->trans.rotate(vec3(0.0, 0.0, pi<float>()) * deltaTime);
+	  object->trans.rotate(vec3(0.0, 0.0, pi<float>()) * deltaTime);
   }
   if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-	  box->trans.rotate(vec3(0.0, 0.0, -pi<float>()) * deltaTime);
+	  object->trans.rotate(vec3(0.0, 0.0, -pi<float>()) * deltaTime);
   }
 
 } // userRotation
@@ -155,8 +155,8 @@ int main()
 	glfwSetKeyCallback(renderer::get_instance().get_window(), key_callback);
 
 	// Create box
-	box = make_shared<mesh>();
-	box->geom = geometry_builder::create_box();
+	object = make_shared<mesh>();
+	object->geom = geometry_builder::create_box();
 
 	
 	// Load in effect.  Start with shaders
@@ -168,8 +168,10 @@ int main()
 	}
 
 	// Create material for box
-	box->mat = make_shared<material>();
-	box->mat->effect = eff;
+	object->mat = make_shared<material>();
+	object->mat->effect = eff;
+	object->mat->set_uniform_value("colour", vec4(0.0, 1.0, 0.0, 1.0));
+	object->mat->set_uniform_value("hue", vec4(1.0, 0.0, 0.0, 1.0));
 
 	// Monitor the elapsed time per frame
 	auto currentTimeStamp = system_clock::now();
@@ -193,7 +195,7 @@ int main()
 		if (renderer::get_instance().begin_render())
 		{
 			// Render Cube
-			renderer::get_instance().render(box);
+			renderer::get_instance().render(object);
 
 			// End the render
 			renderer::get_instance().end_render();
