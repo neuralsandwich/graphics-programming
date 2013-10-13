@@ -43,6 +43,7 @@ void userTranslation(float deltaTime)
 	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
 		object[0]->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
 	}
+
 } // userTranslation()
 
 
@@ -56,6 +57,8 @@ void update(float deltaTime) {
 	userTranslation(deltaTime);
 
 	cam->move(object[0]->trans.position, eulerAngles(object[0]->trans.orientation));
+
+	cam->rotate(vec3(0.0, half_pi<float>(), 0.0));
 
 	cam->update(deltaTime);
 
