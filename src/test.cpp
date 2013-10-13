@@ -13,42 +13,38 @@ using namespace chrono;
 
 // Global scope box
 shared_ptr<mesh> object[1];
-shared_ptr<free_camera> cam;
+shared_ptr<chase_camera> cam;
+shared_ptr<mesh> plane;
 
 
 /*
- * moveCamera
+ * userTranslation
  *
  * Moves the object around inside the window using the keyboard arrow keys.
  */
-void moveCamera(float deltaTime)
+void userTranslation(float deltaTime)
 {
 	// Move the quad when arrow keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		cam->move(vec3(0.0, 0.0, -5.0) * deltaTime);
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+		object[0]->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		cam->move(vec3(0.0, 0.0, 5.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'A')) {
-		cam->move(vec3(-5.0, 0.0, 0.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'D')) {
-		cam->move(vec3(5.0, 0.0, 0.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'Q')) {
-		cam->rotate(half_pi<float>() * deltaTime, 0.0);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'E')) {
-		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+		object[0]->trans.translate(vec3(-10.0, 0.0, 0.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		cam->rotate(0.0, half_pi<float>() * deltaTime);
+		object[0]->trans.translate(vec3(0.0, 0.0, -10.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		cam->rotate(0.0, -half_pi<float>() * deltaTime);
+		object[0]->trans.translate(vec3(0.0, 0.0, 10.0) * deltaTime);
 	}
-} // moveCamera()
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		object[0]->trans.translate(vec3(0.0, 10.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		object[0]->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
+	}
+
+} // userTranslation()
 
 
 /*
@@ -58,7 +54,11 @@ void moveCamera(float deltaTime)
  */
 void update(float deltaTime) {
 
-	moveCamera(deltaTime);
+	userTranslation(deltaTime);
+
+	cam->move(object[0]->trans.position, eulerAngles(object[0]->trans.orientation));
+
+	cam->rotate(vec3(0.0, half_pi<float>() * deltaTime, 0.0));
 
 	cam->update(deltaTime);
 
@@ -85,9 +85,17 @@ bool load_content() {
 		// Create material for box
 		object[i]->mat = make_shared<material>();
 		object[i]->mat->effect = eff;
+
+		// Set texture for shader
 		object[i]->mat->set_texture("tex", texture_loader::load("Checkered.png"));
 
-		object[i]->trans.translate(vec3(0.0, (float) i*2+1, 0.0));
+		// Create plane
+		plane = make_shared<mesh>();
+		plane->geom = geometry_builder::create_plane();
+		plane->trans.translate(vec3(0.0, -0.5, 0.0));
+
+		// Reuse the material from the box
+		plane->mat = object[i]->mat;
 	}
 
 	return true;
@@ -96,7 +104,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<free_camera>();
+	cam = make_shared<chase_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -110,6 +118,8 @@ bool load_camera() {
 						10000.0f);						// Far plane
 	// Set the camera properties
 	cam->set_position(vec3(0.0, 0.0, 20.0));
+	cam->set_springiness(0.001);
+	cam->set_position_offset(vec3(0.0, 5.0, 10.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
@@ -166,6 +176,9 @@ int main()
 			for (i = 0; i <OBJECTS; i++) {
 				renderer::get_instance().render(object[i]);
 			}
+
+			// Render plane
+			renderer::get_instance().render(plane);
 
 			// End the render
 			renderer::get_instance().end_render();
