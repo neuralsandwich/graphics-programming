@@ -17,11 +17,48 @@ shared_ptr<free_camera> cam;
 
 
 /*
+ * moveCamera
+ *
+ * Moves the object around inside the window using the keyboard arrow keys.
+ */
+void moveCamera(float deltaTime)
+{
+	// Move the quad when arrow keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		cam->move(vec3(0.0, 0.0, -5.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		cam->move(vec3(0.0, 0.0, 5.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'A')) {
+		cam->move(vec3(-5.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'D')) {
+		cam->move(vec3(5.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'Q')) {
+		cam->rotate(half_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'E')) {
+		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		cam->rotate(0.0, half_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		cam->rotate(0.0, -half_pi<float>() * deltaTime);
+	}
+} // moveCamera()
+
+
+/*
  * Update routine
  *
  * Updates the application state
  */
 void update(float deltaTime) {
+
+	moveCamera(deltaTime);
 
 	cam->update(deltaTime);
 
@@ -72,7 +109,7 @@ bool load_camera() {
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(10.0, 10.0, 10.0));
+	cam->set_position(vec3(0.0, 0.0, 20.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
