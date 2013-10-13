@@ -13,10 +13,7 @@ using namespace chrono;
 
 // Global scope box
 shared_ptr<mesh> object[1];
-shared_ptr<target_camera> cam;
-
-
-
+shared_ptr<free_camera> cam;
 
 
 /*
@@ -62,7 +59,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<target_camera>();
+	cam = make_shared<free_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -70,14 +67,12 @@ bool load_camera() {
 					(float)renderer::get_instance().get_screen_width();
 	// Use this to set the camera projection matrix
 	cam->set_projection(
-						degrees(quarter_pi<float>()),	// FOV
+						quarter_pi<float>(),			// FOV
 						aspect,							// Aspect ratio
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
 	cam->set_position(vec3(10.0, 10.0, 10.0));
-	cam->set_target(vec3(0.0, 0.0, 0.0));
-	cam->set_up(vec3(0.0, 1.0, 0.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
