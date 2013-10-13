@@ -9,8 +9,14 @@ using namespace glm;
 using namespace render_framework;
 using namespace chrono;
 
-// Global scop box
-shared_ptr<mesh> object[5];
+#define OBJECTS 1
+
+// Global scope box
+shared_ptr<mesh> object[1];
+shared_ptr<target_camera> cam;
+
+
+
 
 
 /*
@@ -18,13 +24,17 @@ shared_ptr<mesh> object[5];
  *
  * Updates the application state
  */
-void update(float deltaTime) {} // update()
+void update(float deltaTime) {
+
+	cam->update(deltaTime);
+
+} // update()
 
 
 bool load_content() {
 
 	int i = 0;
-	for (i=0;i<4;i++) {
+	for (i=0;i<OBJECTS;i++) {
 		// Create box
 		object[i] = make_shared<mesh>();
 		object[i]->geom = geometry_builder::create_box();
@@ -48,8 +58,39 @@ bool load_content() {
 
 	return true;
 
-}
+} // load_content()
 
+bool load_camera() {
+	// Initialize the camera
+	cam = make_shared<target_camera>();
+
+	/* Set the projection matrix */
+	// First get the aspect ratio (width/height)
+	float aspect = (float)renderer::get_instance().get_screen_width() /
+					(float)renderer::get_instance().get_screen_width();
+	// Use this to set the camera projection matrix
+	cam->set_projection(
+						degrees(quarter_pi<float>()),	// FOV
+						aspect,							// Aspect ratio
+						2.414f,							// Near plane
+						10000.0f);						// Far plane
+	// Set the camera properties
+	cam->set_position(vec3(10.0, 10.0, 10.0));
+	cam->set_target(vec3(0.0, 0.0, 0.0));
+	cam->set_up(vec3(0.0, 1.0, 0.0));
+
+	// Attach camera to renderer
+	renderer::get_instance().set_camera(cam);
+
+	// Set the view matrix
+	auto view = lookAt(
+					vec3(20.0f, 20.0f, 20.0f),	// Camera position
+					vec3(0.0f, 0.0f, 0.0f),		// Target
+					vec3(0.0f, 1.0f, 0.0f));	// Up vector
+	renderer::get_instance().set_view(view);
+
+	return true;
+} // load_camera
 
 int main()
 {
@@ -59,27 +100,11 @@ int main()
 	// Set the clear colour to cyan
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 
-	/* Set the projection matrix */
-	// First get the aspect ratio (width/height)
-	float aspect = (float)renderer::get_instance().get_screen_width() /
-					(float)renderer::get_instance().get_screen_width();
-	// Use this to create projection matrix
-	auto projection = perspective(
-						degrees(quarter_pi<float>()),	// FOV
-						aspect,							// Aspect ratio
-						2.414f,							// Near plane
-						10000.0f);						// Far plane
-	// Set the projection matrix
-	renderer::get_instance().set_projection(projection);
-
-	// Set the view matrix
-	auto view = lookAt(
-					vec3(20.0f, 20.0f, 20.0f),	// Camera position
-					vec3(0.0f, 0.0f, 0.0f),		// Target
-					vec3(0.0f, 1.0f, 0.0f));	// Up vector
-	renderer::get_instance().set_view(view);
-
 	if (!load_content()) {
+		return -1;
+	}
+
+	if (!load_camera()) {
 		return -1;
 	}
 
@@ -106,10 +131,9 @@ int main()
 		{
 			// Render Cube
 			int i = 0;
-			for (i = 0; i <4; i++) {
+			for (i = 0; i <OBJECTS; i++) {
 				renderer::get_instance().render(object[i]);
 			}
-
 
 			// End the render
 			renderer::get_instance().end_render();
