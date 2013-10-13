@@ -25,6 +25,35 @@ shared_ptr<mesh> plane;
 void userTranslation(float deltaTime)
 {
 	// Move the quad when arrow keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), 'J')) {
+		object[0]->trans.translate(vec3(-10.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'L')) {
+		object[0]->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'I')) {
+		object[0]->trans.translate(vec3(0.0, 0.0, -10.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'K')) {
+		object[0]->trans.translate(vec3(0.0, 0.0, 10.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'U')) {
+		object[0]->trans.translate(vec3(0.0, 10.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'O')) {
+		object[0]->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
+	}
+} // userTranslation()
+
+
+/*
+ * cameraTranslation
+ *
+ * Moves the object around inside the window using the keyboard arrow keys.
+ */
+void cameraTranslation(float deltaTime)
+{
+	// Move the quad when arrow keys are pressed
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
 		cam->rotate(0.0, half_pi<float>() * deltaTime);
 	}
@@ -44,7 +73,7 @@ void userTranslation(float deltaTime)
 		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
 	}
 
-} // userTranslation()
+} // cameraTranslation()
 
 
 /*
@@ -54,8 +83,10 @@ void userTranslation(float deltaTime)
  */
 void update(float deltaTime) {
 
+	cameraTranslation(deltaTime);
 	userTranslation(deltaTime);
 
+	cam->set_target(object[0]->trans.position);
 	cam->update(deltaTime);
 
 } // update()
