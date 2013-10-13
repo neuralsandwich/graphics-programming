@@ -13,7 +13,7 @@ using namespace chrono;
 
 // Global scope box
 shared_ptr<mesh> object[1];
-shared_ptr<chase_camera> cam;
+shared_ptr<arc_ball_camera> cam;
 shared_ptr<mesh> plane;
 
 
@@ -25,26 +25,55 @@ shared_ptr<mesh> plane;
 void userTranslation(float deltaTime)
 {
 	// Move the quad when arrow keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		object[0]->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+	if (glfwGetKey(renderer::get_instance().get_window(), 'J')) {
 		object[0]->trans.translate(vec3(-10.0, 0.0, 0.0) * deltaTime);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+	if (glfwGetKey(renderer::get_instance().get_window(), 'L')) {
+		object[0]->trans.translate(vec3(10.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'I')) {
 		object[0]->trans.translate(vec3(0.0, 0.0, -10.0) * deltaTime);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+	if (glfwGetKey(renderer::get_instance().get_window(), 'K')) {
 		object[0]->trans.translate(vec3(0.0, 0.0, 10.0) * deltaTime);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+	if (glfwGetKey(renderer::get_instance().get_window(), 'U')) {
 		object[0]->trans.translate(vec3(0.0, 10.0, 0.0) * deltaTime);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+	if (glfwGetKey(renderer::get_instance().get_window(), 'O')) {
 		object[0]->trans.translate(vec3(0.0, -10.0, 0.0) * deltaTime);
 	}
-
 } // userTranslation()
+
+
+/*
+ * cameraTranslation
+ *
+ * Moves the object around inside the window using the keyboard arrow keys.
+ */
+void cameraTranslation(float deltaTime)
+{
+	// Move the quad when arrow keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+		cam->rotate(0.0, half_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+		cam->rotate(0.0, -half_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		cam->move(-5.0f * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		cam->move(5.0f * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		cam->rotate(half_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+	}
+
+} // cameraTranslation()
 
 
 /*
@@ -54,12 +83,10 @@ void userTranslation(float deltaTime)
  */
 void update(float deltaTime) {
 
+	cameraTranslation(deltaTime);
 	userTranslation(deltaTime);
 
-	cam->move(object[0]->trans.position, eulerAngles(object[0]->trans.orientation));
-
-	cam->rotate(vec3(0.0, half_pi<float>() * deltaTime, 0.0));
-
+	cam->set_target(object[0]->trans.position);
 	cam->update(deltaTime);
 
 } // update()
@@ -104,7 +131,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<chase_camera>();
+	cam = make_shared<arc_ball_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -117,9 +144,8 @@ bool load_camera() {
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(0.0, 0.0, 20.0));
-	cam->set_springiness(0.001);
-	cam->set_position_offset(vec3(0.0, 5.0, 10.0));
+	cam->set_position(vec3(0.0, 0.0, 0.0));
+	cam->set_distance(20.0f);
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
