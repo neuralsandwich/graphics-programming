@@ -58,7 +58,7 @@ void update(float deltaTime) {
 
 	cam->move(object[0]->trans.position, eulerAngles(object[0]->trans.orientation));
 
-	cam->rotate(vec3(0.0, half_pi<float>(), 0.0));
+	cam->rotate(vec3(0.0, half_pi<float>() * deltaTime, 0.0));
 
 	cam->update(deltaTime);
 
