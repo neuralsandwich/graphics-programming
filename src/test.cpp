@@ -13,10 +13,42 @@ using namespace chrono;
 
 // Global scope box
 shared_ptr<mesh> object[1];
-shared_ptr<target_camera> cam;
+shared_ptr<free_camera> cam;
 
 
-
+/*
+ * moveCamera
+ *
+ * Moves the object around inside the window using the keyboard arrow keys.
+ */
+void moveCamera(float deltaTime)
+{
+	// Move the quad when arrow keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		cam->move(vec3(0.0, 0.0, -5.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		cam->move(vec3(0.0, 0.0, 5.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'A')) {
+		cam->move(vec3(-5.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'D')) {
+		cam->move(vec3(5.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'Q')) {
+		cam->rotate(half_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'E')) {
+		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		cam->rotate(0.0, half_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		cam->rotate(0.0, -half_pi<float>() * deltaTime);
+	}
+} // moveCamera()
 
 
 /*
@@ -25,6 +57,8 @@ shared_ptr<target_camera> cam;
  * Updates the application state
  */
 void update(float deltaTime) {
+
+	moveCamera(deltaTime);
 
 	cam->update(deltaTime);
 
@@ -62,7 +96,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<target_camera>();
+	cam = make_shared<free_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -70,14 +104,12 @@ bool load_camera() {
 					(float)renderer::get_instance().get_screen_width();
 	// Use this to set the camera projection matrix
 	cam->set_projection(
-						degrees(quarter_pi<float>()),	// FOV
+						quarter_pi<float>(),			// FOV
 						aspect,							// Aspect ratio
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(10.0, 10.0, 10.0));
-	cam->set_target(vec3(0.0, 0.0, 0.0));
-	cam->set_up(vec3(0.0, 1.0, 0.0));
+	cam->set_position(vec3(0.0, 0.0, 20.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
