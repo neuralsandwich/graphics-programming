@@ -48,47 +48,25 @@ void userTranslation(float deltaTime)
 
 
 /*
- * cameraTranslation
- *
- * Moves the object around inside the window using the keyboard arrow keys.
- */
-void cameraTranslation(float deltaTime)
-{
-	// Move the quad when arrow keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		cam->rotate(0.0, half_pi<float>() * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		cam->rotate(0.0, -half_pi<float>() * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		cam->move(-5.0f * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		cam->move(5.0f * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		cam->rotate(half_pi<float>() * deltaTime, 0.0);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
-	}
-
-} // cameraTranslation()
-
-
-/*
  * Update routine
  *
  * Updates the application state
  */
 void update(float deltaTime) {
 
-	cameraTranslation(deltaTime);
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		dissolveFactor = clamp(dissolveFactor + 0.1f * deltaTime, 0.0f, 1.0f);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		dissolveFactor = clamp(dissolveFactor - 0.1f * deltaTime, 0.0f, 1.0f);
+	}
+
 	userTranslation(deltaTime);
 
 	cam->set_target(object[0]->trans.position);
 	cam->update(deltaTime);
+
+	object[0]->mat->set_uniform_value("dissolve_factor", dissolveFactor);
 
 } // update()
 
@@ -120,19 +98,18 @@ bool load_content() {
 
 		// Load in effect.  Start with shaders
 		auto eff2 = make_shared<effect>();
-		eff2->add_shader("blend.vert", GL_VERTEX_SHADER);
-		eff2->add_shader("blend.frag", GL_FRAGMENT_SHADER);
+		eff2->add_shader("dissolve.vert", GL_VERTEX_SHADER);
+		eff2->add_shader("dissolve.frag", GL_FRAGMENT_SHADER);
 		if (!effect_loader::build_effect(eff2)) {
 			return false;
 		}
 		// Attach effect to the object
 		object[i]->mat = make_shared<material>();
 		object[i]->mat->effect = eff2;
+		// Set textures for shader
+		object[i]->mat->set_texture("tex", texture_loader::load("Checkered.png"));
+		object[i]->mat->set_texture("dissolve_tex", texture_loader::load("BlendMap.png"));
 
-		// Set texture for shader
-		object[i]->mat->set_texture("tex1", texture_loader::load("Checkered.png"));
-		object[i]->mat->set_texture("tex2", texture_loader::load("CheckeredPurple.png"));
-		object[i]->mat->set_texture("blend_map", texture_loader::load("BlendMap.png"));
 	}
 
 	return true;
