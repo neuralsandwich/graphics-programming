@@ -37,5 +37,17 @@
     <None Include="shader.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="blend.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="blend.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="dissolve.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="dissolve.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@ using namespace chrono;
 shared_ptr<mesh> object[1];
 shared_ptr<arc_ball_camera> cam;
 shared_ptr<mesh> plane;
+float dissolveFactor = 1.0f;
 
 
 /*
@@ -96,11 +97,10 @@ bool load_content() {
 
 	int i = 0;
 	for (i=0;i<OBJECTS;i++) {
-		// Create box
-		object[i] = make_shared<mesh>();
-		object[i]->geom = geometry_builder::create_box();
-
-
+		// Create plane
+		plane = make_shared<mesh>();
+		plane->geom = geometry_builder::create_plane();
+		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
 		auto eff = make_shared<effect>();
 		eff->add_shader("shader.vert", GL_VERTEX_SHADER);
@@ -108,26 +108,37 @@ bool load_content() {
 		if (!effect_loader::build_effect(eff)) {
 			return false;
 		}
+		// Attach effect to the plane mesh
+		plane->mat = make_shared<material>();
+		plane->mat->effect = eff;
+		// Set the texture for shader
+		plane->mat->set_texture("tex", texture_loader::load("Checkered.png"));
 
-		// Create material for box
+		// Create box
+		object[i] = make_shared<mesh>();
+		object[i]->geom = geometry_builder::create_box();
+
+		// Load in effect.  Start with shaders
+		auto eff2 = make_shared<effect>();
+		eff2->add_shader("blend.vert", GL_VERTEX_SHADER);
+		eff2->add_shader("blend.frag", GL_FRAGMENT_SHADER);
+		if (!effect_loader::build_effect(eff2)) {
+			return false;
+		}
+		// Attach effect to the object
 		object[i]->mat = make_shared<material>();
-		object[i]->mat->effect = eff;
+		object[i]->mat->effect = eff2;
 
 		// Set texture for shader
-		object[i]->mat->set_texture("tex", texture_loader::load("Checkered.png"));
-
-		// Create plane
-		plane = make_shared<mesh>();
-		plane->geom = geometry_builder::create_plane();
-		plane->trans.translate(vec3(0.0, -0.5, 0.0));
-
-		// Reuse the material from the box
-		plane->mat = object[i]->mat;
+		object[i]->mat->set_texture("tex1", texture_loader::load("Checkered.png"));
+		object[i]->mat->set_texture("tex2", texture_loader::load("CheckeredPurple.png"));
+		object[i]->mat->set_texture("blend_map", texture_loader::load("BlendMap.png"));
 	}
 
 	return true;
 
 } // load_content()
+
 
 bool load_camera() {
 	// Initialize the camera
@@ -159,6 +170,7 @@ bool load_camera() {
 
 	return true;
 } // load_camera
+
 
 int main()
 {
