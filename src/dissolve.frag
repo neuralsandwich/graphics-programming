@@ -2,7 +2,7 @@
 
 uniform sampler2D tex;
 uniform sampler2D dissolve_tex;
-uniform sampler2D dissolve_factor;
+uniform float dissolve_factor;
 
 in vec2 vertex_tex_coord;
 out vec4 col;
@@ -12,7 +12,7 @@ void main() {
   vec4 dissolve_value = texture(dissolve_tex, vertex_tex_coord);
   
   // if alpha component is less than the dissolve factor, discard
-  if (dissolve_factor.a > dissolve_factor) {
+  if (dissolve_value.a > dissolve_factor) {
 	discard;
   }
 
