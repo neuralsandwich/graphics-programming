@@ -50,4 +50,15 @@
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Checkered.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="CheckeredPurple.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="BlendMap.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
