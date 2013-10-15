@@ -82,6 +82,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="blend.frag" />
+    <None Include="blend.vert" />
+    <None Include="dissolve.frag" />
+    <None Include="dissolve.vert" />
     <None Include="shader.frag" />
     <None Include="shader.vert" />
   </ItemGroup>
