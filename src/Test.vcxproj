@@ -84,6 +84,8 @@
   <ItemGroup>
     <None Include="blend.frag" />
     <None Include="blend.vert" />
+    <None Include="cell.frag" />
+    <None Include="cell.vert" />
     <None Include="dissolve.frag" />
     <None Include="dissolve.vert" />
     <None Include="shader.frag" />
