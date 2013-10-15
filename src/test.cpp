@@ -48,25 +48,47 @@ void userTranslation(float deltaTime)
 
 
 /*
+ * cameraTranslation
+ *
+ * Moves the object around inside the window using the keyboard arrow keys.
+ */
+void cameraTranslation(float deltaTime)
+{
+	// Move the quad when arrow keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+		cam->rotate(0.0, half_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+		cam->rotate(0.0, -half_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		cam->move(-5.0f * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		cam->move(5.0f * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		cam->rotate(half_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+	}
+
+} // cameraTranslation()
+
+
+/*
  * Update routine
  *
  * Updates the application state
  */
 void update(float deltaTime) {
 
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		dissolveFactor = clamp(dissolveFactor + 0.1f * deltaTime, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		dissolveFactor = clamp(dissolveFactor - 0.1f * deltaTime, 0.0f, 1.0f);
-	}
-
+	cameraTranslation(deltaTime);
 	userTranslation(deltaTime);
 
 	cam->set_target(object[0]->trans.position);
 	cam->update(deltaTime);
-
-	object[0]->mat->set_uniform_value("dissolve_factor", dissolveFactor);
 
 } // update()
 
@@ -94,12 +116,12 @@ bool load_content() {
 
 		// Create box
 		object[i] = make_shared<mesh>();
-		object[i]->geom = geometry_builder::create_box();
+		object[i]->geom = geometry_builder::create_torus();
 
 		// Load in effect.  Start with shaders
 		auto eff2 = make_shared<effect>();
-		eff2->add_shader("dissolve.vert", GL_VERTEX_SHADER);
-		eff2->add_shader("dissolve.frag", GL_FRAGMENT_SHADER);
+		eff2->add_shader("cell.vert", GL_VERTEX_SHADER);
+		eff2->add_shader("cell.frag", GL_FRAGMENT_SHADER);
 		if (!effect_loader::build_effect(eff2)) {
 			return false;
 		}
@@ -107,8 +129,15 @@ bool load_content() {
 		object[i]->mat = make_shared<material>();
 		object[i]->mat->effect = eff2;
 		// Set textures for shader
-		object[i]->mat->set_texture("tex", texture_loader::load("Checkered.png"));
-		object[i]->mat->set_texture("dissolve_tex", texture_loader::load("BlendMap.png"));
+		vector<vec4> colour;
+		colour.push_back(vec4(0.12f, 0.0f, 0.0f, 1.0f));
+		colour.push_back(vec4(0.25f, 0.0f, 0.0f, 1.0));
+		colour.push_back(vec4(0.5f, 0.0f, 0.0f, 1.0));
+		colour.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0));
+		auto tex = texture_generator::generate(colour, 4, 1, false, false);
+		// Attach texture to the box effect
+
+		object[i]->mat->set_texture("tex", tex);
 
 	}
 
