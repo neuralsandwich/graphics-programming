@@ -61,6 +61,12 @@
     <None Include="ambient.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="diffuse.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="diffuse.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">
