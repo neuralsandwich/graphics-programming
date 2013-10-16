@@ -9,13 +9,12 @@ using namespace glm;
 using namespace render_framework;
 using namespace chrono;
 
-#define OBJECTS 1
+#define OBJECTS 2
 
 // Global scope box
-shared_ptr<mesh> object[1];
-shared_ptr<arc_ball_camera> cam;
+shared_ptr<mesh> object[OBJECTS];
+shared_ptr<target_camera> cam;
 shared_ptr<mesh> plane;
-float dissolveFactor = 1.0f;
 
 
 /*
@@ -54,24 +53,11 @@ void userTranslation(float deltaTime)
  */
 void cameraTranslation(float deltaTime)
 {
-	// Move the quad when arrow keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		cam->rotate(0.0, half_pi<float>() * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		cam->rotate(0.0, -half_pi<float>() * deltaTime);
-	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		cam->move(-5.0f * deltaTime);
+		cam->set_position(cam->get_position() - 1.0f);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		cam->move(5.0f * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		cam->rotate(half_pi<float>() * deltaTime, 0.0);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+		cam->set_position(cam->get_position() + 1.0f);
 	}
 
 } // cameraTranslation()
@@ -95,8 +81,6 @@ void update(float deltaTime) {
 
 bool load_content() {
 
-	int i = 0;
-	for (i=0;i<OBJECTS;i++) {
 		// Create plane
 		plane = make_shared<mesh>();
 		plane->geom = geometry_builder::create_plane();
@@ -112,34 +96,32 @@ bool load_content() {
 		plane->mat = make_shared<material>();
 		plane->mat->effect = eff;
 		// Set the texture for shader
-		plane->mat->set_texture("tex", texture_loader::load("Checkered.png"));
+		plane->mat->set_texture("tex", texture_loader::load("Checkered.png", true, true));
 
 		// Create box
-		object[i] = make_shared<mesh>();
-		object[i]->geom = geometry_builder::create_torus();
+		object[0] = make_shared<mesh>();
+		object[0]->geom = geometry_builder::create_box();
 
-		// Load in effect.  Start with shaders
-		auto eff2 = make_shared<effect>();
-		eff2->add_shader("cell.vert", GL_VERTEX_SHADER);
-		eff2->add_shader("cell.frag", GL_FRAGMENT_SHADER);
-		if (!effect_loader::build_effect(eff2)) {
-			return false;
-		}
 		// Attach effect to the object
-		object[i]->mat = make_shared<material>();
-		object[i]->mat->effect = eff2;
-		// Set textures for shader
-		vector<vec4> colour;
-		colour.push_back(vec4(0.12f, 0.0f, 0.0f, 1.0f));
-		colour.push_back(vec4(0.25f, 0.0f, 0.0f, 1.0));
-		colour.push_back(vec4(0.5f, 0.0f, 0.0f, 1.0));
-		colour.push_back(vec4(1.0f, 0.0f, 0.0f, 1.0));
-		auto tex = texture_generator::generate(colour, 4, 1, false, false);
-		// Attach texture to the box effect
+		object[0]->mat = make_shared<material>();
+		object[0]->mat->effect = eff;
+		// Set the texture for shader
+		object[0]->mat->set_texture("tex", texture_loader::load("Checkered.png", false, false));
+		// Scale and move object
+		object[0]->trans.scale = vec3(10.0, 20.0, 0.5);
+		object[0]->trans.translate(vec3(0.0, 9.5, 0.0));
 
-		object[i]->mat->set_texture("tex", tex);
+		// Create box
+		object[1] = make_shared<mesh>();
+		object[1]->geom = geometry_builder::create_box();
 
-	}
+		// Attach effect to the object
+		object[1]->mat = make_shared<material>();
+		object[1]->mat->effect = eff;
+		// Set the texture for shader
+		object[1]->mat->set_texture("tex", texture_loader::load("Checkered.png", true, false));
+		object[1]->trans.scale = vec3(10.0, 20.0, 0.5);
+		object[1]->trans.translate(vec3(10.0, 9.5, 0.0));
 
 	return true;
 
@@ -148,7 +130,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<arc_ball_camera>();
+	cam = make_shared<target_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -161,8 +143,9 @@ bool load_camera() {
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(0.0, 0.0, 0.0));
-	cam->set_distance(20.0f);
+	cam->set_position(vec3(0.0, 5.0, 20.0));
+	cam->set_target(vec3(0.0, 0.0, 0.0));
+	cam->set_up(vec3(0.0, 1.0, 0.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
