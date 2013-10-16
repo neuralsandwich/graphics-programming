@@ -88,6 +88,8 @@
     <None Include="blend.vert" />
     <None Include="cell.frag" />
     <None Include="cell.vert" />
+    <None Include="diffuse.frag" />
+    <None Include="diffuse.vert" />
     <None Include="dissolve.frag" />
     <None Include="dissolve.vert" />
     <None Include="shader.frag" />
