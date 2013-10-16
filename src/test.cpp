@@ -13,7 +13,7 @@ using namespace chrono;
 
 // Global scope box
 shared_ptr<mesh> object[OBJECTS];
-shared_ptr<target_camera> cam;
+shared_ptr<arc_ball_camera> cam;
 shared_ptr<mesh> plane;
 
 
@@ -53,12 +53,25 @@ void userTranslation(float deltaTime)
  */
 void cameraTranslation(float deltaTime)
 {
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		cam->set_position(cam->get_position() - 1.0f);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		cam->set_position(cam->get_position() + 1.0f);
-	}
+        // Move the quad when arrow keys are pressed
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+                cam->rotate(0.0, half_pi<float>() * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+                cam->rotate(0.0, -half_pi<float>() * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+                cam->move(-5.0f * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+                cam->move(5.0f * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+                cam->rotate(half_pi<float>() * deltaTime, 0.0);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+                cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+        }
 
 } // cameraTranslation()
 
@@ -91,8 +104,8 @@ bool load_content() {
 		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
 		auto eff = make_shared<effect>();
-		eff->add_shader("ambient.vert", GL_VERTEX_SHADER);
-		eff->add_shader("ambient.frag", GL_FRAGMENT_SHADER);
+		eff->add_shader("diffuse.vert", GL_VERTEX_SHADER);
+		eff->add_shader("diffuse.frag", GL_FRAGMENT_SHADER);
 		if (!effect_loader::build_effect(eff)) {
 			return false;
 		}
@@ -102,14 +115,19 @@ bool load_content() {
 		object[0]->mat->effect = eff;
 		plane->mat->effect = eff;
 
-		// Ambient intensity should be (0.3, 0.3, 0.3, 1.0)
-		vec4 ambient_intensity = vec4(0.3, 0.3, 0.3, 1.0);
+		// Set the values on material - blue plane and red sphere.
+		// Both have white light colour.
+		// light direction is away (1, 1, -1) normalized
+		vec4 light_colour = vec4(1.0, 1.0, 1.0, 1.0);
+		vec3 light_direction = vec3(1.0, 1.0, -1.0);
 		vec4 blue_material = vec4(0.0, 0.0, 1.0, 1.0);
 		vec4 red_material = vec4(1.0, 0.0, 0.0, 1.0);
-		object[0]->mat->set_uniform_value("ambient_intensity", ambient_intensity);
-		object[0]->mat->set_uniform_value("material_colour", blue_material);
-		plane->mat->set_uniform_value("ambient_intensity", ambient_intensity);
-		plane->mat->set_uniform_value("material_colour", red_material);
+		object[0]->mat->set_uniform_value("light_colour", light_colour);
+		object[0]->mat->set_uniform_value("light_direction", light_direction);
+		object[0]->mat->set_uniform_value("material_colour", red_material);
+		plane->mat->set_uniform_value("light_colour", light_colour);
+		plane->mat->set_uniform_value("light_direction", light_direction);
+		plane->mat->set_uniform_value("material_colour", blue_material);
 
 		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
 
@@ -120,7 +138,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<target_camera>();
+	cam = make_shared<arc_ball_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -133,9 +151,8 @@ bool load_camera() {
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(0.0, 5.0, 20.0));
-	cam->set_target(vec3(0.0, 0.0, 0.0));
-	cam->set_up(vec3(0.0, 1.0, 0.0));
+	cam->set_position(vec3(0.0, 0.0, 0.0));
+	cam->set_distance(20.0);
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
