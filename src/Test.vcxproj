@@ -82,6 +82,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ambient.frag" />
+    <None Include="ambient.vert" />
     <None Include="blend.frag" />
     <None Include="blend.vert" />
     <None Include="cell.frag" />
