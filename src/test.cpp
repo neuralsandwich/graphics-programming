@@ -18,6 +18,35 @@ shared_ptr<mesh> plane;
 
 
 /*
+ * userRotation
+ *
+ * rotates the object
+ */
+void userRotation(float deltaTime) {
+
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_8)) {
+          object[0]->trans.rotate(vec3(-pi<float>(), 0.0, 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_5)) {
+          object[0]->trans.rotate(vec3(pi<float>(), 0.0, 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_6)) {
+          object[0]->trans.rotate(vec3(0.0, -pi<float>(), 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_4)) {
+          object[0]->trans.rotate(vec3(0.0, pi<float>(), 0.0f) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_7)) {
+          object[0]->trans.rotate(vec3(0.0, 0.0, pi<float>()) * deltaTime);
+  }
+  if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_9)) {
+          object[0]->trans.rotate(vec3(0.0, 0.0, -pi<float>()) * deltaTime);
+  }
+
+} // userRotation
+
+
+/*
  * userTranslation
  *
  * Moves the object around inside the window using the keyboard arrow keys.
@@ -84,6 +113,7 @@ void cameraTranslation(float deltaTime)
 void update(float deltaTime) {
 
 	cameraTranslation(deltaTime);
+	userRotation(deltaTime);
 	userTranslation(deltaTime);
 
 	cam->set_target(object[0]->trans.position);
@@ -99,7 +129,7 @@ bool load_content() {
 		object[0] = make_shared<mesh>();
 
 		plane->geom = geometry_builder::create_plane();
-		object[0]->geom = geometry_builder::create_sphere(20, 20, vec3(2, 2, 2));
+		object[0]->geom = geometry_builder::create_box();
 
 		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
@@ -125,9 +155,11 @@ bool load_content() {
 		object[0]->mat->set_uniform_value("light_colour", light_colour);
 		object[0]->mat->set_uniform_value("light_direction", light_direction);
 		object[0]->mat->set_uniform_value("material_colour", red_material);
+		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix);
 		plane->mat->set_uniform_value("light_colour", light_colour);
 		plane->mat->set_uniform_value("light_direction", light_direction);
 		plane->mat->set_uniform_value("material_colour", blue_material);
+		plane->mat->set_uniform_value("normal_matrix", plane->trans.get_normal_matrix());
 
 		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
 
