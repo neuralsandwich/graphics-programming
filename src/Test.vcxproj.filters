@@ -49,6 +49,12 @@
     <None Include="dissolve.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="cell.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="cell.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">

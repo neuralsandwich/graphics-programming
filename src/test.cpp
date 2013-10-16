@@ -9,13 +9,12 @@ using namespace glm;
 using namespace render_framework;
 using namespace chrono;
 
-#define OBJECTS 1
+#define OBJECTS 2
 
 // Global scope box
-shared_ptr<mesh> object[1];
-shared_ptr<arc_ball_camera> cam;
+shared_ptr<mesh> object[OBJECTS];
+shared_ptr<target_camera> cam;
 shared_ptr<mesh> plane;
-float dissolveFactor = 1.0f;
 
 
 /*
@@ -48,33 +47,40 @@ void userTranslation(float deltaTime)
 
 
 /*
+ * cameraTranslation
+ *
+ * Moves the object around inside the window using the keyboard arrow keys.
+ */
+void cameraTranslation(float deltaTime)
+{
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		cam->set_position(cam->get_position() - 1.0f);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		cam->set_position(cam->get_position() + 1.0f);
+	}
+
+} // cameraTranslation()
+
+
+/*
  * Update routine
  *
  * Updates the application state
  */
 void update(float deltaTime) {
 
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		dissolveFactor = clamp(dissolveFactor + 0.1f * deltaTime, 0.0f, 1.0f);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		dissolveFactor = clamp(dissolveFactor - 0.1f * deltaTime, 0.0f, 1.0f);
-	}
-
+	cameraTranslation(deltaTime);
 	userTranslation(deltaTime);
 
 	cam->set_target(object[0]->trans.position);
 	cam->update(deltaTime);
-
-	object[0]->mat->set_uniform_value("dissolve_factor", dissolveFactor);
 
 } // update()
 
 
 bool load_content() {
 
-	int i = 0;
-	for (i=0;i<OBJECTS;i++) {
 		// Create plane
 		plane = make_shared<mesh>();
 		plane->geom = geometry_builder::create_plane();
@@ -90,27 +96,32 @@ bool load_content() {
 		plane->mat = make_shared<material>();
 		plane->mat->effect = eff;
 		// Set the texture for shader
-		plane->mat->set_texture("tex", texture_loader::load("Checkered.png"));
+		plane->mat->set_texture("tex", texture_loader::load("Checkered.png", true, true));
 
 		// Create box
-		object[i] = make_shared<mesh>();
-		object[i]->geom = geometry_builder::create_box();
+		object[0] = make_shared<mesh>();
+		object[0]->geom = geometry_builder::create_box();
 
-		// Load in effect.  Start with shaders
-		auto eff2 = make_shared<effect>();
-		eff2->add_shader("dissolve.vert", GL_VERTEX_SHADER);
-		eff2->add_shader("dissolve.frag", GL_FRAGMENT_SHADER);
-		if (!effect_loader::build_effect(eff2)) {
-			return false;
-		}
 		// Attach effect to the object
-		object[i]->mat = make_shared<material>();
-		object[i]->mat->effect = eff2;
-		// Set textures for shader
-		object[i]->mat->set_texture("tex", texture_loader::load("Checkered.png"));
-		object[i]->mat->set_texture("dissolve_tex", texture_loader::load("BlendMap.png"));
+		object[0]->mat = make_shared<material>();
+		object[0]->mat->effect = eff;
+		// Set the texture for shader
+		object[0]->mat->set_texture("tex", texture_loader::load("Checkered.png", false, false));
+		// Scale and move object
+		object[0]->trans.scale = vec3(10.0, 20.0, 0.5);
+		object[0]->trans.translate(vec3(0.0, 9.5, 0.0));
 
-	}
+		// Create box
+		object[1] = make_shared<mesh>();
+		object[1]->geom = geometry_builder::create_box();
+
+		// Attach effect to the object
+		object[1]->mat = make_shared<material>();
+		object[1]->mat->effect = eff;
+		// Set the texture for shader
+		object[1]->mat->set_texture("tex", texture_loader::load("Checkered.png", true, false));
+		object[1]->trans.scale = vec3(10.0, 20.0, 0.5);
+		object[1]->trans.translate(vec3(10.0, 9.5, 0.0));
 
 	return true;
 
@@ -119,7 +130,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<arc_ball_camera>();
+	cam = make_shared<target_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -132,8 +143,9 @@ bool load_camera() {
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(0.0, 0.0, 0.0));
-	cam->set_distance(20.0f);
+	cam->set_position(vec3(0.0, 5.0, 20.0));
+	cam->set_target(vec3(0.0, 0.0, 0.0));
+	cam->set_up(vec3(0.0, 1.0, 0.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
