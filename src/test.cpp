@@ -9,7 +9,7 @@ using namespace glm;
 using namespace render_framework;
 using namespace chrono;
 
-#define OBJECTS 2
+#define OBJECTS 1
 
 // Global scope box
 shared_ptr<mesh> object[OBJECTS];
@@ -83,45 +83,35 @@ bool load_content() {
 
 		// Create plane
 		plane = make_shared<mesh>();
+		object[0] = make_shared<mesh>();
+
 		plane->geom = geometry_builder::create_plane();
+		object[0]->geom = geometry_builder::create_sphere(20, 20, vec3(2, 2, 2));
+
 		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
 		auto eff = make_shared<effect>();
-		eff->add_shader("shader.vert", GL_VERTEX_SHADER);
-		eff->add_shader("shader.frag", GL_FRAGMENT_SHADER);
+		eff->add_shader("ambient.vert", GL_VERTEX_SHADER);
+		eff->add_shader("ambient.frag", GL_FRAGMENT_SHADER);
 		if (!effect_loader::build_effect(eff)) {
 			return false;
 		}
 		// Attach effect to the plane mesh
 		plane->mat = make_shared<material>();
-		plane->mat->effect = eff;
-		// Set the texture for shader
-		plane->mat->set_texture("tex", texture_loader::load("Checkered.png", true, true));
-
-		// Create box
-		object[0] = make_shared<mesh>();
-		object[0]->geom = geometry_builder::create_box();
-
-		// Attach effect to the object
 		object[0]->mat = make_shared<material>();
 		object[0]->mat->effect = eff;
-		// Set the texture for shader
-		object[0]->mat->set_texture("tex", texture_loader::load("Checkered.png", false, false));
-		// Scale and move object
-		object[0]->trans.scale = vec3(10.0, 20.0, 0.5);
-		object[0]->trans.translate(vec3(0.0, 9.5, 0.0));
+		plane->mat->effect = eff;
 
-		// Create box
-		object[1] = make_shared<mesh>();
-		object[1]->geom = geometry_builder::create_box();
+		// Ambient intensity should be (0.3, 0.3, 0.3, 1.0)
+		vec4 ambient_intensity = vec4(0.3, 0.3, 0.3, 1.0);
+		vec4 blue_material = vec4(0.0, 0.0, 1.0, 1.0);
+		vec4 red_material = vec4(1.0, 0.0, 0.0, 1.0);
+		object[0]->mat->set_uniform_value("ambient_intensity", ambient_intensity);
+		object[0]->mat->set_uniform_value("material_colour", blue_material);
+		plane->mat->set_uniform_value("ambient_intensity", ambient_intensity);
+		plane->mat->set_uniform_value("material_colour", red_material);
 
-		// Attach effect to the object
-		object[1]->mat = make_shared<material>();
-		object[1]->mat->effect = eff;
-		// Set the texture for shader
-		object[1]->mat->set_texture("tex", texture_loader::load("Checkered.png", true, false));
-		object[1]->trans.scale = vec3(10.0, 20.0, 0.5);
-		object[1]->trans.translate(vec3(10.0, 9.5, 0.0));
+		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
 
 	return true;
 
