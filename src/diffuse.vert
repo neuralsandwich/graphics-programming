@@ -26,7 +26,7 @@ void main()
   gl_Position = MVP * vec4(position, 1.0);
 
   // Updating normal with normal matrix
-  vec3 transformed_normal = normal * normal_matrix;
+  vec3 transformed_normal = normal_matrix * normal;
 
   // Calculate diffuse componenet
   // Calculate dot product
