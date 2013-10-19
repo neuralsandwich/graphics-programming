@@ -129,13 +129,13 @@ bool load_content() {
 		object[0] = make_shared<mesh>();
 
 		plane->geom = geometry_builder::create_plane();
-		object[0]->geom = geometry_builder::create_box();
+		object[0]->geom = geometry_builder::create_sphere();
 
 		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
 		auto eff = make_shared<effect>();
-		eff->add_shader("diffuse.vert", GL_VERTEX_SHADER);
-		eff->add_shader("diffuse.frag", GL_FRAGMENT_SHADER);
+		eff->add_shader("specular.vert", GL_VERTEX_SHADER);
+		eff->add_shader("specular.frag", GL_FRAGMENT_SHADER);
 		if (!effect_loader::build_effect(eff)) {
 			return false;
 		}
@@ -150,16 +150,18 @@ bool load_content() {
 		// light direction is away (1, 1, -1) normalized
 		vec4 light_colour = vec4(1.0, 1.0, 1.0, 1.0);
 		vec3 light_direction = vec3(1.0, 1.0, -1.0);
-		vec4 blue_material = vec4(0.0, 0.0, 1.0, 1.0);
-		vec4 red_material = vec4(1.0, 0.0, 0.0, 1.0);
+		vec4 specular_material = vec4(1.0, 1.0, 1.0, 1.0);
+		float shininess = 10.0f;
 		object[0]->mat->set_uniform_value("light_colour", light_colour);
 		object[0]->mat->set_uniform_value("light_direction", light_direction);
-		object[0]->mat->set_uniform_value("material_colour", red_material);
+		object[0]->mat->set_uniform_value("specular_material", specular_material);
 		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix());
+		object[0]->mat->set_uniform_value("shininess", shininess);
 		plane->mat->set_uniform_value("light_colour", light_colour);
 		plane->mat->set_uniform_value("light_direction", light_direction);
-		plane->mat->set_uniform_value("material_colour", blue_material);
+		plane->mat->set_uniform_value("specular_material", specular_material);
 		plane->mat->set_uniform_value("normal_matrix", plane->trans.get_normal_matrix());
+		plane->mat->set_uniform_value("shininess", shininess);
 
 		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
 
