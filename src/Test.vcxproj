@@ -94,6 +94,8 @@
     <None Include="dissolve.vert" />
     <None Include="shader.frag" />
     <None Include="shader.vert" />
+    <None Include="specular.frag" />
+    <None Include="specular.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="BlendMap.png" />
