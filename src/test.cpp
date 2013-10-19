@@ -155,7 +155,7 @@ bool load_content() {
 		object[0]->mat->set_uniform_value("light_colour", light_colour);
 		object[0]->mat->set_uniform_value("light_direction", light_direction);
 		object[0]->mat->set_uniform_value("material_colour", red_material);
-		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix);
+		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix());
 		plane->mat->set_uniform_value("light_colour", light_colour);
 		plane->mat->set_uniform_value("light_direction", light_direction);
 		plane->mat->set_uniform_value("material_colour", blue_material);
