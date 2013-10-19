@@ -67,6 +67,12 @@
     <None Include="diffuse.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="specular.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="specular.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">
