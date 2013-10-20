@@ -14,7 +14,7 @@ uniform float shininess;			// Materials shininess factor
 
 layout (location = 0) in vec3 position;		// The vertex position in model space
 layout (location = 1) in vec3 normal;		// Incoming normal
-layout (location = 2) in vec2 tex_coord		// Texture co-ordinate
+layout (location = 2) in vec2 tex_coord;	// Texture co-ordinate
 
 // Output variables
 out vec2 vertex_tex_coord;
@@ -27,7 +27,7 @@ void main()
   gl_Position = MVP * vec4(position, 1.0);
 
   // Output tex coord
-  vertex_tex_coord = tex_coord
+  vertex_tex_coord = tex_coord;
 
   /*
    * Calculate ambient light
@@ -54,7 +54,7 @@ void main()
    * Calculate specular lighting
    *
    * Calculate specular intensity
-   * /
+   */
   float s = pow(max(dot(transformed_normal, half_vector), 0.0), shininess);
   vec4 specular = (specular_colour * light_colour) * s;
 

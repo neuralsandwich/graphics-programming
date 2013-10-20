@@ -31,63 +31,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.vert">
+    <None Include="gouraud.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="shader.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="blend.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="blend.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="dissolve.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="dissolve.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="cell.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="cell.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ambient.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ambient.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="diffuse.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="diffuse.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="specular.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="specular.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lighting.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lighting.frag">
+    <None Include="gouraud.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="CheckeredPurple.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="BlendMap.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

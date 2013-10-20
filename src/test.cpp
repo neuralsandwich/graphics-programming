@@ -148,29 +148,40 @@ bool load_content() {
 		// Set the values on material - blue plane and red sphere.
 		// Both have white light colour.
 		// light direction is away (1, 1, -1) normalized
-		vec4 ambient_intensity = vec4(0.1, 0.1, 0.1, 1.0);
-		vec4 light_colour = vec4(1.0, 1.0, 1.0, 1.0);
-		vec3 light_direction = vec3(1.0, 1.0, -1.0);
+		vec4 red_emissive = vec4(0.2f, 0.0f, 0.0f, 1.0f);
+		vec4 blue_emissive = vec4(0.0f, 0.0f, 0.2f, 1.0f);
+		vec4 ambient_intensity = vec4(0.1f, 0.1f, 0.1f, 1.0f);
+		vec4 light_colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		vec3 light_direction = normalize(vec3(1.0, 1.0, -1.0));
 		vec4 blue_material = vec4(0.0, 0.0, 1.0, 1.0);
 		vec4 red_material = vec4(1.0, 0.0, 0.0, 1.0);
-		vec4 specular_material = vec4(1.0, 1.0, 1.0, 1.0);
+		vec4 specular_colour = vec4(1.0, 1.0, 1.0, 1.0);
 		float shininess = 25.0f;
 		// Set shader values for object
+		object[0]->mat->set_uniform_value("emissive", red_emissive);
 		object[0]->mat->set_uniform_value("ambient_intensity", ambient_intensity);
+		object[0]->mat->set_uniform_value("material_colour", red_material);
+		object[0]->mat->set_uniform_value("specular_colour", specular_colour);
 		object[0]->mat->set_uniform_value("light_colour", light_colour);
 		object[0]->mat->set_uniform_value("light_direction", light_direction);
-		object[0]->mat->set_uniform_value("material_colour", red_material);
-		object[0]->mat->set_uniform_value("specular_material", specular_material);
 		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix());
 		object[0]->mat->set_uniform_value("shininess", shininess);
 		// Set shader values for plane
+		plane->mat->set_uniform_value("emissive", red_emissive);
 		plane->mat->set_uniform_value("ambient_intensity", ambient_intensity);
+		plane->mat->set_uniform_value("material_colour", blue_material);
+		plane->mat->set_uniform_value("specular_colour", specular_colour);
 		plane->mat->set_uniform_value("light_colour", light_colour);
 		plane->mat->set_uniform_value("light_direction", light_direction);
-		plane->mat->set_uniform_value("material_colour", blue_material);
-		plane->mat->set_uniform_value("specular_material", specular_material);
 		plane->mat->set_uniform_value("normal_matrix", plane->trans.get_normal_matrix());
 		plane->mat->set_uniform_value("shininess", shininess);
+
+		// Load texture
+		auto tex = texture_loader::load("Checkered.png");
+
+		// Set texture on materials
+		object[0]->mat->set_texture("tex", tex);
+		plane->mat->set_texture("tex", tex);
 
 		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
 
