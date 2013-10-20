@@ -82,8 +82,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="gouraud.frag" />
-    <None Include="gouraud.vert" />
+    <None Include="phong.frag" />
+    <None Include="phong.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png" />
