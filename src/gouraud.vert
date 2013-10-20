@@ -14,9 +14,12 @@ uniform float shininess;			// Materials shininess factor
 
 layout (location = 0) in vec3 position;		// The vertex position in model space
 layout (location = 1) in vec3 normal;		// Incoming normal
+layout (location = 2) in vec2 tex_coord		// Texture co-ordinate
 
-// Output vertex colour
-out vec4 vertex_colour;
+// Output variables
+out vec2 vertex_tex_coord;
+out vec4 primary_colour;
+out vec4 secondary_colour;
 
 void main()
 {
