@@ -31,10 +31,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="gouraud.frag">
+    <None Include="phong.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="gouraud.vert">
+    <None Include="phong.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
