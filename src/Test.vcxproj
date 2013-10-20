@@ -92,6 +92,8 @@
     <None Include="diffuse.vert" />
     <None Include="dissolve.frag" />
     <None Include="dissolve.vert" />
+    <None Include="lighting.frag" />
+    <None Include="lighting.vert" />
     <None Include="shader.frag" />
     <None Include="shader.vert" />
     <None Include="specular.frag" />

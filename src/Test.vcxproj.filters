@@ -73,6 +73,12 @@
     <None Include="specular.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="lighting.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lighting.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">
