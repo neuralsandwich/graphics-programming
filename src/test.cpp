@@ -134,8 +134,8 @@ bool load_content() {
 		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
 		auto eff = make_shared<effect>();
-		eff->add_shader("lighting.vert", GL_VERTEX_SHADER);
-		eff->add_shader("lighting.frag", GL_FRAGMENT_SHADER);
+		eff->add_shader("gouraud.vert", GL_VERTEX_SHADER);
+		eff->add_shader("gouraud.frag", GL_FRAGMENT_SHADER);
 		if (!effect_loader::build_effect(eff)) {
 			return false;
 		}
