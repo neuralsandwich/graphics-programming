@@ -17,7 +17,7 @@ out vec2 vertex_tex_coord;
 void main()
 {
   // Past through position
-  vertex_position = (model * position).xyz;
+  vertex_position = (model * vec4(position, 1)).xyz;
 
   // Transform position
   gl_Position = MVP * vec4(position, 1.0);
