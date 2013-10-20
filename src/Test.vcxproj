@@ -82,27 +82,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ambient.frag" />
-    <None Include="ambient.vert" />
-    <None Include="blend.frag" />
-    <None Include="blend.vert" />
-    <None Include="cell.frag" />
-    <None Include="cell.vert" />
-    <None Include="diffuse.frag" />
-    <None Include="diffuse.vert" />
-    <None Include="dissolve.frag" />
-    <None Include="dissolve.vert" />
-    <None Include="lighting.frag" />
-    <None Include="lighting.vert" />
-    <None Include="shader.frag" />
-    <None Include="shader.vert" />
-    <None Include="specular.frag" />
-    <None Include="specular.vert" />
+    <None Include="gouraud.frag" />
+    <None Include="gouraud.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="BlendMap.png" />
     <Image Include="Checkered.png" />
-    <Image Include="CheckeredPurple.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
