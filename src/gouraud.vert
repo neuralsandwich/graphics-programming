@@ -26,13 +26,20 @@ void main()
   // Transform position
   gl_Position = MVP * vec4(position, 1.0);
 
-  // Calculate ambient light
+  // Output tex coord
+  vertex_tex_coord = tex_coord
+
+  /*
+   * Calculate ambient light
+   */
   vec4 ambient = ambient_intensity * material_colour;
 
   // Updating normal with normal matrix
   vec3 transformed_normal = normal_matrix * normal;
 
-  // Calculate diffuse light
+  /*
+   * Calculate diffuse light
+   */
   float k = max(dot(transformed_normal, light_direction), 0.0);
   // Calculate dot product
   vec4 diffuse = k * (material_colour * light_colour);
@@ -40,15 +47,27 @@ void main()
   // Calculate view direction
   vec3 view_direction = normalize(eye_position - position);
 
+  // Calculate half_vector
   vec3 half_vector = normalize(light_direction + view_direction);
 
-  // Calculate specular componenet
-  // Calculate specular intensity
+  /*
+   * Calculate specular lighting
+   *
+   * Calculate specular intensity
+   * /
   float s = pow(max(dot(transformed_normal, half_vector), 0.0), shininess);
-  // Calculate specular light
   vec4 specular = (specular_colour * light_colour) * s;
 
-  // Set output vertex colour
-  vertex_colour = ambient + diffuse + specular;
-  vertex_colour.a = 1.0;
+   /*
+    * Output primary colour
+    */
+   primary_colour = emissive + ambient + diffuse;
+   primary_colour.a = 1.0;
+
+   /*
+    * Output secondary colour
+	*/
+	secondary_colour = specular;
+	secondary_colour.a = 1.0;
+
 }
