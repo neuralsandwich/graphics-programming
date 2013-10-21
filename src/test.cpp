@@ -150,31 +150,34 @@ bool load_content() {
 		// light direction is away (1, 1, -1) normalized
 		vec4 red_emissive = vec4(0.2f, 0.0f, 0.0f, 1.0f);
 		vec4 blue_emissive = vec4(0.0f, 0.0f, 0.2f, 1.0f);
-		vec4 ambient_intensity = vec4(0.1f, 0.1f, 0.1f, 1.0f);
+		vec4 ambient_intensity = vec4(0.3f, 0.3f, 0.3f, 1.0f);
 		vec4 light_colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-		vec3 light_direction = normalize(vec3(1.0, 1.0, -1.0));
-		vec4 blue_material = vec4(0.0, 0.0, 1.0, 1.0);
-		vec4 red_material = vec4(1.0, 0.0, 0.0, 1.0);
-		vec4 specular_colour = vec4(1.0, 1.0, 1.0, 1.0);
-		float shininess = 25.0f;
+		vec3 light_direction = normalize(vec3(1.0f, 1.0f, -1.0f));
+		vec4 blue_material = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		vec4 red_material = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		vec4 specular_colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		float shininess = 50.0f;
+		
 		// Set shader values for object
-		object[0]->mat->set_uniform_value("emissive", red_emissive);
-		object[0]->mat->set_uniform_value("ambient_intensity", ambient_intensity);
-		object[0]->mat->set_uniform_value("material_colour", red_material);
-		object[0]->mat->set_uniform_value("specular_colour", specular_colour);
-		object[0]->mat->set_uniform_value("light_colour", light_colour);
-		object[0]->mat->set_uniform_value("light_direction", light_direction);
-		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix());
-		object[0]->mat->set_uniform_value("shininess", shininess);
+		object[0]->mat->data.emissive = red_emissive;
+		object[0]->mat->data.diffuse_reflection = red_material;
+		object[0]->mat->data.specular_reflection = specular_colour;
+		object[0]->mat->data.shininess = shininess;
 		// Set shader values for plane
-		plane->mat->set_uniform_value("emissive", red_emissive);
-		plane->mat->set_uniform_value("ambient_intensity", ambient_intensity);
-		plane->mat->set_uniform_value("material_colour", blue_material);
-		plane->mat->set_uniform_value("specular_colour", specular_colour);
-		plane->mat->set_uniform_value("light_colour", light_colour);
-		plane->mat->set_uniform_value("light_direction", light_direction);
-		plane->mat->set_uniform_value("normal_matrix", plane->trans.get_normal_matrix());
-		plane->mat->set_uniform_value("shininess", shininess);
+		plane->mat->data.emissive = blue_emissive;
+		plane->mat->data.diffuse_reflection = blue_material;
+		plane->mat->data.specular_reflection = specular_colour;
+		plane->mat->data.shininess = shininess;
+
+		// Create light for scene
+		auto light = make_shared<directional_light>();
+		light->data.ambient_intensity = ambient_intensity;
+		light->data.colour = light_colour;
+		light->data.direction = light_direction;
+
+		// Set light for objects
+		object[0]->mat->set_uniform_value("light", light);
+		plane->mat->set_uniform_value("light", light);
 
 		// Load texture
 		auto tex = texture_loader::load("Checkered.png");
