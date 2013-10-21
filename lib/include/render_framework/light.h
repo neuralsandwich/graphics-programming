@@ -62,6 +62,8 @@ namespace render_framework
 		void set_ambient_intensity(const glm::vec4& ambient);
 
 		void set_colour(const glm::vec4& colour);
+
+		bool build();
 	};
 	
 	/*
@@ -72,18 +74,20 @@ namespace render_framework
 		// Colour of the point light
 		glm::vec4 colour;
 		// Position of the point light
-		glm::vec4 position;
+		glm::vec3 position;
+		float _pad1;
 		// Attenuation values.  Only x, y and z are used.  These represent the
 		// constant, linear and quadratic values of the attentuation factor
 		// respectively
-		glm::vec4 attenuation;
+		glm::vec3 attenuation;
+		float _pad2;
 
 		// Creates a point light data.  Default values set create a light grey
 		// (almost white) light, with a radius of 10.
 		point_light_data()
 			: colour(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f)),
-			  position(glm::vec4(0.0f, 0.0f, -10.0f, 1.0f)),
-			  attenuation(glm::vec4(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f), 0.0f))
+			  position(glm::vec3(0.0f, 0.0f, 0.0f)),
+			  attenuation(glm::vec3(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f)))
 		{
 		}
 	};
@@ -116,6 +120,8 @@ namespace render_framework
 		void set_range(float range);
 
 		void set_colour(const glm::vec4& colour);
+
+		bool build();
 	};
 
 	/*
@@ -127,18 +133,18 @@ namespace render_framework
 		glm::vec4 colour;
 		// Position of the spot light.  4D vector for memory alignment.
 		// Only x, y, z used
-		glm::vec4 position;
+		glm::vec3 position;
+		float _pad1;
 		// Direction that the spot light faces.  4D vector for memory alignment.
 		// Only x, y, z used
-		glm::vec4 direction;
+		glm::vec3 direction;
+		float _pad2;
 		// Attenuation values.  Only x, y and z are used.  These represent the
 		// constant, linear and quadratic values of the attentuation factor
 		// respectively
-		glm::vec4 attenuation;
+		glm::vec3 attenuation;
 		// The power of the spot light
 		float power;
-		// Padding to align size of data structure to multiple of vec4 size
-		float _padding[3];
 
 		/*
 		Creates new spot light data.  Initialises colour to be light grey,
@@ -147,9 +153,9 @@ namespace render_framework
 		*/
 		spot_light_data()
 			: colour(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f)),
-			  position(glm::vec4(0.0f, 0.0f, -10.0f, 1.0f)),
-			  direction(glm::vec4(0.0f, 0.0f, 1.0f, 0.0f)),
-			  attenuation(glm::vec4(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f), 0.0f))
+			  position(glm::vec3(0.0f, 0.0f, 0.0f)),
+			  direction(glm::vec3(0.0f, 0.0f, 1.0f)),
+			  attenuation(glm::vec3(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f)))
 		{
 		}
 	};
@@ -182,6 +188,8 @@ namespace render_framework
 		void set_range(float range);
 
 		void set_power(float power);
+
+		bool build();
 	};
 
 	/*
@@ -226,5 +234,7 @@ namespace render_framework
 		void set_range_spot(int index, float range);
 
 		void set_power_spot(int index, float power);
+
+		bool build();
 	};
 }

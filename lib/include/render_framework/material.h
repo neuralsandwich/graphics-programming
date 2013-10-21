@@ -7,6 +7,7 @@
 #include <glm\glm.hpp>
 #include <GL\glew.h>
 #include <boost\variant.hpp>
+#include "light.h"
 
 namespace render_framework
 {
@@ -21,7 +22,10 @@ namespace render_framework
 		VEC4,
 		MAT2,
 		MAT3,
-		MAT4
+		MAT4,
+		DIR_LIGHT,
+		POINT_LIGHT,
+		SPOT_LIGHT
 	};
 
 	// Forward declaration of effect struct.  Used as part of a material
@@ -29,6 +33,9 @@ namespace render_framework
 
 	// Forward declaration of texture struct.  Used as part of a material
 	struct texture;
+
+    // Forward declaration of cubemap struct.  Used as part of a material
+    struct cube_map;
 
 	/*
 	Structure representing data required for a material
@@ -74,14 +81,20 @@ namespace render_framework
 												   glm::vec4,
 												   glm::mat2,
 												   glm::mat3,
-												   glm::mat4>>> value_map;
+												   glm::mat4,
+												   std::shared_ptr<directional_light>,
+												   std::shared_ptr<point_light>,
+												   std::shared_ptr<spot_light>>>> value_map;
 		std::unordered_map<std::string, std::shared_ptr<texture>> texture_map;
+        std::unordered_map<std::string, std::shared_ptr<cube_map>> cubemap_map;
 
 		~effect_values()
 		{
 			value_map.clear();
 			texture_map.clear();
 		}
+
+        bool bind();
 	};
 
 	// Forward declaration of texture
@@ -125,10 +138,20 @@ namespace render_framework
 		*/
 		bool set_texture(const std::string& name, std::shared_ptr<texture> value);
 
+        /*
+        Sets a cubemap texture to be used by the effect
+        */
+        bool set_texture(const std::string& name, std::shared_ptr<cube_map> value);
+
 		/*
 		Binds the material for use
 		*/
 		bool bind();
+
+		/*
+		Builds the material initialising the uniform buffer
+		*/
+		bool build();
 	};
 
 	/*
@@ -205,4 +228,22 @@ namespace render_framework
 	*/
 	extern template
 	bool material::set_uniform_value(const std::string& name, const glm::mat4& value);
+
+	/*
+	Provides a directional light value for the uniform of the given name
+	*/
+	extern template
+	bool material::set_uniform_value(const std::string& name, const std::shared_ptr<directional_light>& value);
+
+	/*
+	Provides a point light value for the uniform of the given name
+	*/
+	extern template
+	bool material::set_uniform_value(const std::string& name, const std::shared_ptr<point_light>& value);
+
+	/*
+	Provides a spot light value for the uniform of the given name
+	*/
+	extern template
+	bool material::set_uniform_value(const std::string& name, const std::shared_ptr<spot_light>& value);
 }
