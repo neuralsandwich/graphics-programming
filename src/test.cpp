@@ -182,10 +182,11 @@ bool load_content() {
 		light->data.ambient_intensity = ambient_intensity;
 		light->data.colour = light_colour;
 		light->data.direction = light_direction;
+		light->build();
 
 		// Set light for objects
-		object[0]->mat->set_uniform_value("light", light);
-		plane->mat->set_uniform_value("light", light);
+		object[0]->mat->set_uniform_value("directional_light", light);
+		plane->mat->set_uniform_value("directional_light", light);
 
 		// Load texture
 		auto tex = texture_loader::load("Checkered.png");
@@ -193,6 +194,14 @@ bool load_content() {
 		// Set texture on materials
 		object[0]->mat->set_texture("tex", tex);
 		plane->mat->set_texture("tex", tex);
+
+		// Build materials 
+		if (!object[0]->mat->build()) {
+			return false;
+		}
+		if (!plane->mat->build()) {
+			return false;
+		}
 
 		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
 		plane->trans.translate(vec3(0.0, -2.0, 0.0));

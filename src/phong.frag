@@ -1,23 +1,21 @@
 #version 400
 
-struct material
+layout (std140) uniform;
+
+uniform material
 {
 	vec4 emissive;             // Emissive light values
 	vec4 diffuse_reflection;   // Diffuse reflection vector
 	vec4 specular_reflection;  // Specular reflection vector
 	float shininess;           // Materials shininess factor
-};
+} mat;
 
-uniform material mat;
-
-struct directional_light
+uniform directional_light
 {
 	vec4 ambient_intensity;    // Ambient intensity for scene
 	vec4 colour;               // Light colour
 	vec3 direction;            // Direction of the light
-};
-
-uniform directional_light light;
+} light;
 
 uniform vec3 eye_position;     // Camera position
 uniform sampler2D tex;         // Texutre sample
@@ -32,14 +30,10 @@ out vec4 col;
 
 void main() {
 
-	/*
-	 * Calculate ambient light
-	 */
+	// Calculate ambient light
 	vec4 ambient = mat.diffuse_reflection * light.ambient_intensity;
 
-	/*
-	 * Calculate diffuse light
-	 */
+	// Calculate diffuse light
 	vec4 diffuse = (mat.diffuse_reflection * light.colour) * max(dot(transformed_normal, light.direction), 0.0);
 
 	// Calculate view direction
