@@ -75,6 +75,8 @@ namespace render_framework
 		glm::mat4 _view;
 		// Current projection matrix used by the render framework
 		glm::mat4 _projection;
+		// Current shadow map being used - if relevant
+		std::shared_ptr<shadow_map> _shadow_map;
 		// Private constructor.  Class is a singleton
 		renderer() : _caption("Render Framework") { }
 		// Private copy constructor
@@ -141,6 +143,12 @@ namespace render_framework
 		// Ends a render
 		bool end_render();
 
+		// Begins a shadow render
+		bool begin_shadow_render();
+
+		// Ends a shadow render
+		bool end_shadow_render();
+
 		// Clears the screen and associated buffers
 		void clear();
 
@@ -165,6 +173,10 @@ namespace render_framework
 		// Renders an object to the screen
 		template <typename T>
 		bool render(std::shared_ptr<T> value);
+
+		// Renders an object to the shadow texture
+		template <typename T>
+		bool shadow_render(std::shared_ptr<T> value);
 	};
 
 	/*
@@ -324,6 +336,12 @@ namespace render_framework
 	bool renderer::set_uniform(const std::string& name, const glm::mat4& value);
 
 	/*
+	Sets the given uniform name with the material provided
+	*/
+	extern template
+	bool renderer::set_uniform(const std::string& name, const material& value);
+
+	/*
 	Sets the given uniform name with the directional light value provided
 	*/
 	extern template
@@ -340,12 +358,6 @@ namespace render_framework
 	*/
 	extern template
 	bool renderer::set_uniform(const std::string& name, const spot_light& value);
-
-	/*
-	Sets the given uniform name with the material value provided
-	*/
-	extern template
-	bool renderer::set_uniform(const std::string& name, const material& value);
 
 	/*
 	Default method called when a render call is made.  This method is called when
@@ -433,4 +445,43 @@ namespace render_framework
 	*/
 	extern template
 	bool renderer::render(std::shared_ptr<post_process> value);
+
+	/*
+	Default method called when a shadow render call is made.  This method is called when
+	the type of object is unknown / incorrect.  This method will display an error
+	and return false.
+	*/
+	template <typename T>
+	bool renderer::shadow_render(std::shared_ptr<T> value)
+	{
+		// Display error message
+		std::cerr << "Error trying to render the shadow of an object of unknown type" << std::endl;
+		std::cerr << "Type: " << typeid(T).name() << std::endl;
+		// Return false
+		return false;
+	}
+
+	/*
+	Renders the shadow of a piece of geometry to the scene
+	*/
+	extern template
+	bool renderer::shadow_render(std::shared_ptr<geometry> value);
+
+	/*
+	Renders the shadow of a model to the scene
+	*/
+	extern template
+	bool renderer::shadow_render(std::shared_ptr<model> value);
+
+	/*
+	Renders the shadow of a piece of terrain to the scene
+	*/
+	extern template
+	bool renderer::shadow_render(std::shared_ptr<terrain> value);
+
+	/*
+	Renders the shadow of a mesh to the scene
+	*/
+	extern template
+	bool renderer::shadow_render(std::shared_ptr<mesh> value);
 }

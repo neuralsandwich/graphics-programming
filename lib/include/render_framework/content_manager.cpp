@@ -10,6 +10,9 @@
 #include "effect.h"
 #include "frame_buffer.h"
 #include "post_process.h"
+#include "util.h"
+
+#include <glm\gtc\type_ptr.hpp>
 
 namespace render_framework
 {
@@ -610,14 +613,6 @@ namespace render_framework
 			// Cube map not loaded.  Return false
 			return false;
 
-		// Cube map loaded.  Check if geometry loaded
-		if (value->geom == nullptr || value->geom->vertex_array_object == 0)
-			// Set geometry to default skybox geometry
-			value->geom = _geometry["skybox"];
-		else
-			// Add geometry to content manager
-			_geometry[(name + "_geom")] = value->geom;
-
 		// Skybox is now built.  Add to content manager
 		// First add cube map
 		_cube_maps[(name + "_cm")] = value->tex;
@@ -693,38 +688,152 @@ namespace render_framework
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<frame_buffer>& value)
 	{
-		// TODO
-		// TODO - building SCREEN?
+        // Set the draw buffer
+        static GLenum draw_buffer = GL_COLOR_ATTACHMENT0;
+
+		// Create texture to store data into
+        value->tex = std::make_shared<texture>();
+        value->tex->width = value->width;
+        value->tex->height = value->height;
+
+        // Initialise texture with OpenGL
+        glGenTextures(1, &value->tex->image);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, value->tex->image);
+
+        // Create the image data
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, value->width, value->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+        // Set properties
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        // Check for errors
+        if (CHECK_GL_ERROR)
+            return false;
+
+        // The second buffer stores depth information
+        // Create depth texture
+        value->depth = std::make_shared<texture>();
+        value->depth->width = value->width;
+        value->depth->height = value->height;
+
+		glGenTextures(1, &value->depth->image);
+		glBindTexture(GL_TEXTURE_2D, value->depth->image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, value->width, value->height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+		// Set texture properties
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, glm::value_ptr(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
+		// Assign the shadow map to texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, value->depth->image);
+
+        // Now create the framebuffer
+        glGenFramebuffers(1, &value->buffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, value->buffer);
+        // Set the texture and depth
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, value->tex->image, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, value->depth->image, 0);
+
+        // Check for errors
+        if (CHECK_GL_ERROR)
+            return false;
+
+        // Set draw buffer
+        glDrawBuffers(1, &draw_buffer);
+
+        // Unbind framebuffer
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        // Check for errors
+        if (CHECK_GL_ERROR)
+            return false;
+
 		_frame_buffers[name] = value;
-		return false;
+		return true;
 	}
 
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<depth_buffer>& value)
 	{
-		// TODO
-		return false;
+		// Create depth texture
+		glGenTextures(1, &value->depth_texture->image);
+		glBindTexture(GL_TEXTURE_2D, value->depth_texture->image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, value->width, value->height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+		// Set texture properties
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, glm::value_ptr(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LESS);
+		// Assign the shadow map to texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, value->depth_texture->image);
+		// Create and set up the FBO
+		glGenFramebuffers(1, &value->buffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, value->buffer);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, value->depth_texture->image, 0);
+		glDrawBuffer(GL_NONE);
+		// Check framebuffer status
+		auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status != GL_FRAMEBUFFER_COMPLETE)
+		{
+			std::cerr << "Error creating depth buffer: " << status << std::endl;
+			return false;
+		}
+		// Unbind framebuffer - revert to the screen
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		return !CHECK_GL_ERROR;
 	}
 
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<shadow_map>& value)
 	{
-		// TODO
-		return false;
+		// Only need to build the depth buffer
+		return content_manager::build(name + "_depth", value->buffer);
 	}
 
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<render_pass>& value)
 	{
-		// TODO
-		return false;
+        // Check if effect is built
+        if (value->eff->program == 0)
+            if (!effect_loader::build_effect(value->eff))
+                return false;
+        // Build framebuffer if necessary
+        if (value->buffer->buffer == 0)
+            if (!build(name, value->buffer))
+                return false;
+        
+        // Add to the content manager
+        _render_passes[name] = value;
+
+		return true;
 	}
 
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<post_process>& value)
 	{
-		// TODO
-		return false;
+		// Loop through each render pass and build
+        auto index = 0;
+        for (auto& p : value->passes)
+        {
+            if (!build(name + std::string("_" + index), p))
+            {
+                std::cerr << "Failed to build all render passes for post process " << name << std::endl;
+                return false;
+            }
+        }
+		return true;
 	}
 
 	/*
@@ -1242,7 +1351,14 @@ namespace render_framework
 		}
 		else
 		{
-			// Frame buffer does not exist.  Check if built
+			// Frame buffer does not exist.  Check if screen
+            if (name == "SCREEN")
+            {
+                // Just add - no need to build
+                _frame_buffers[name] = value;
+                return true;
+            }
+            // Check if built
 			if (value->buffer == 0)
 				// Frame buffer not built.  Try and build.  Return result of
 				// build operation

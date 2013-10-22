@@ -83,7 +83,7 @@ namespace render_framework
 				glm::vec3 c2 = glm::cross(geom->normals[i], glm::vec3(0.0f, 1.0f, 0.0f));
 			
 				// Determine which vector has greater length.  This will be the tangent
-				if (glm::length2(c1) > glm::length2(c2))
+				if (glm::length(c1) > glm::length(c2))
 					tangent = c1;
 				else
 					tangent = c2;
@@ -120,7 +120,7 @@ namespace render_framework
 				// Binormal value
 				glm::vec3 binormal = glm::cross(geom->normals[i], geom->tangents[i]);
 				// Add to geometry structure
-				geom->binormals.push_back(binormal);
+				geom->binormals.push_back(glm::normalize(binormal));
 			}
 		}
 
@@ -137,6 +137,20 @@ namespace render_framework
 			glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, 0, 0);
 			glEnableVertexAttribArray(5);
 		}
+
+        // If we have texture weights data, then add to the vertex array object
+        if (geom->texture_weights.size() > 0)
+        {
+            // Generate buffer
+            glGenBuffers(1, & geom->texture_weight_buffer);
+            // Bind buffer
+            glBindBuffer(GL_ARRAY_BUFFER, geom->texture_weight_buffer);
+            // Set data for the buffer
+            glBufferData(GL_ARRAY_BUFFER, geom->texture_weights.size() * sizeof(glm::vec4), &geom->texture_weights[0], GL_STATIC_DRAW);
+            // Enable attribute pointer for texture weight data
+            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 0, 0);
+            glEnableVertexAttribArray(6);
+        }
 
 		// If we have index data, then initialise
 		if (geom->indices.size() > 0)

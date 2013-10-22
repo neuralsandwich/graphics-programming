@@ -13,7 +13,7 @@ using namespace chrono;
 
 // Global scope box
 shared_ptr<mesh> object[OBJECTS];
-shared_ptr<arc_ball_camera> cam;
+shared_ptr<free_camera> cam;
 shared_ptr<mesh> plane;
 
 
@@ -76,33 +76,38 @@ void userTranslation(float deltaTime)
 
 
 /*
- * cameraTranslation
+ * moveCamera
  *
  * Moves the object around inside the window using the keyboard arrow keys.
  */
-void cameraTranslation(float deltaTime)
+void moveCamera(float deltaTime)
 {
         // Move the quad when arrow keys are pressed
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-                cam->rotate(0.0, half_pi<float>() * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-                cam->rotate(0.0, -half_pi<float>() * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-                cam->move(-5.0f * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-                cam->move(5.0f * deltaTime);
-        }
         if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-                cam->rotate(half_pi<float>() * deltaTime, 0.0);
+                cam->move(vec3(0.0, 0.0, -5.0) * deltaTime);
         }
         if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+                cam->move(vec3(0.0, 0.0, 5.0) * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'A')) {
+                cam->move(vec3(-5.0, 0.0, 0.0) * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'D')) {
+                cam->move(vec3(5.0, 0.0, 0.0) * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'Q')) {
+                cam->rotate(half_pi<float>() * deltaTime, 0.0);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'E')) {
                 cam->rotate(-half_pi<float>() * deltaTime, 0.0);
         }
-
-} // cameraTranslation()
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+                cam->rotate(0.0, half_pi<float>() * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+                cam->rotate(0.0, -half_pi<float>() * deltaTime);
+        }
+} // moveCamera()
 
 
 /*
@@ -112,7 +117,7 @@ void cameraTranslation(float deltaTime)
  */
 void update(float deltaTime) {
 
-	cameraTranslation(deltaTime);
+	moveCamera(deltaTime);
 	userRotation(deltaTime);
 	userTranslation(deltaTime);
 
@@ -129,7 +134,7 @@ bool load_content() {
 		object[0] = make_shared<mesh>();
 
 		plane->geom = geometry_builder::create_plane();
-		object[0]->geom = geometry_builder::create_sphere();
+		object[0]->geom = geometry_builder::create_sphere(256,256, vec3(2, 2, 2));
 
 		plane->trans.translate(vec3(0.0f, -1.0f, 0.0f));
 		// Load in effect.  Start with shaders
@@ -150,31 +155,37 @@ bool load_content() {
 		// light direction is away (1, 1, -1) normalized
 		vec4 red_emissive = vec4(0.2f, 0.0f, 0.0f, 1.0f);
 		vec4 blue_emissive = vec4(0.0f, 0.0f, 0.2f, 1.0f);
-		vec4 ambient_intensity = vec4(0.1f, 0.1f, 0.1f, 1.0f);
+		vec4 ambient_intensity = vec4(0.3f, 0.3f, 0.3f, 1.0f);
 		vec4 light_colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-		vec3 light_direction = normalize(vec3(1.0, 1.0, -1.0));
-		vec4 blue_material = vec4(0.0, 0.0, 1.0, 1.0);
-		vec4 red_material = vec4(1.0, 0.0, 0.0, 1.0);
-		vec4 specular_colour = vec4(1.0, 1.0, 1.0, 1.0);
-		float shininess = 25.0f;
+		vec3 light_direction = normalize(vec3(1.0f, 1.0f, 1.0f));
+		vec4 blue_material = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		vec4 red_material = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		vec4 specular_colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		vec3 eye_position = cam->get_position();
+		float shininess = 50.0f;
+		
 		// Set shader values for object
-		object[0]->mat->set_uniform_value("emissive", red_emissive);
-		object[0]->mat->set_uniform_value("ambient_intensity", ambient_intensity);
-		object[0]->mat->set_uniform_value("material_colour", red_material);
-		object[0]->mat->set_uniform_value("specular_colour", specular_colour);
-		object[0]->mat->set_uniform_value("light_colour", light_colour);
-		object[0]->mat->set_uniform_value("light_direction", light_direction);
-		object[0]->mat->set_uniform_value("normal_matrix", object[0]->trans.get_normal_matrix());
-		object[0]->mat->set_uniform_value("shininess", shininess);
+		object[0]->mat->data.emissive = red_emissive;
+		object[0]->mat->data.diffuse_reflection = red_material;
+		object[0]->mat->data.specular_reflection = specular_colour;
+		object[0]->mat->data.shininess = shininess;
+		object[0]->mat->set_uniform_value("eye_position", eye_position);
 		// Set shader values for plane
-		plane->mat->set_uniform_value("emissive", red_emissive);
-		plane->mat->set_uniform_value("ambient_intensity", ambient_intensity);
-		plane->mat->set_uniform_value("material_colour", blue_material);
-		plane->mat->set_uniform_value("specular_colour", specular_colour);
-		plane->mat->set_uniform_value("light_colour", light_colour);
-		plane->mat->set_uniform_value("light_direction", light_direction);
-		plane->mat->set_uniform_value("normal_matrix", plane->trans.get_normal_matrix());
-		plane->mat->set_uniform_value("shininess", shininess);
+		plane->mat->data.emissive = blue_emissive;
+		plane->mat->data.diffuse_reflection = blue_material;
+		plane->mat->data.specular_reflection = specular_colour;
+		plane->mat->data.shininess = shininess;
+		plane->mat->set_uniform_value("eye_position", eye_position);
+
+		// Create light for scene
+		auto light = make_shared<directional_light>();
+		light->data.ambient_intensity = ambient_intensity;
+		light->data.colour = light_colour;
+		light->data.direction = light_direction;
+
+		// Set light for objects
+		object[0]->mat->set_uniform_value("light", light);
+		plane->mat->set_uniform_value("light", light);
 
 		// Load texture
 		auto tex = texture_loader::load("Checkered.png");
@@ -184,6 +195,7 @@ bool load_content() {
 		plane->mat->set_texture("tex", tex);
 
 		object[0]->trans.translate(vec3(0.0, 2.0, 0.0));
+		plane->trans.translate(vec3(0.0, -2.0, 0.0));
 
 	return true;
 
@@ -192,7 +204,7 @@ bool load_content() {
 
 bool load_camera() {
 	// Initialize the camera
-	cam = make_shared<arc_ball_camera>();
+	cam = make_shared<free_camera>();
 
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
@@ -205,8 +217,7 @@ bool load_camera() {
 						2.414f,							// Near plane
 						10000.0f);						// Far plane
 	// Set the camera properties
-	cam->set_position(vec3(0.0, 0.0, 0.0));
-	cam->set_distance(20.0);
+	cam->set_position(vec3(0.0, 0.0, 20.0));
 
 	// Attach camera to renderer
 	renderer::get_instance().set_camera(cam);
@@ -230,13 +241,15 @@ int main()
 	// Set the clear colour to cyan
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 
+	if (!load_camera()) {
+		return -1;
+	}
+
 	if (!load_content()) {
 		return -1;
 	}
 
-	if (!load_camera()) {
-		return -1;
-	}
+
 
 	// Monitor the elapsed time per frame
 	auto currentTimeStamp = system_clock::now();

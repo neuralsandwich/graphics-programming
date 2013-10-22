@@ -412,9 +412,9 @@ namespace render_framework
 			// Read in colour
 			point.colour = read_vec4(pt.get_child("colour"));
 			// Read in attenuation
-			point.attenuation = read_vec4(pt.get_child("attenuation"));
+			point.attenuation = read_vec3(pt.get_child("attenuation"));
 			// Read in position
-			point.position = read_vec4(pt.get_child("position"));
+			point.position = read_vec3(pt.get_child("position"));
 			// Add the point light to the scene data
 			data->lights->data.point_lights.push_back(point);
 		}
@@ -434,11 +434,11 @@ namespace render_framework
 			// Read in colour
 			spot.colour = read_vec4(pt.get_child("colour"));
 			// Read in attenuation
-			spot.attenuation = read_vec4(pt.get_child("attenuation"));
+			spot.attenuation = read_vec3(pt.get_child("attenuation"));
 			// Read in position
-			spot.position = read_vec4(pt.get_child("position"));
+			spot.position = read_vec3(pt.get_child("position"));
 			// Read in direction
-			spot.direction = read_vec4(pt.get_child("direction"));
+			spot.direction = read_vec3(pt.get_child("direction"));
 			// Read in power
 			spot.power = pt.get_child("power").get_value<float>();
 			// Add the spot light to the scene data
