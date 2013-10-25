@@ -11,20 +11,19 @@ using namespace glm;
 
 bool ContentManager::initialize() {
 
+	path = "../resources/proplist.csv";
+
+	if (!loadPropList(path)) {
+		printf("Failed to read prop list, cannot render scene.\n");
+		return false;
+	}
+
 	_running = true;
-
-	mesh box = mesh();
-	box.geom = geometry_builder::create_box();
-	box.trans.translate(vec3(0.0, 2.0, 0.0));
-
-	registerProp(box);
 
 	return true;
 }
 
-void ContentManager::update(float deltaTime) {
-
-}
+void ContentManager::update(float deltaTime) {}
 
 
 bool ContentManager::loadPropList(string path) {
@@ -54,8 +53,6 @@ bool ContentManager::loadPropList(string path) {
 
 
 void ContentManager::loadModel(vector<string> * modelPath, vector<vec3> * modelPosition) {
-
-
 
 }
 

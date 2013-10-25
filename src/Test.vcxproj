@@ -102,7 +102,7 @@
     <Image Include="Checkered.png" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\resources\proplist.txt" />
+    <Text Include="..\resources\proplist.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

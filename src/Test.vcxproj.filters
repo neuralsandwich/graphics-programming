@@ -83,7 +83,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\resources\proplist.txt">
+    <Text Include="..\resources\proplist.csv">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
