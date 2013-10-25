@@ -19,19 +19,19 @@ bool SceneManager::initialize()
 
 	// Initialize the renderer
 	if (!renderer::get_instance().initialise()) {
-		printf("Renderer failed to initialize.");
+		printf("Renderer failed to initialize.\n");
 		return false;
 	}
 
 	// Load Camera manager
 	if (!CameraManager::get_instance().initialize()) {
-		printf("Camera manager failed to initialize.");
+		printf("Camera manager failed to initialize.\n");
 		return false;
 	}
 
 	// Load Content manager
 	if (!ContentManager::get_instance().initialize()) {
-		printf("Content manager failed to initialize.");
+		printf("Content manager failed to initialize.\n");
 		return false;
 	}
 
@@ -86,7 +86,7 @@ void SceneManager::renderScene(float deltaTime)
 	{
 		int i;
 		for (i = 0; i < ContentManager::get_instance().propListSize(); ++i) {
-			printf("propList: %d index: %d", ContentManager::get_instance().propListSize(), i);
+			printf("propList: %d index: %d.\n", ContentManager::get_instance().propListSize(), i);
 			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(i));
 			renderer::get_instance().render(prop);
 		}

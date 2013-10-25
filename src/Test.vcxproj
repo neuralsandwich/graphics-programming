@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="cameramanager.cpp" />
     <ClCompile Include="ContentManager.cpp" />
+    <ClCompile Include="CSVparser.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="coursework.cpp" />
     <ClCompile Include="scenemanager.cpp" />
@@ -80,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="contentmanager.h" />
+    <ClInclude Include="CSVparser.hpp" />
     <ClInclude Include="scenemanager.h" />
     <ClInclude Include="usercontrols.h" />
     <ClInclude Include="objloader.hpp" />
@@ -98,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\resources\proplist.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

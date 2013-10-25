@@ -21,7 +21,7 @@ bool initialize() {
 
 	// Load Content manager
 	if (!SceneManager::get_instance().initialize()) {
-		printf("Scene manager failed to initialize.");
+		printf("Scene manager failed to initialize.\n");
 		return false;
 	}
 
@@ -33,7 +33,7 @@ int main (int argc,char *argv[]) {
 
 	// Initialize needed managers and the render_framework
 	if(!initialize()) {
-		printf("Initialization Fail.");
+		printf("Initialization Fail.\n");
 		return -1;
 	} else {
 		printf("Initialization complete!\n");

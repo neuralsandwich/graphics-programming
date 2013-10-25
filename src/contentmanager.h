@@ -1,6 +1,8 @@
 #include <vector>
+#include <GLM\glm.hpp>
 #include <render_framework\render_framework.h>
 
+using namespace std;
 using namespace render_framework;
 
 class ContentManager {
@@ -38,6 +40,11 @@ public:
 	// Get propList's size
 	int propListSize();
 
+	// Load Content
+	bool loadPropList(string path);
+
+	void loadModel(vector<string> * modelPath, vector<glm::vec3> * modelPosition);
+
 private:
 
 	// Private flag for current status of the manager
@@ -45,6 +52,9 @@ private:
 	 
 	// Private collection of objects
 	std::deque<mesh> propList;
+
+	// Path to scene prop list
+	string path;
 
 	// Private constructor (This CameraManager is a singleton)
 	ContentManager() {};

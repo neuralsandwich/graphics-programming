@@ -4,6 +4,7 @@
 #include <GLM\glm.hpp>
 
 #include "objloader.hpp"
+#include "CSVparser.hpp"
 
 using namespace std;
 using namespace glm;
@@ -11,7 +12,7 @@ using namespace glm;
 bool ContentManager::initialize() {
 
 	_running = true;
-	
+
 	mesh box = mesh();
 	box.geom = geometry_builder::create_box();
 	box.trans.translate(vec3(0.0, 2.0, 0.0));
@@ -24,6 +25,40 @@ bool ContentManager::initialize() {
 void ContentManager::update(float deltaTime) {
 
 }
+
+
+bool ContentManager::loadPropList(string path) {
+	printf("Loading Scene from %s.\n", path);
+
+	vector<string> modelPath;
+	vector<vec3> modelPosition;
+
+	try {
+		csv::Parser file = csv::Parser(path);
+
+		int i;
+		for (i=0; i < file.rowCount(); ++i) {
+			modelPath.push_back(file[i][0]);
+			modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
+		}
+
+	} catch (csv::Error &e) {
+		std::cerr << e.what() << std::endl;
+		return false;
+	}
+
+	loadModel(&modelPath, &modelPosition);
+
+	return true;
+}
+
+
+void ContentManager::loadModel(vector<string> * modelPath, vector<vec3> * modelPosition) {
+
+
+
+}
+
 
 /*
 * Register object with scene manager for rendering
@@ -63,6 +98,6 @@ int ContentManager::propListSize() {
 
 
 void ContentManager::shutdown() {
-	
+
 	_running = false;
 }
