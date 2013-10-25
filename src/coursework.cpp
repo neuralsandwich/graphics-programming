@@ -7,8 +7,9 @@
 #include <chrono>
 #include "scenemanager.h"
 #include "cameramanager.h"
+#include "objloader.hpp"
 
-#pragma commet (lib, "Render Framework");
+#pragma comment (lib, "Render Framework")
 
 using namespace std;
 using namespace glm;
@@ -17,20 +18,6 @@ using namespace chrono;
 
 bool initialize() {
 
-	// Initialize the renderer
-	if (!renderer::get_instance().initialise()) {
-		printf("Renderer failed to initialize.");
-		return false;
-	}
-
-	// Set the clear colour to cyan
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
-
-	// Load Camera manager
-	if (!CameraManager::get_instance().initialize()) {
-		printf("Camera manager failed to initialize.");
-		return false;
-	}
 
 	// Load Content manager
 	if (!SceneManager::get_instance().initialize()) {
@@ -39,7 +26,8 @@ bool initialize() {
 	}
 
 	return true;
-}
+} // initialize()
+
 
 int main (int argc,char *argv[]) {
 
@@ -48,7 +36,7 @@ int main (int argc,char *argv[]) {
 		printf("Initialization Fail.");
 		return -1;
 	} else {
-		printf("Initialization complete!");
+		printf("Initialization complete!\n");
 	}
 
 	// Monitor the elapsed time per frame
@@ -66,19 +54,13 @@ int main (int argc,char *argv[]) {
 		auto seconds = float(elapsed.count()) / 1000.0;
 
 		// Update Scene
-		SceneManager::get_instance().update(seconds);
+		SceneManager::get_instance().updateScene(seconds);
 
-		// Check if running
-		if (renderer::get_instance().begin_render())
-		{
-			// Render scene objects
-			SceneManager::get_instance().render_scene();
-
-		}
+		SceneManager::get_instance().renderScene(seconds);
 
 		prevTimeStamp = currentTimeStamp;
 
 	} // Main render loop
 
 	return 0;
-}
+} // main()

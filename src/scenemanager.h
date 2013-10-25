@@ -24,24 +24,15 @@ public:
 	bool initialize();
 
 	// Render all registered objects
-	void render_scene();
+	void renderScene(float deltaTime);
 
-	// Updates all registers objects in the scene
-	void update(float deltaTime);
-
-	// Register object with scene manager for rendering
-	void registerObject(shared_ptr<mesh> object);
-
-	// Unregister object with scene manager
-	void unregisterObject(shared_ptr<mesh> object);
+	// Updates the current scene
+	void updateScene(float deltaTime);
 
 private:
 
 	// Private flag for current status of the manager
 	bool _running;
-
-	// Private collection of objects
-	std::deque<shared_ptr<mesh>> propList;
 
 	// Private constructor (This SceneManager is a singleton)
 	SceneManager() {};

@@ -69,7 +69,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="camaremanager.cpp" />
+    <ClCompile Include="cameramanager.cpp" />
+    <ClCompile Include="ContentManager.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="coursework.cpp" />
     <ClCompile Include="scenemanager.cpp" />
@@ -78,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="contentmanager.h" />
     <ClInclude Include="scenemanager.h" />
     <ClInclude Include="usercontrols.h" />
     <ClInclude Include="objloader.hpp" />

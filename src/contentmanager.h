@@ -1,16 +1,18 @@
 #include <vector>
 #include <render_framework\render_framework.h>
 
-class CameraManager {
+using namespace render_framework;
+
+class ContentManager {
 
 public:
 	// Destructor for CameraManager
-	~CameraManager() { shutdown(); };
+	~ContentManager() { shutdown(); };
 
 	// Gets singleton instance o 
-	static CameraManager& get_instance()
+	static ContentManager& get_instance()
 	{
-		static CameraManager instance;
+		static ContentManager instance;
 
 		return instance;
 	}
@@ -24,22 +26,31 @@ public:
 	// Update cameras
 	void update(float deltaTime);
 
+	// Register object with scene manager for rendering
+	void registerProp(mesh object);
+
+	// Unregister object with scene manager
+	void unregisterProp(mesh object);
+
+	// Get object at index
+	mesh getPropAt(int index);
+
 private:
 
 	// Private flag for current status of the manager
 	bool _running;
-
-	// vector of cameras
-	std::vector<render_framework::free_camera> cameras;
+	 
+	// Private collection of objects
+	std::deque<mesh> propList;
 
 	// Private constructor (This CameraManager is a singleton)
-	CameraManager() {};
+	ContentManager() {};
 
 	// Private copy constructor
-	CameraManager(const CameraManager&);
+	ContentManager(const ContentManager&);
 
 	// Private assignment operator
-	void operator=(CameraManager&);
+	void operator=(ContentManager&);
 
 	void shutdown();
 

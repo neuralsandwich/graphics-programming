@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include <GLM\glm.hpp>
+#include <render_framework\render_framework.h>
 
 #include "objloader.hpp"
 
@@ -95,3 +96,6 @@ bool loadOBJ(
 		}
 		return true;
 }
+
+//render_framework::geometry loadModel(const char * path) {
+//}
