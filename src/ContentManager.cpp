@@ -56,6 +56,11 @@ mesh ContentManager::getPropAt(int index) {
 	return result;
 }
 
+// Get propList's size
+int ContentManager::propListSize() {
+	return propList.size();
+}
+
 
 void ContentManager::shutdown() {
 	

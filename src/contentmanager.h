@@ -35,6 +35,9 @@ public:
 	// Get object at index
 	mesh getPropAt(int index);
 
+	// Get propList's size
+	int propListSize();
+
 private:
 
 	// Private flag for current status of the manager
