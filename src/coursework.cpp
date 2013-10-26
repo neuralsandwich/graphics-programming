@@ -7,7 +7,6 @@
 #include <chrono>
 #include "scenemanager.h"
 #include "cameramanager.h"
-#include "objloader.hpp"
 
 #pragma comment (lib, "Render Framework")
 

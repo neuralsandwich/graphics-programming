@@ -10,6 +10,7 @@ using namespace std;
 using namespace glm;
 
 bool ContentManager::initialize() {
+	cout << "## Initializing ContentManager ##" << endl;
 
 	path = "proplist.csv";
 
@@ -20,6 +21,8 @@ bool ContentManager::initialize() {
 
 	_running = true;
 
+
+	cout << "## Initialized ContentManager ##" << endl;
 	return true;
 }
 
@@ -27,25 +30,31 @@ void ContentManager::update(float deltaTime) {}
 
 
 bool ContentManager::loadPropList(string path) {
+	cout << "## Loading prop list ##" << endl;
 	printf("Loading Scene from %s.\n", path.c_str());
 
 	vector<string> modelPath;
 	vector<vec3> modelPosition;
 
 	try {
+		cout << "Parsing file" << endl;
 		csv::Parser file = csv::Parser(path);
-
+		cout << "Finished parsing file" << endl;
 		int i;
+		cout << "Loading prop list" << endl;
 		for (i=0; i < file.rowCount(); ++i) {
 			modelPath.push_back(file[i][0]);
 			modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
 		}
+		cout << "Finished loading prop list" << endl;
 
+		cout << "Loading prop" << endl;
 		for (i=0; i < modelPath.size(); ++i) {
 			if (!loadModel(modelPath.at(i), modelPosition.at(i))) {
 				return false;
 			}
 		}
+		cout << "Finished loading prop" << endl;
 
 	} catch (csv::Error &e) {
 		std::cerr << e.what() << std::endl;
@@ -53,24 +62,60 @@ bool ContentManager::loadPropList(string path) {
 	}
 
 
-
+	cout << "## Loaded prop list ##" << endl;
 	return true;
 }
 
 
 bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
-	mesh model;
+	cout << "## Loading Model ##" << endl;
+
 	std::vector<tinyobj::shape_t> shapes;
 
+	cout << "## tinyobjloader loading file ##" << endl;
 	std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
-
-	std::cout << "# of shapes : " << shapes.size() << std::endl;
+	cout << "## tinyobjloader loaded file ##" << endl;
 
 	if (!err.empty()) {
 		std::cerr << err << std::endl;
 		return false;
 	}
 
+
+	cout << "## Loading model data ##" << endl;
+	int i, j;
+	for (i=0; i < shapes.size(); ++i) {
+		assert((shapes[i].mesh.positions.size() % 3) == 0);
+		cout << "Loading model" << shapes[i].name << endl;
+		shared_ptr<mesh> model = make_shared<mesh>();
+		model->geom = make_shared<geometry>();
+
+		cout << "Loading " << shapes[i].mesh.positions.size() << " positions and " << shapes[i].mesh.normals.size() << " normals" << endl;
+		for (j=0; j < shapes[i].mesh.positions.size() / 3 ; ++j) {
+			model->geom->positions.push_back(vec3(shapes[i].mesh.positions[3*j+0],
+												  shapes[i].mesh.positions[3*j+1],
+												  shapes[i].mesh.positions[3*j+2]));
+
+			model->geom->normals.push_back(vec3(shapes[i].mesh.normals[3*j+0],
+												shapes[i].mesh.normals[3*j+1],
+												shapes[i].mesh.normals[3*j+2]));
+		}
+
+		assert((shapes[i].mesh.texcoords.size() % 2) == 0);
+		cout << "Loading " << shapes[i].mesh.texcoords.size() << " texcoords" << endl;
+		for (j=0; j < shapes[i].mesh.texcoords.size() / 2; ++j) {
+			model->geom->tex_coords.push_back(vec2(shapes[i].mesh.texcoords[2*j+0],
+											       shapes[i].mesh.texcoords[2*j+1]));
+		}
+
+		assert((shapes[i].mesh.indices.size() % 3) == 0);
+		model->geom->indices = shapes[i].mesh.indices;
+		geometry_builder::initialise_geometry(model->geom);
+
+		registerProp(*model);
+	}
+
+	cout << "## Model Loaded ##" << endl;
 
 	return true;
 }

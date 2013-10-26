@@ -16,12 +16,18 @@ using namespace glm;
 */
 bool SceneManager::initialize()
 {
-
+	cout << "## Initializing ##" << endl;
 	// Initialize the renderer
 	if (!renderer::get_instance().initialise()) {
 		printf("Renderer failed to initialize.\n");
 		return false;
 	}
+
+	// Set Scene Clear colour to cyan
+	// Then render the blue background, just something nicer to look at
+	// While we load everything else.
+	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+	renderScene(0.0);
 
 	// Load Camera manager
 	if (!CameraManager::get_instance().initialize()) {
@@ -35,8 +41,6 @@ bool SceneManager::initialize()
 		return false;
 	}
 
-	// Set Scene Clear colour to cyan
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 
 	// Create the projection matrix
 	// get the aspect ration (Width/height)
@@ -60,6 +64,8 @@ bool SceneManager::initialize()
 
 	_running = true;
 
+
+	cout << "## Initialization Complete ##" << endl;
 	return true;
 }
 
