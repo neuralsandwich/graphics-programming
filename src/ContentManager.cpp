@@ -3,7 +3,7 @@
 #include <iostream>
 #include <GLM\glm.hpp>
 
-#include "objloader.hpp"
+#include "tiny_obj_loader.h"
 #include "CSVparser.hpp"
 
 using namespace std;
@@ -11,7 +11,7 @@ using namespace glm;
 
 bool ContentManager::initialize() {
 
-	path = "../resources/proplist.csv";
+	path = "proplist.csv";
 
 	if (!loadPropList(path)) {
 		printf("Failed to read prop list, cannot render scene.\n");
@@ -42,7 +42,9 @@ bool ContentManager::loadPropList(string path) {
 		}
 
 		for (i=0; i < modelPath.size(); ++i) {
-			loadModel(modelPath.at(i), modelPosition.at(i));
+			if (!loadModel(modelPath.at(i), modelPosition.at(i))) {
+				return false;
+			}
 		}
 
 	} catch (csv::Error &e) {
@@ -56,17 +58,21 @@ bool ContentManager::loadPropList(string path) {
 }
 
 
-void ContentManager::loadModel(string modelPath, vec3 modelPosition) {
+bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
+	mesh model;
+	std::vector<tinyobj::shape_t> shapes;
 
-	printf("Loading model from %s.\n", modelPath.c_str());
+	std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
 
-	// Read our .obj file
-	std::vector< glm::vec3 > vertices;
-	std::vector< glm::vec2 > uvs;
-	std::vector< glm::vec3 > normals;
+	std::cout << "# of shapes : " << shapes.size() << std::endl;
 
-	loadOBJ(modelPath.c_str(), vertices, uvs, normals);
-	printf("Model data Loaded");
+	if (!err.empty()) {
+		std::cerr << err << std::endl;
+		return false;
+	}
+
+
+	return true;
 }
 
 

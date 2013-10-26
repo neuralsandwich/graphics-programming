@@ -76,6 +76,7 @@
     <ClCompile Include="coursework.cpp" />
     <ClCompile Include="scenemanager.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="tiny_obj_loader.cc" />
     <ClCompile Include="usercontrols.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +84,7 @@
     <ClInclude Include="contentmanager.h" />
     <ClInclude Include="CSVparser.hpp" />
     <ClInclude Include="scenemanager.h" />
+    <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="usercontrols.h" />
     <ClInclude Include="objloader.hpp" />
     <ClInclude Include="resource.h" />
@@ -95,14 +97,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\resources\Earth.mtl" />
+    <None Include="..\resources\Map__24_Composite.tga" />
+    <None Include="..\resources\Map__28_Falloff.tga" />
     <None Include="phong.frag" />
     <None Include="phong.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\resources\Earth-bumpmap.jpg" />
+    <Image Include="..\resources\Earth-cloud.jpg" />
+    <Image Include="..\resources\Earth-specularmap.jpg" />
+    <Image Include="..\resources\Earth.jpg" />
     <Image Include="Checkered.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\resources\proplist.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\resources\Earth.obj">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Resource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

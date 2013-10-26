@@ -39,6 +39,9 @@
     <ClCompile Include="CSVparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tiny_obj_loader.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -68,6 +71,9 @@
     <ClInclude Include="CSVparser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tiny_obj_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="phong.frag">
@@ -76,9 +82,30 @@
     <None Include="phong.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\resources\Earth.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\Map__28_Falloff.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\Map__24_Composite.tga">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth-bumpmap.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth-cloud.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth-specularmap.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -86,5 +113,10 @@
     <Text Include="..\resources\proplist.csv">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\resources\Earth.obj">
+      <Filter>Resource Files</Filter>
+    </Resource>
   </ItemGroup>
 </Project>
