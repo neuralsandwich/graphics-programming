@@ -43,7 +43,7 @@ public:
 	// Load Content
 	bool loadPropList(string path);
 
-	void loadModel(vector<string> * modelPath, vector<glm::vec3> * modelPosition);
+	void loadModel(string modelPath, glm::vec3 modelPosition);
 
 private:
 

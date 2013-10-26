@@ -27,7 +27,7 @@ void ContentManager::update(float deltaTime) {}
 
 
 bool ContentManager::loadPropList(string path) {
-	printf("Loading Scene from %s.\n", path);
+	printf("Loading Scene from %s.\n", path.c_str());
 
 	vector<string> modelPath;
 	vector<vec3> modelPosition;
@@ -41,19 +41,32 @@ bool ContentManager::loadPropList(string path) {
 			modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
 		}
 
+		for (i=0; i < modelPath.size(); ++i) {
+			loadModel(modelPath.at(i), modelPosition.at(i));
+		}
+
 	} catch (csv::Error &e) {
 		std::cerr << e.what() << std::endl;
 		return false;
 	}
 
-	loadModel(&modelPath, &modelPosition);
+
 
 	return true;
 }
 
 
-void ContentManager::loadModel(vector<string> * modelPath, vector<vec3> * modelPosition) {
+void ContentManager::loadModel(string modelPath, vec3 modelPosition) {
 
+	printf("Loading model from %s.\n", modelPath.c_str());
+
+	// Read our .obj file
+	std::vector< glm::vec3 > vertices;
+	std::vector< glm::vec2 > uvs;
+	std::vector< glm::vec3 > normals;
+
+	loadOBJ(modelPath.c_str(), vertices, uvs, normals);
+	printf("Model data Loaded");
 }
 
 
