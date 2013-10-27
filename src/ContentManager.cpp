@@ -19,8 +19,14 @@ bool ContentManager::initialize() {
         return false;
     }
 
-    _running = true;
+    // Testing
+    //mesh box = mesh();
+    //box.geom = geometry_builder::create_box();
+    //box.trans.translate(vec3(0.0, 0.0, 0.0));
 
+    //registerProp(box);
+
+    _running = true;
 
     cout << "## Initialized ContentManager ##" << endl;
     return true;
@@ -50,11 +56,13 @@ bool ContentManager::loadPropList(string path) {
 
         cout << "Loading prop" << endl;
         for (i=0; i < modelPath.size(); ++i) {
-            if (!loadModel(modelPath.at(i), modelPosition.at(i))) {
+            if (!loadModel(modelPath.at(0), modelPosition.at(0))) {
                 return false;
             }
         }
         cout << "Finished loading prop" << endl;
+
+        Sleep(10000);
 
     } catch (csv::Error &e) {
         std::cerr << e.what() << std::endl;
@@ -122,7 +130,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         model->mat = make_shared<material>();
         model->mat->effect = eff;
 
-		// Set shader data here!
+        // Set shader data here!
 
         registerProp(*model);
     }
@@ -156,9 +164,6 @@ void ContentManager::unregisterProp(mesh object)
 
 // Get object at index
 mesh ContentManager::getPropAt(int index) {
-
-    printf("Getting Prop at index: %d.\n", index);
-    printf("propList is %d long.\n", propList.size());
     mesh result = propList.at(index);
     mesh result1 = result;
     return result;

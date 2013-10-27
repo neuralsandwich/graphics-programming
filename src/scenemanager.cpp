@@ -28,12 +28,14 @@ bool SceneManager::initialize()
 	// While we load everything else.
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 	renderScene(0.0);
-
+	
 	// Load Camera manager
 	if (!CameraManager::get_instance().initialize()) {
 		printf("Camera manager failed to initialize.\n");
 		return false;
 	}
+
+	renderer::get_instance().set_camera(CameraManager::get_instance().currentCamera);
 
 	// Load Content manager
 	if (!ContentManager::get_instance().initialize()) {
@@ -42,7 +44,6 @@ bool SceneManager::initialize()
 	}
 
 	_running = true;
-
 
 	cout << "## Initialization Complete ##" << endl;
 	return true;
@@ -58,7 +59,6 @@ void SceneManager::updateScene(float deltaTime)
 	CameraManager::get_instance().getCameraAtIndex(0).move(ContentManager::get_instance().getPropAt(0).trans.position,
 														   eulerAngles(ContentManager::get_instance().getPropAt(0).trans.orientation));
 	CameraManager::get_instance().update(deltaTime);
-	
 	ContentManager::get_instance().update(deltaTime);
 }
 
@@ -68,16 +68,16 @@ void SceneManager::updateScene(float deltaTime)
 */
 void SceneManager::renderScene(float deltaTime)
 {
-	printf("Rendering.\n");
+	printf("## Rendering ##\n");
 
 	if (renderer::get_instance().begin_render())
 	{
 		int i;
 		for (i = 0; i < ContentManager::get_instance().propListSize(); ++i) {
-			printf("propList: %d index: %d.\n", ContentManager::get_instance().propListSize(), i);
-			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(i));
+			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(0));
 			renderer::get_instance().render(prop);
-			printf("Prop has been rendered.\n");
+			//cout << "-- Camera Details --" << endl;
+			//cout << "Position: " 
 		}
 	}
 	// End the render
