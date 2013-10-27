@@ -50,7 +50,7 @@ int main (int argc,char *argv[]) {
 		// Calculate elapsed time
 		auto elapsed = duration_cast<milliseconds>(currentTimeStamp - prevTimeStamp);
 		// Convert to fractions of a second
-		auto seconds = float(elapsed.count()) / 1000.0;
+		auto seconds = float(elapsed.count()) / 1000.0f;
 
 		// Update Scene
 		SceneManager::get_instance().updateScene(seconds);

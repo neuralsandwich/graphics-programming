@@ -41,27 +41,6 @@ bool SceneManager::initialize()
 		return false;
 	}
 
-
-	// Create the projection matrix
-	// get the aspect ration (Width/height)
-	float aspect = (float)renderer::get_instance().get_screen_width()
-		/ (float)renderer::get_instance().get_screen_height();
-
-	// Use aspect to create projection matrix
-	auto projection = perspective(degrees(quarter_pi<float>()), // FOV
-		aspect,						// aspect ratio
-		2.414f,						// Near plane
-		10000.0f);					// far plane
-	// Set the projection matrix
-	renderer::get_instance().set_projection(projection);
-
-	// Create the view matrix
-	auto view = lookAt(vec3(20.0f, 20.0f, 20.0f),
-		vec3(0.0f, 0.0f, 0.0),
-		vec3(0.0f, 1.0, 0.0f));
-	// Set the view matrix
-	renderer::get_instance().set_view(view);
-
 	_running = true;
 
 
@@ -76,7 +55,10 @@ void SceneManager::updateScene(float deltaTime)
 {
 	printf("Updating scene.\n");
 
+	CameraManager::get_instance().getCameraAtIndex(0).move(ContentManager::get_instance().getPropAt(0).trans.position,
+														   eulerAngles(ContentManager::get_instance().getPropAt(0).trans.orientation));
 	CameraManager::get_instance().update(deltaTime);
+	
 	ContentManager::get_instance().update(deltaTime);
 }
 
@@ -95,6 +77,7 @@ void SceneManager::renderScene(float deltaTime)
 			printf("propList: %d index: %d.\n", ContentManager::get_instance().propListSize(), i);
 			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(i));
 			renderer::get_instance().render(prop);
+			printf("Prop has been rendered.\n");
 		}
 	}
 	// End the render
