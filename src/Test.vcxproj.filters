@@ -18,7 +18,25 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="coursework.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="usercontrols.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scenemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cameramanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSVparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tiny_obj_loader.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,6 +47,27 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="usercontrols.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scenemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="contentmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVparser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tiny_obj_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="phong.frag">
@@ -37,10 +76,41 @@
     <None Include="phong.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\resources\Earth.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\Map__28_Falloff.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\Map__24_Composite.tga">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Checkered.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\resources\Earth.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth-bumpmap.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth-cloud.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\resources\Earth-specularmap.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\resources\proplist.csv">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\resources\Earth.obj">
+      <Filter>Resource Files</Filter>
+    </Resource>
   </ItemGroup>
 </Project>
