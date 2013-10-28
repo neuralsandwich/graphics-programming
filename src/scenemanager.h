@@ -29,6 +29,8 @@ public:
 	// Updates the current scene
 	void updateScene(float deltaTime);
 
+	shared_ptr<directional_light> light;
+
 private:
 
 	// Private flag for current status of the manager

@@ -43,6 +43,11 @@ bool SceneManager::initialize()
 		return false;
 	}
 
+	light = make_shared<directional_light>();
+	light->data.ambient_intensity = vec4(0.3, 0.3, 0.3, 1.0);
+	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
+	light->data.direction = normalize(vec3(1.0, 1.0, 1.0));
+
 	_running = true;
 
 	cout << "## Initialization Complete ##" << endl;

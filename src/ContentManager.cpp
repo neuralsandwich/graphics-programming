@@ -5,6 +5,8 @@
 
 #include "tiny_obj_loader.h"
 #include "CSVparser.hpp"
+#include "cameramanager.h"
+#include "scenemanager.h"
 
 using namespace std;
 using namespace glm;
@@ -62,8 +64,6 @@ bool ContentManager::loadPropList(string path) {
         }
         cout << "Finished loading prop" << endl;
 
-        Sleep(10000);
-
     } catch (csv::Error &e) {
         std::cerr << e.what() << std::endl;
         return false;
@@ -112,12 +112,14 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         assert((shapes[i].mesh.texcoords.size() % 2) == 0);
         cout << "Loading " << shapes[i].mesh.texcoords.size() << " texcoords" << endl;
         for (j=0; j < shapes[i].mesh.texcoords.size() / 2; ++j) {
-            model->geom->tex_coords.push_back(vec2(shapes[i].mesh.texcoords[2*j+0],
-                                                   shapes[i].mesh.texcoords[2*j+1]));
+			// Invert texture coordinates due to 3d max exporting issues
+            model->geom->tex_coords.push_back(vec2(-shapes[i].mesh.texcoords[2*j+0],
+                                                   -shapes[i].mesh.texcoords[2*j+1]));
         }
 
         assert((shapes[i].mesh.indices.size() % 3) == 0);
         model->geom->indices = shapes[i].mesh.indices;
+
         geometry_builder::initialise_geometry(model->geom);
 
         auto eff = make_shared<effect>();
@@ -131,6 +133,38 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         model->mat->effect = eff;
 
         // Set shader data here!
+
+        // Set shader values for object
+        model->mat->set_uniform_value("emissive", vec4(0.2,0.2,0.2,1.0));
+
+        model->mat->set_uniform_value("ambient_intensity", vec4(shapes[i].material.diffuse[0],
+                                                                shapes[i].material.diffuse[1],
+                                                                shapes[i].material.diffuse[2],
+                                                                1.0));
+
+        model->mat->set_uniform_value("specular_colour", vec4(shapes[i].material.specular[0],
+                                                              shapes[i].material.specular[1],
+                                                              shapes[i].material.specular[2],
+                                                              1.0));
+
+        model->mat->data.shininess = shapes[i].material.shininess;
+        model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
+
+        // Test Code
+        //model->mat->set_uniform_value("light", SceneManager::get_instance().light);
+        model->mat->set_uniform_value("light_colour", vec4(1.0, 1.0, 1.0, 1.0));
+        model->mat->set_uniform_value("light_direction", vec3(1.0, 1.0, -1.0));
+        model->mat->set_uniform_value("material_colour", vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        model->mat->set_uniform_value("shininess", shapes[i].material.shininess);
+
+        if (i == 0) {
+            auto tex = texture_loader::load("Earth.jpg");
+            model->mat->set_texture("tex", tex);
+        } else {
+            auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
+            model->mat->set_texture("tex", tex);
+        }
+
 
         registerProp(*model);
     }
@@ -146,7 +180,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
 */
 void ContentManager::registerProp(mesh object)
 {
-    printf("propList has %d membersi.\n", propList.size());
+    printf("propList has %d members.\n", propList.size());
     printf("Added Prop.\n");
     propList.push_back(object);
     printf("propList now has %d members.\n", propList.size());
