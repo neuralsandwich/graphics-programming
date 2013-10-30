@@ -53,7 +53,11 @@ private:
 	// Private copy constructor
 	CameraManager(const CameraManager&);
 
+	// Create new camera
 	bool createCamera(arc_ball_camera cam);
+
+	// Move current Camera
+	void CameraManager::moveCamera(float deltaTime);
 
 	// Private assignment operator
 	void operator=(CameraManager&);

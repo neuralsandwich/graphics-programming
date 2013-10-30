@@ -45,6 +45,14 @@ bool CameraManager::initialize()
 // Update cameras
 void CameraManager::update(float deltaTime) {
 
+	// Update current camera position
+	moveCamera(deltaTime);
+
+	currentCamera->update(deltaTime);
+}
+
+void CameraManager::moveCamera(float deltaTime) {
+
 	// Move the camera when keys are pressed
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
 		currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
@@ -64,8 +72,6 @@ void CameraManager::update(float deltaTime) {
 	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
 		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
 	}
-
-	currentCamera->update(deltaTime);
 }
 
 arc_ball_camera CameraManager::getCameraAtIndex(int index) {
