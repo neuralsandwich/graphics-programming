@@ -1,0 +1,16 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 30.10.2013 20:42:15
+
+newmtl Material_1
+	Ns 17.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.6078 0.6078 0.6078
+	Kd 0.6078 0.6078 0.6078
+	Ks 0.1655 0.1655 0.1655
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Sean\Downloads\Sputnik-1\Sputnik-1\extras\textures\medres\SPUTNIK.JPG
+	map_Kd C:\Users\Sean\Downloads\Sputnik-1\Sputnik-1\extras\textures\medres\SPUTNIK.JPG
