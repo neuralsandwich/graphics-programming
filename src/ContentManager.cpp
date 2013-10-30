@@ -123,8 +123,8 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         geometry_builder::initialise_geometry(model->geom);
 
         auto eff = make_shared<effect>();
-        eff->add_shader("phong.vert", GL_VERTEX_SHADER);
-        eff->add_shader("phong.frag", GL_FRAGMENT_SHADER);
+        eff->add_shader("Earth.vert", GL_VERTEX_SHADER);
+        eff->add_shader("Earth.frag", GL_FRAGMENT_SHADER);
         if (!effect_loader::build_effect(eff)) {
             return false;
         }
@@ -135,36 +135,25 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         // Set shader data here!
 
         // Set shader values for object
-        model->mat->set_uniform_value("emissive", vec4(0.2,0.2,0.2,1.0));
-
-        model->mat->set_uniform_value("ambient_intensity", vec4(shapes[i].material.diffuse[0],
-                                                                shapes[i].material.diffuse[1],
-                                                                shapes[i].material.diffuse[2],
-                                                                1.0));
-
-        model->mat->set_uniform_value("specular_colour", vec4(shapes[i].material.specular[0],
-                                                              shapes[i].material.specular[1],
-                                                              shapes[i].material.specular[2],
-                                                              1.0));
-
+		model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], 1.0);
+		model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], 1.0);
+		model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], 1.0);
         model->mat->data.shininess = shapes[i].material.shininess;
-        model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
+		model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 
-        // Test Code
-        //model->mat->set_uniform_value("light", SceneManager::get_instance().light);
-        model->mat->set_uniform_value("light_colour", vec4(1.0, 1.0, 1.0, 1.0));
-        model->mat->set_uniform_value("light_direction", vec3(1.0, 1.0, -1.0));
-        model->mat->set_uniform_value("material_colour", vec4(1.0f, 1.0f, 1.0f, 1.0f));
-        model->mat->set_uniform_value("shininess", shapes[i].material.shininess);
+		model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
 
         if (i == 0) {
-            auto tex = texture_loader::load("Earth.jpg");
+            auto tex = texture_loader::load("Earth.png");
             model->mat->set_texture("tex", tex);
         } else {
             auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
             model->mat->set_texture("tex", tex);
         }
 
+		if (!model->mat->build()) {
+			return false;
+		}
 
         registerProp(*model);
     }

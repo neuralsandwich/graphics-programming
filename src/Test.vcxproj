@@ -98,8 +98,8 @@
     <None Include="..\resources\Earth.mtl" />
     <None Include="..\resources\Map__24_Composite.tga" />
     <None Include="..\resources\Map__28_Falloff.tga" />
-    <None Include="phong.frag" />
-    <None Include="phong.vert" />
+    <None Include="Earth.frag" />
+    <None Include="Earth.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\resources\Earth-bumpmap.jpg" />
@@ -107,6 +107,7 @@
     <Image Include="..\resources\Earth-specularmap.jpg" />
     <Image Include="..\resources\Earth.jpg" />
     <Image Include="Checkered.png" />
+    <Image Include="Earth.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\resources\proplist.csv" />

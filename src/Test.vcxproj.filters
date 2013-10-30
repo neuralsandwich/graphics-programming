@@ -70,12 +70,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="phong.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="phong.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\resources\Earth.mtl">
       <Filter>Resource Files</Filter>
     </None>
@@ -83,6 +77,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\resources\Map__24_Composite.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Earth.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Earth.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -100,6 +100,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\resources\Earth-specularmap.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Earth.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

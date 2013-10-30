@@ -21,7 +21,7 @@ public:
 	// Gets the current running state of the CameraManger
 	bool is_running() const { return _running; }
 
-	shared_ptr<chase_camera> currentCamera;
+	shared_ptr<arc_ball_camera> currentCamera;
 
 	// Initialise the CameraManager
 	bool initialize();
@@ -30,14 +30,14 @@ public:
 	void update(float deltaTime);
 
 	// Register camera with CameraManager
-	void registerCamera(chase_camera cam);
+	void registerCamera(arc_ball_camera cam);
 
 	// Unregister camera with CameraManager
 	void unregisterCamera(int index);
 
-	chase_camera getCameraAtIndex(int index);
+	arc_ball_camera getCameraAtIndex(int index);
 
-	void setRenderCamera(chase_camera cam);
+	void setRenderCamera(arc_ball_camera cam);
 
 private:
 
@@ -45,7 +45,7 @@ private:
 	bool _running;
 
 	// vector of cameras
-	std::vector<chase_camera> cameras;
+	std::vector<arc_ball_camera> cameras;
 
 	// Private constructor (This CameraManager is a singleton)
 	CameraManager() {};
@@ -53,7 +53,7 @@ private:
 	// Private copy constructor
 	CameraManager(const CameraManager&);
 
-	bool createCamera(chase_camera cam);
+	bool createCamera(arc_ball_camera cam);
 
 	// Private assignment operator
 	void operator=(CameraManager&);

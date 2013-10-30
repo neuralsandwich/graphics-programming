@@ -26,9 +26,17 @@ bool SceneManager::initialize()
 	// Set Scene Clear colour to cyan
 	// Then render the blue background, just something nicer to look at
 	// While we load everything else.
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	renderScene(0.0);
 	
+	light = make_shared<directional_light>();
+	light->data.ambient_intensity = vec4(0.2, 0.2, 0.2, 1.0);
+	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
+	light->data.direction = normalize(vec3(-1.0, 0.0, 1.0));
+	if (!light->build()) {
+		return false;
+	}
+
 	// Load Camera manager
 	if (!CameraManager::get_instance().initialize()) {
 		printf("Camera manager failed to initialize.\n");
@@ -43,11 +51,6 @@ bool SceneManager::initialize()
 		return false;
 	}
 
-	light = make_shared<directional_light>();
-	light->data.ambient_intensity = vec4(0.3, 0.3, 0.3, 1.0);
-	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
-	light->data.direction = normalize(vec3(1.0, 1.0, 1.0));
-
 	_running = true;
 
 	cout << "## Initialization Complete ##" << endl;
@@ -61,8 +64,7 @@ void SceneManager::updateScene(float deltaTime)
 {
 	printf("Updating scene.\n");
 
-	CameraManager::get_instance().getCameraAtIndex(0).move(ContentManager::get_instance().getPropAt(0).trans.position,
-														   eulerAngles(ContentManager::get_instance().getPropAt(0).trans.orientation));
+	CameraManager::get_instance().getCameraAtIndex(0).set_target(ContentManager::get_instance().getPropAt(0).trans.position);
 	CameraManager::get_instance().update(deltaTime);
 	ContentManager::get_instance().update(deltaTime);
 }
@@ -81,8 +83,10 @@ void SceneManager::renderScene(float deltaTime)
 		for (i = 0; i < ContentManager::get_instance().propListSize(); ++i) {
 			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(0));
 			renderer::get_instance().render(prop);
-			//cout << "-- Camera Details --" << endl;
-			//cout << "Position: " 
+			cout << "-- Camera Details --" << endl;
+			cout << "Position: " << CameraManager::get_instance().currentCamera->get_position().x << " "
+				 << CameraManager::get_instance().currentCamera->get_position().y << " "
+				 << CameraManager::get_instance().currentCamera->get_position().z << "\n";
 		}
 	}
 	// End the render
