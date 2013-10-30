@@ -30,7 +30,7 @@ bool SceneManager::initialize()
 	renderScene(0.0);
 	
 	light = make_shared<directional_light>();
-	light->data.ambient_intensity = vec4(0.2, 0.2, 0.2, 1.0);
+	light->data.ambient_intensity = vec4(0.1, 0.1, 0.1, 1.0);
 	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
 	light->data.direction = normalize(vec3(-1.0, 0.0, 1.0));
 	if (!light->build()) {
@@ -66,6 +66,7 @@ void SceneManager::updateScene(float deltaTime)
 
 	CameraManager::get_instance().getCameraAtIndex(0).set_target(ContentManager::get_instance().getPropAt(0).trans.position);
 	CameraManager::get_instance().update(deltaTime);
+	ContentManager::get_instance().getPropAt(0).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 	ContentManager::get_instance().update(deltaTime);
 }
 

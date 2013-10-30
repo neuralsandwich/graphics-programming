@@ -112,7 +112,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         assert((shapes[i].mesh.texcoords.size() % 2) == 0);
         cout << "Loading " << shapes[i].mesh.texcoords.size() << " texcoords" << endl;
         for (j=0; j < shapes[i].mesh.texcoords.size() / 2; ++j) {
-			// Invert texture coordinates due to 3d max exporting issues
+            // Invert texture coordinates due to 3d max exporting issues
             model->geom->tex_coords.push_back(vec2(-shapes[i].mesh.texcoords[2*j+0],
                                                    -shapes[i].mesh.texcoords[2*j+1]));
         }
@@ -135,13 +135,13 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         // Set shader data here!
 
         // Set shader values for object
-		model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], 1.0);
-		model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], 1.0);
-		model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], 1.0);
+        model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], 1.0);
+        model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], 1.0);
+        model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], 1.0);
         model->mat->data.shininess = shapes[i].material.shininess;
-		model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
+        model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 
-		model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
+        model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
 
         if (i == 0) {
             auto tex = texture_loader::load("Earth.png");
@@ -151,9 +151,9 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
             model->mat->set_texture("tex", tex);
         }
 
-		if (!model->mat->build()) {
-			return false;
-		}
+        if (!model->mat->build()) {
+            return false;
+        }
 
         registerProp(*model);
     }

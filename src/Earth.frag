@@ -4,20 +4,20 @@ layout (std140) uniform;
 
 uniform material
 {
-	vec4 emissive;				// Emissive light values
-	vec4 diffuse_reflection;	// Colour for diffuse light reflected from material 
-	vec4 specular_reflection;   // Colour for specular light reflected from material 
-	float shininess;             // Materials shininess factor
+    vec4 emissive;				// Emissive light values
+    vec4 diffuse_reflection;	// Colour for diffuse light reflected from material 
+    vec4 specular_reflection;   // Colour for specular light reflected from material 
+    float shininess;             // Materials shininess factor
 } mat;
 
 uniform directional_light
 {
-	vec4 ambient_intensity;     // Ambient intensity for scene
-	vec4 colour;                // Light colour
-	vec3 direction;             // Direction of the light
+    vec4 ambient_intensity;     // Ambient intensity for scene
+    vec4 colour;                // Light colour
+    vec3 direction;             // Direction of the light
 } light;
 
-	
+    
 uniform vec3 eye_position;		// Camera Position			
 uniform sampler2D tex;
 
@@ -71,5 +71,5 @@ void main() {
 
     // Calculate final fragment colour
     col = (primary_colour  * tex_colour) + secondary_colour;
-	col.a = 1.0;
+    col.a = 1.0;
 }
