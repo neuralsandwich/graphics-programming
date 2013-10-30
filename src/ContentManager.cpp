@@ -43,6 +43,7 @@ bool ContentManager::loadPropList(string path) {
 
     vector<string> modelPath;
     vector<vec3> modelPosition;
+	vector<vec3> modelRotation;
 
     try {
         cout << "Parsing file" << endl;
@@ -53,12 +54,13 @@ bool ContentManager::loadPropList(string path) {
         for (i=0; i < file.rowCount(); ++i) {
             modelPath.push_back(file[i][0]);
             modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
+			modelRotation.push_back(vec3(stof(file[i][4]), stof(file[i][5]), stof(file[i][6])));
         }
         cout << "Finished loading prop list" << endl;
 
         cout << "Loading prop" << endl;
         for (i=0; i < modelPath.size(); ++i) {
-            if (!loadModel(modelPath.at(i), modelPosition.at(i))) {
+            if (!loadModel(modelPath.at(i), modelPosition.at(i), modelRotation.at(i))) {
                 return false;
             }
         }
@@ -75,7 +77,7 @@ bool ContentManager::loadPropList(string path) {
 }
 
 
-bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
+bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelRotation) {
     cout << "## Loading Model ##" << endl;
 
     std::vector<tinyobj::shape_t> shapes;
@@ -151,6 +153,8 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         }
 
 		model->trans.position = modelPosition;
+		quat rot(modelRotation);
+		model->trans.orientation = model->trans.orientation * rot;
 
         registerProp(*model);
     }
