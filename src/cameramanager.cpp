@@ -47,22 +47,22 @@ void CameraManager::update(float deltaTime) {
 
 	// Move the camera when keys are pressed
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		currentCamera->rotate(0.0f, half_pi<float>() * deltaTime);
+		currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		currentCamera->rotate(0.0f, -half_pi<float>() * deltaTime);
+		currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		currentCamera->move(-5.0f * deltaTime);
+		currentCamera->move(-20.0f * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		currentCamera->move(5.0f * deltaTime);
+		currentCamera->move(20.0f * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		currentCamera->rotate(half_pi<float>() * deltaTime, 0.0);
+		currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		currentCamera->rotate(-half_pi<float>() * deltaTime, 0.0);
+		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
 	}
 
 	currentCamera->update(deltaTime);

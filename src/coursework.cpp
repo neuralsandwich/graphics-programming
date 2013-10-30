@@ -17,6 +17,8 @@ using namespace chrono;
 
 bool initialize() {
 
+	// Set window title
+	renderer::get_instance().set_caption("10004520 Coursework");
 
 	// Load Content manager
 	if (!SceneManager::get_instance().initialize()) {

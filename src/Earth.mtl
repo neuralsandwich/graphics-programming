@@ -10,6 +10,7 @@ newmtl wire_088088225
 	Ka 0.3451 0.3451 0.8824
 	Kd 0.3451 0.3451 0.8824
 	Ks 0.3500 0.3500 0.3500
+	map_kd Earth.png
 
 newmtl Clouds
 	Ns 10.0000
@@ -22,8 +23,8 @@ newmtl Clouds
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Sean\dev\graphics-programming\src\Earth-cloud.jpg
-	map_Kd C:\Users\Sean\dev\graphics-programming\src\Earth-cloud.jpg
+	map_Ka Earth-cloud.jpg
+	map_Kd Earth-cloud.jpg
 	map_d Map__24_Composite.tga
 
 newmtl 03___Default

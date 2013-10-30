@@ -82,7 +82,7 @@ void SceneManager::renderScene(float deltaTime)
 	{
 		int i;
 		for (i = 0; i < ContentManager::get_instance().propListSize(); ++i) {
-			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(0));
+			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(i));
 			renderer::get_instance().render(prop);
 			cout << "-- Camera Details --" << endl;
 			cout << "Position: " << CameraManager::get_instance().currentCamera->get_position().x << " "

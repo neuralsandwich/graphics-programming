@@ -58,7 +58,7 @@ bool ContentManager::loadPropList(string path) {
 
         cout << "Loading prop" << endl;
         for (i=0; i < modelPath.size(); ++i) {
-            if (!loadModel(modelPath.at(0), modelPosition.at(0))) {
+            if (!loadModel(modelPath.at(i), modelPosition.at(i))) {
                 return false;
             }
         }
@@ -94,7 +94,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
     int i, j;
     for (i=0; i < shapes.size(); ++i) {
         assert((shapes[i].mesh.positions.size() % 3) == 0);
-        cout << "Loading model" << shapes[i].name << endl;
+        cout << "Loading model " << shapes[i].name << endl;
         shared_ptr<mesh> model = make_shared<mesh>();
         model->geom = make_shared<geometry>();
 
@@ -143,17 +143,14 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
 
         model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
 
-        if (i == 0) {
-            auto tex = texture_loader::load("Earth.png");
-            model->mat->set_texture("tex", tex);
-        } else {
-            auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
-            model->mat->set_texture("tex", tex);
-        }
+		auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
+        model->mat->set_texture("tex", tex);
 
         if (!model->mat->build()) {
             return false;
         }
+
+		model->trans.position = modelPosition;
 
         registerProp(*model);
     }
