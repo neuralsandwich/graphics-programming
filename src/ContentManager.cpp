@@ -44,6 +44,7 @@ bool ContentManager::loadPropList(string path) {
     vector<string> modelPath;
     vector<vec3> modelPosition;
 	vector<vec3> modelRotation;
+	vector<string> modelVert, modelFrag;
 
     try {
         cout << "Parsing file" << endl;
@@ -55,12 +56,14 @@ bool ContentManager::loadPropList(string path) {
             modelPath.push_back(file[i][0]);
             modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
 			modelRotation.push_back(vec3(stof(file[i][4]), stof(file[i][5]), stof(file[i][6])));
+			modelVert.push_back(file[i][7]);
+			modelFrag.push_back(file[i][8]);
         }
         cout << "Finished loading prop list" << endl;
 
         cout << "Loading prop" << endl;
         for (i=0; i < modelPath.size(); ++i) {
-            if (!loadModel(modelPath.at(i), modelPosition.at(i), modelRotation.at(i))) {
+            if (!loadModel(modelPath.at(i), modelPosition.at(i), modelRotation.at(i), modelVert.at(i), modelFrag.at(i))) {
                 return false;
             }
         }
@@ -77,7 +80,7 @@ bool ContentManager::loadPropList(string path) {
 }
 
 
-bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelRotation) {
+bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelRotation, string modelVert, string modelFrag) {
     cout << "## Loading Model ##" << endl;
 
     std::vector<tinyobj::shape_t> shapes;
@@ -125,8 +128,8 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelR
         geometry_builder::initialise_geometry(model->geom);
 
         auto eff = make_shared<effect>();
-        eff->add_shader("Earth.vert", GL_VERTEX_SHADER);
-        eff->add_shader("Earth.frag", GL_FRAGMENT_SHADER);
+        eff->add_shader(modelVert, GL_VERTEX_SHADER);
+		eff->add_shader(modelFrag, GL_FRAGMENT_SHADER);
         if (!effect_loader::build_effect(eff)) {
             return false;
         }
@@ -137,9 +140,9 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelR
         // Set shader data here!
 
         // Set shader values for object
-        model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], 1.0);
-        model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], 1.0);
-        model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], 1.0);
+        model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], shapes[i].material.transmittance[0]);
+        model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], shapes[i].material.transmittance[0]);
+        model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], shapes[i].material.transmittance[0]);
         model->mat->data.shininess = shapes[i].material.shininess;
         model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 

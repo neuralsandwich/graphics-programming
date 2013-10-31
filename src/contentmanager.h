@@ -43,7 +43,7 @@ public:
 	// Load Content
 	bool loadPropList(string path);
 
-	bool loadModel(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation);
+	bool loadModel(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
 
 private:
 

@@ -51,6 +51,8 @@ bool SceneManager::initialize()
 		return false;
 	}
 
+	_focus = vec3(0.0, 0.0, 0.0);
+
 	_running = true;
 
 	cout << "## Initialization Complete ##" << endl;
@@ -64,8 +66,20 @@ void SceneManager::updateScene(float deltaTime)
 {
 	printf("Updating scene.\n");
 
-	CameraManager::get_instance().getCameraAtIndex(0).set_target(ContentManager::get_instance().getPropAt(0).trans.position);
+	// Move the camera when keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_0)) {
+		_focus = ContentManager::get_instance().getPropAt(0).trans.position;
+		CameraManager::get_instance().currentCamera->set_distance(300.0f);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_1)) {
+		_focus = ContentManager::get_instance().getPropAt(3).trans.position;
+		CameraManager::get_instance().currentCamera->set_distance(10.0f);
+	}
+	cout << _focus.x << " " << _focus.y << " "<< _focus.z << "\n" << endl;
+	
+	CameraManager::get_instance().currentCamera->set_target(_focus);
 	CameraManager::get_instance().update(deltaTime);
+
 	ContentManager::get_instance().getPropAt(0).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 	ContentManager::get_instance().update(deltaTime);
 }

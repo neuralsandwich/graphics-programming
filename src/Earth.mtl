@@ -3,14 +3,15 @@
 
 newmtl wire_088088225
 	Ns 32
-	d 1
+	d 1.0
 	Tr 0
 	Tf 1 1 1
 	illum 2
 	Ka 0.3451 0.3451 0.8824
 	Kd 0.3451 0.3451 0.8824
 	Ks 0.3500 0.3500 0.3500
-	map_kd Earth.png
+	Kt 1.000 1.0000 1.0000
+	map_Kd Earth.png
 
 newmtl Clouds
 	Ns 10.0000
@@ -23,6 +24,7 @@ newmtl Clouds
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
+	Kt 0.2000 0.2000 0.2000
 	map_Ka Earth-cloud.jpg
 	map_Kd Earth-cloud.jpg
 	map_d Map__24_Composite.tga
@@ -30,7 +32,7 @@ newmtl Clouds
 newmtl 03___Default
 	Ns 10.0000
 	Ni 1.5000
-	d 1.0000
+	d 0.2000
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
@@ -38,6 +40,7 @@ newmtl 03___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
+	Kt 0.0500 0.0500 0.0500
 	map_Ka Map__28_Falloff.tga
 	map_Kd Map__28_Falloff.tga
 	map_d Map__28_Falloff.tga

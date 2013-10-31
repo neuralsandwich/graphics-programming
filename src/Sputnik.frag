@@ -71,4 +71,5 @@ void main() {
 
     // Calculate final fragment colour
     col = (primary_colour  * tex_colour) + secondary_colour;
+    col.a = 1.0;
 }
