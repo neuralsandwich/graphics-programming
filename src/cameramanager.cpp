@@ -20,7 +20,7 @@ bool CameraManager::initialize()
 	// Use this to set the camera projection matrix
 	cam.set_projection(quarter_pi<float>(), // FOV
 		aspect,              // Aspect ratio
-		2.414f,              // Near plane
+		0.2f,              // Near plane
 		10000.0f);           // Far plane
 	// Set the camera properties
 	cam.set_target(vec3(0.0, 0.0, 0.0));

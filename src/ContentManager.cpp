@@ -140,9 +140,9 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelR
         // Set shader data here!
 
         // Set shader values for object
-        model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], shapes[i].material.transmittance[0]);
-        model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], shapes[i].material.transmittance[0]);
-        model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], shapes[i].material.transmittance[0]);
+        model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], shapes[i].material.transmittance[i]);
+        model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], shapes[i].material.transmittance[i]);
+        model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], shapes[i].material.transmittance[i]);
         model->mat->data.shininess = shapes[i].material.shininess;
         model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 
