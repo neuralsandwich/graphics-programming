@@ -67,13 +67,17 @@ void SceneManager::updateScene(float deltaTime)
 	printf("Updating scene.\n");
 
 	// Move the camera when keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_0)) {
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
 		_focus = ContentManager::get_instance().getPropAt(0).trans.position;
 		CameraManager::get_instance().currentCamera->set_distance(300.0f);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_KP_1)) {
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
 		_focus = ContentManager::get_instance().getPropAt(3).trans.position;
 		CameraManager::get_instance().currentCamera->set_distance(10.0f);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
+		_focus = ContentManager::get_instance().getPropAt(7).trans.position;
+		CameraManager::get_instance().currentCamera->set_distance(300.0f);
 	}
 	cout << _focus.x << " " << _focus.y << " "<< _focus.z << "\n" << endl;
 	

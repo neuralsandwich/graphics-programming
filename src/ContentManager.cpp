@@ -43,8 +43,8 @@ bool ContentManager::loadPropList(string path) {
 
     vector<string> modelPath;
     vector<vec3> modelPosition;
-	vector<vec3> modelRotation;
-	vector<string> modelVert, modelFrag;
+    vector<vec3> modelRotation;
+    vector<string> modelVert, modelFrag;
 
     try {
         cout << "Parsing file" << endl;
@@ -55,9 +55,9 @@ bool ContentManager::loadPropList(string path) {
         for (i=0; i < file.rowCount(); ++i) {
             modelPath.push_back(file[i][0]);
             modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
-			modelRotation.push_back(vec3(stof(file[i][4]), stof(file[i][5]), stof(file[i][6])));
-			modelVert.push_back(file[i][7]);
-			modelFrag.push_back(file[i][8]);
+            modelRotation.push_back(vec3(stof(file[i][4]), stof(file[i][5]), stof(file[i][6])));
+            modelVert.push_back(file[i][7]);
+            modelFrag.push_back(file[i][8]);
         }
         cout << "Finished loading prop list" << endl;
 
@@ -129,7 +129,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelR
 
         auto eff = make_shared<effect>();
         eff->add_shader(modelVert, GL_VERTEX_SHADER);
-		eff->add_shader(modelFrag, GL_FRAGMENT_SHADER);
+        eff->add_shader(modelFrag, GL_FRAGMENT_SHADER);
         if (!effect_loader::build_effect(eff)) {
             return false;
         }
@@ -148,16 +148,16 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelR
 
         model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
 
-		auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
+        auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
         model->mat->set_texture("tex", tex);
 
         if (!model->mat->build()) {
             return false;
         }
 
-		model->trans.position = modelPosition;
-		quat rot(modelRotation);
-		model->trans.orientation = model->trans.orientation * rot;
+        model->trans.position = modelPosition;
+        quat rot(modelRotation);
+        model->trans.orientation = model->trans.orientation * rot;
 
         registerProp(*model);
     }

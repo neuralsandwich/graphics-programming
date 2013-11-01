@@ -76,6 +76,9 @@
     <Object Include="Sputnik.obj">
       <Filter>Resource Files</Filter>
     </Object>
+    <Object Include="Moon.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <None Include="Earth.vert">
@@ -99,6 +102,21 @@
     <None Include="Map__28_Falloff.tga">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="moon.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Moon.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Moon.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sputnik.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sputnik.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Earth-specularmap.jpg">
@@ -114,6 +132,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Earth-cloud.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="moon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="moon_normal.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
