@@ -12,28 +12,51 @@ using namespace glm;
 
 bool CameraManager::initialize()
 {
-	arc_ball_camera cam = arc_ball_camera();
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
 	float aspect = (float)renderer::get_instance().get_screen_width()
 		         / (float)renderer::get_instance().get_screen_height();
-	// Use this to set the camera projection matrix
-	cam.set_projection(quarter_pi<float>(), // FOV
-		aspect,              // Aspect ratio
-		0.2f,              // Near plane
-		10000.0f);           // Far plane
-	// Set the camera properties
-	cam.set_target(vec3(0.0, 0.0, 0.0));
-	cam.set_distance(300.0f);
 
-	registerCamera(cam);
+	// Set Earth Camera
+	arc_ball_camera ecam = arc_ball_camera();
+	// Use this to set the camera projection matrix
+	ecam.set_projection(quarter_pi<float>(), // FOV
+						aspect,              // Aspect ratio
+						0.2f,                // Near plane
+		                10000.0f);           // Far plane
+	// Set the camera properties
+	ecam.set_target(vec3(0.0,0.0,0.0));
+	ecam.set_distance(300.0f);
+	registerCamera(ecam);
+
+	arc_ball_camera scam = arc_ball_camera();
+	// Use this to set the camera projection matrix
+	scam.set_projection(quarter_pi<float>(), // FOV
+						aspect,              // Aspect ratio
+						0.2f,                // Near plane
+		                10000.0f);           // Far plane
+	// Set the camera properties
+	scam.set_target(vec3(0.0, 0.0, 280.0));
+	scam.set_distance(20.0f);
+	registerCamera(scam);
+
+	arc_ball_camera mcam = arc_ball_camera();
+	// Use this to set the camera projection matrix
+	scam.set_projection(quarter_pi<float>(), // FOV
+						aspect,              // Aspect ratio
+						0.2f,                // Near plane
+		                10000.0f);           // Far plane
+	// Set the camera properties
+	scam.set_target(vec3(-1000.0, 0.0, -1000.0));
+	scam.set_distance(200.0f);
+	registerCamera(mcam);
 
 	currentCamera = make_shared<arc_ball_camera>(cameras.at(0));
 
 	// Set the view matrix
 	auto view = lookAt(vec3(20.0f, 20.0f, 20.0f), // Camera position
-		vec3(0.0f, 0.0f, 0.0f),    // Target
-		vec3(0.0f, 1.0f, 0.0f));   // Up vector
+		               vec3(0.0f, 0.0f, 0.0f),    // Target
+		               vec3(0.0f, 1.0f, 0.0f));   // Up vector
 
 	renderer::get_instance().set_view(view);
 
@@ -55,23 +78,36 @@ void CameraManager::moveCamera(float deltaTime) {
 
 	// Move the camera when keys are pressed
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
+		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0f);
+
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
+		currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0f);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		currentCamera->move(-20.0f * deltaTime);
+		currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		currentCamera->move(20.0f * deltaTime);
+		currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
 	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0);
+	/*if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		currentCamera->move(vec3(0.0, 0.0, -5.0) * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
+		currentCamera->move(vec3(0.0, 0.0, 5.0) * deltaTime);
 	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'A')) {
+		currentCamera->move(vec3(-5.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'D')) {
+		currentCamera->move(vec3(5.0, 0.0, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT_SHIFT)) {
+		currentCamera->move(vec3(0.0, 2.5, 0.0) * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT_CONTROL)) {
+		currentCamera->move(vec3(0.0, -2.5, 0.0) * deltaTime);
+	}*/
 }
 
 arc_ball_camera CameraManager::getCameraAtIndex(int index) {
@@ -79,7 +115,8 @@ arc_ball_camera CameraManager::getCameraAtIndex(int index) {
 }
 
 void CameraManager::setRenderCamera(arc_ball_camera cam) {
-	renderer::get_instance().set_camera(make_shared<arc_ball_camera>(cam));
+	currentCamera = make_shared<arc_ball_camera>(cam);
+	renderer::get_instance().set_camera(currentCamera);
 }
 
 void CameraManager::registerCamera(arc_ball_camera cam) {

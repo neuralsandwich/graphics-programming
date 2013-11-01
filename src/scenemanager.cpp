@@ -67,24 +67,34 @@ void SceneManager::updateScene(float deltaTime)
 	printf("Updating scene.\n");
 
 	// Move the camera when keys are pressed
+	// Earth Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
+		//CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
 		_focus = ContentManager::get_instance().getPropAt(0).trans.position;
-		CameraManager::get_instance().currentCamera->set_distance(300.0f);
+        CameraManager::get_instance().currentCamera->set_distance(300.0f);
 	}
+	// Sputnik
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
+		//CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
 		_focus = ContentManager::get_instance().getPropAt(3).trans.position;
-		CameraManager::get_instance().currentCamera->set_distance(10.0f);
+        CameraManager::get_instance().currentCamera->set_distance(20.0f);
 	}
+	// Moon
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
+		//CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
 		_focus = ContentManager::get_instance().getPropAt(7).trans.position;
-		CameraManager::get_instance().currentCamera->set_distance(300.0f);
+        CameraManager::get_instance().currentCamera->set_distance(200.0f);
 	}
 	cout << _focus.x << " " << _focus.y << " "<< _focus.z << "\n" << endl;
-	
+
 	CameraManager::get_instance().currentCamera->set_target(_focus);
 	CameraManager::get_instance().update(deltaTime);
+	
+	int i;
+	for (i=0; i < ContentManager::get_instance().propListSize(); ++i) {
+		ContentManager::get_instance().getPropAt(i).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
+	}
 
-	ContentManager::get_instance().getPropAt(0).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 	ContentManager::get_instance().update(deltaTime);
 }
 
@@ -106,6 +116,9 @@ void SceneManager::renderScene(float deltaTime)
 			cout << "Position: " << CameraManager::get_instance().currentCamera->get_position().x << " "
 				 << CameraManager::get_instance().currentCamera->get_position().y << " "
 				 << CameraManager::get_instance().currentCamera->get_position().z << "\n";
+			cout << "Target: " << CameraManager::get_instance().currentCamera->get_target().x << " "
+				 << CameraManager::get_instance().currentCamera->get_target().y << " "
+				 << CameraManager::get_instance().currentCamera->get_target().z << "\n";
 		}
 	}
 	// End the render
