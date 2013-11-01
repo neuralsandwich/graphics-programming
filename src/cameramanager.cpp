@@ -27,6 +27,7 @@ bool CameraManager::initialize()
 	// Set the camera properties
 	ecam.set_target(vec3(0.0,0.0,0.0));
 	ecam.set_distance(300.0f);
+	ecam.set_rotationY(0.336f);
 	registerCamera(ecam);
 
 	arc_ball_camera scam = arc_ball_camera();

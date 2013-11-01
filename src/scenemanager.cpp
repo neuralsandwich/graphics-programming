@@ -72,12 +72,15 @@ void SceneManager::updateScene(float deltaTime)
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
 		_focus = ContentManager::get_instance().getPropAt(0).trans.position;
         CameraManager::get_instance().currentCamera->set_distance(300.0f);
+		CameraManager::get_instance().currentCamera->set_rotationY(0.336f);
 	}
 	// Sputnik
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
 		_focus = ContentManager::get_instance().getPropAt(3).trans.position;
         CameraManager::get_instance().currentCamera->set_distance(5.0f);
+		CameraManager::get_instance().currentCamera->set_rotationY(-0.1000f);
+		CameraManager::get_instance().currentCamera->set_rotationY(0.4578f);
 	}
 	// Moon
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
@@ -119,6 +122,8 @@ void SceneManager::renderScene(float deltaTime)
 			cout << "Target: " << CameraManager::get_instance().currentCamera->get_target().x << " "
 				 << CameraManager::get_instance().currentCamera->get_target().y << " "
 				 << CameraManager::get_instance().currentCamera->get_target().z << "\n";
+			cout << "rotX: " << CameraManager::get_instance().currentCamera->get_rotationX() << ""
+				 << "rotY: " << CameraManager::get_instance().currentCamera->get_rotationY() << endl;
 		}
 	}
 	// End the render
