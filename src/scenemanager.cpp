@@ -69,21 +69,21 @@ void SceneManager::updateScene(float deltaTime)
 	// Move the camera when keys are pressed
 	// Earth Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
-		//CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
+		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
 		_focus = ContentManager::get_instance().getPropAt(0).trans.position;
         CameraManager::get_instance().currentCamera->set_distance(300.0f);
 	}
 	// Sputnik
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
-		//CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
+		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
 		_focus = ContentManager::get_instance().getPropAt(3).trans.position;
-        CameraManager::get_instance().currentCamera->set_distance(20.0f);
+        CameraManager::get_instance().currentCamera->set_distance(5.0f);
 	}
 	// Moon
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
-		//CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
+		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
 		_focus = ContentManager::get_instance().getPropAt(7).trans.position;
-        CameraManager::get_instance().currentCamera->set_distance(200.0f);
+        CameraManager::get_instance().currentCamera->set_distance(100.0f);
 	}
 	cout << _focus.x << " " << _focus.y << " "<< _focus.z << "\n" << endl;
 
