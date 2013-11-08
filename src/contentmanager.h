@@ -39,11 +39,6 @@ public:
 	// Get propList's size
 	int prop_list_size();
 
-	// Load Content
-	bool load_prop_list(string path);
-
-	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
-
 private:
 
 	// Private flag for current status of the manager
@@ -60,6 +55,15 @@ private:
 
 	// Private copy constructor
 	ContentManager(const ContentManager&);
+
+	// Load Content
+	bool load_prop_list(string path);
+
+	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
+
+	bool load_scene_object(string path);
+
+	mesh load_mesh(const aiMesh* pMesh, const aiScene* pScene);
 
 	// Private assignment operator
 	void operator=(ContentManager&);

@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include <GLM\glm.hpp>
+#include <assimp\Importer.hpp>
+#include <assimp\postprocess.h>
+#include <assimp\mesh.h>
+#include <assimp\scene.h>
 
 #include "tiny_obj_loader.h"
 #include "CSVparser.hpp"
@@ -239,4 +243,42 @@ bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 model
 	cout << "## Model Loaded ##" << endl;
 
 	return true;
+}
+
+bool ContentManager::load_scene_object(string path) {
+	Assimp::Importer importer;
+	const aiScene* scene = NULL;
+
+	// Check if the file exists
+	ifstream fin(path.c_str());
+	if(!fin.fail()) {
+		fin.close();
+	} else {
+		cerr << "ERROR: Couldn't open file:" << path << endl;
+		cerr << importer.GetErrorString() << endl;
+		return false;
+	}
+
+	scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_Quality);
+
+	// If the import failed, report it
+	if (!scene) {
+		cerr << importer.GetErrorString() << endl;
+		return false;
+	} else {
+		int i;
+		for (i = 0;i < scene->mNumMeshes; ++i) {
+			const aiMesh* mesh = scene->mMeshes[i];
+			register_prop(load_mesh(mesh, scene));
+		}
+	}
+
+	// Now we can acces the files contents.
+	cout << "Import of " << path << " succeed." << endl;
+
+	// Done
+	return true;
+}
+
+mesh ContentManager::load_mesh(const aiMesh* pMesh, const aiScene* pScene) {
 }
