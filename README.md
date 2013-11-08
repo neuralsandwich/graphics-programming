@@ -1,4 +1,6 @@
 Introduction to Graphics Programming
 ====================================
 
-Repository for all programs written for the introduction to graphics programming module
+Switch between cameras using 1, 2 & 3.
+
+You can move and rotate the camera using the arrow keys and W & S.

@@ -36,6 +36,8 @@ private:
 	// Private flag for current status of the manager
 	bool _running;
 
+	glm::vec3 _focus;
+
 	// Private constructor (This SceneManager is a singleton)
 	SceneManager() {};
 

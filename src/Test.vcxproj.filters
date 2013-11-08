@@ -70,47 +70,75 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="phong.frag">
+    <Object Include="Earth.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="Sputnik.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+    <Object Include="Moon.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Earth.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="phong.vert">
+    <None Include="Sputnik.mtl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\resources\Earth.mtl">
+    <None Include="Earth.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\resources\Map__28_Falloff.tga">
+    <None Include="Earth.mtl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\resources\Map__24_Composite.tga">
+    <None Include="proplist.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Map__24_Composite.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Map__28_Falloff.tga">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="moon.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Moon.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Moon.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sputnik.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sputnik.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Checkered.png">
+    <Image Include="Earth-specularmap.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\resources\Earth.jpg">
+    <Image Include="sputnik.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\resources\Earth-bumpmap.jpg">
+    <Image Include="Earth.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\resources\Earth-cloud.jpg">
+    <Image Include="Earth-bumpmap.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\resources\Earth-specularmap.jpg">
+    <Image Include="Earth-cloud.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\resources\proplist.csv">
+    <Image Include="moon.png">
       <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\resources\Earth.obj">
+    </Image>
+    <Image Include="moon_normal.jpg">
       <Filter>Resource Files</Filter>
-    </Resource>
+    </Image>
   </ItemGroup>
 </Project>

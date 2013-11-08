@@ -12,56 +12,96 @@ using namespace glm;
 
 bool CameraManager::initialize()
 {
-    chase_camera cam = chase_camera();
-    /* Set the projection matrix */
-    // First get the aspect ratio (width/height)
-    float aspect = (float)renderer::get_instance().get_screen_width()
-                 / (float)renderer::get_instance().get_screen_width();
-    // Use this to set the camera projection matrix
-    cam.set_projection(quarter_pi<float>(), // FOV
-                       aspect,              // Aspect ratio
-                       2.414f,              // Near plane
-                       10000.0f);           // Far plane
-    // Set the camera properties
-    cam.set_position(vec3(100.0, 100.0, 100.0));
-    cam.set_springiness(0.001);
-    cam.set_position_offset(vec3(200.0, 200.0, 200.0));
+	/* Set the projection matrix */
+	// First get the aspect ratio (width/height)
+	float aspect = (float)renderer::get_instance().get_screen_width()
+		         / (float)renderer::get_instance().get_screen_height();
 
-    registerCamera(cam);
+	// Set Earth Camera
+	arc_ball_camera ecam = arc_ball_camera();
+	// Use this to set the camera projection matrix
+	ecam.set_projection(quarter_pi<float>(), // FOV
+						aspect,              // Aspect ratio
+						0.2f,                // Near plane
+		                10000.0f);           // Far plane
+	// Set the camera properties
+	ecam.set_target(vec3(0.0,0.0,0.0));
+	ecam.set_distance(300.0f);
+	ecam.set_rotationY(0.336f);
+	registerCamera(ecam);
 
-    currentCamera = make_shared<chase_camera>(cameras.at(0));
+	arc_ball_camera scam = arc_ball_camera();
+	// Use this to set the camera projection matrix
+	scam.set_projection(quarter_pi<float>(), // FOV
+						aspect,              // Aspect ratio
+						0.2f,                // Near plane
+		                10000.0f);           // Far plane
+	// Set the camera properties
+	registerCamera(scam);
 
-    // Set the view matrix
-    auto view = lookAt(vec3(20.0f, 20.0f, 20.0f), // Camera position
-                       vec3(0.0f, 0.0f, 0.0f),    // Target
-                       vec3(0.0f, 1.0f, 0.0f));   // Up vector
+	arc_ball_camera mcam = arc_ball_camera();
+	// Use this to set the camera projection matrix
+	mcam.set_projection(quarter_pi<float>(), // FOV
+						aspect,              // Aspect ratio
+						0.2f,                // Near plane
+		                10000.0f);           // Far plane
+	// Set the camera properties
+	registerCamera(mcam);
 
-    renderer::get_instance().set_view(view);
+	currentCamera = make_shared<arc_ball_camera>(cameras.at(0));
 
-    printf("Camera manager initialized.\n");
+	printf("Camera manager initialized.\n");
 
-    return true;
+	return true;
 }
 
 // Update cameras
 void CameraManager::update(float deltaTime) {
-    currentCamera->update(deltaTime);
+
+	// Update current camera position
+	moveCamera(deltaTime);
+
+	currentCamera->update(deltaTime);
 }
 
-chase_camera CameraManager::getCameraAtIndex(int index) {
-    return cameras.at(index);
+void CameraManager::moveCamera(float deltaTime) {
+
+        // Move the camera when keys are pressed
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+                currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+                currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+                currentCamera->move(-20.0f * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+                currentCamera->move(20.0f * deltaTime);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+                currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0);
+        }
+        if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+                currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
+        }
 }
 
-void CameraManager::setRenderCamera(chase_camera cam) {
-    renderer::get_instance().set_camera(make_shared<chase_camera>(cam));
+arc_ball_camera CameraManager::getCameraAtIndex(int index) {
+	return cameras.at(index);
 }
 
-void CameraManager::registerCamera(chase_camera cam) {
-    cameras.push_back(cam);
+void CameraManager::setRenderCamera(arc_ball_camera cam) {
+	currentCamera = make_shared<arc_ball_camera>(cam);
+	renderer::get_instance().set_camera(currentCamera);
+}
+
+void CameraManager::registerCamera(arc_ball_camera cam) {
+	cameras.push_back(cam);
 }
 
 void CameraManager::unregisterCamera(int index) {
-    cameras.erase(cameras.begin()+index-1);
+	cameras.erase(cameras.begin()+index-1);
 }
 
 /*
@@ -69,6 +109,6 @@ void CameraManager::unregisterCamera(int index) {
 */
 void CameraManager::shutdown()
 {
-    // Set running to false
-    _running = false;
+	// Set running to false
+	_running = false;
 }

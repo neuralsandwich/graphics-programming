@@ -1,2 +1,4 @@
-path,x,y,z
-Earth.obj,0.0,0.0,0.0
+path,x,y,z,rx,ry,rz,vert,frag
+Earth.obj,0.0,0.0,0.0,0.0,0.0,0.0,Earth.vert,Earth.frag
+Sputnik.obj,0.0,0.0,280.0,0.0,0.0,-1.5707963267,Sputnik.vert,Sputnik.frag
+Moon.obj,-1000.0,0.0,-1000.0,0.0,0.0,0.0,Moon.vert,Moon.frag

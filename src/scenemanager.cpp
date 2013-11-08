@@ -26,9 +26,17 @@ bool SceneManager::initialize()
 	// Set Scene Clear colour to cyan
 	// Then render the blue background, just something nicer to look at
 	// While we load everything else.
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	renderScene(0.0);
 	
+	light = make_shared<directional_light>();
+	light->data.ambient_intensity = vec4(0.1, 0.1, 0.1, 1.0);
+	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
+	light->data.direction = normalize(vec3(-1.0, 0.0, 1.0));
+	if (!light->build()) {
+		return false;
+	}
+
 	// Load Camera manager
 	if (!CameraManager::get_instance().initialize()) {
 		printf("Camera manager failed to initialize.\n");
@@ -43,10 +51,7 @@ bool SceneManager::initialize()
 		return false;
 	}
 
-	light = make_shared<directional_light>();
-	light->data.ambient_intensity = vec4(0.3, 0.3, 0.3, 1.0);
-	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
-	light->data.direction = normalize(vec3(1.0, 1.0, 1.0));
+	_focus = vec3(0.0, 0.0, 0.0);
 
 	_running = true;
 
@@ -61,9 +66,38 @@ void SceneManager::updateScene(float deltaTime)
 {
 	printf("Updating scene.\n");
 
-	CameraManager::get_instance().getCameraAtIndex(0).move(ContentManager::get_instance().getPropAt(0).trans.position,
-														   eulerAngles(ContentManager::get_instance().getPropAt(0).trans.orientation));
+	// Move the camera when keys are pressed
+	// Earth Cam
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
+		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
+		_focus = ContentManager::get_instance().getPropAt(0).trans.position;
+        CameraManager::get_instance().currentCamera->set_distance(300.0f);
+		CameraManager::get_instance().currentCamera->set_rotationY(0.336f);
+	}
+	// Sputnik
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
+		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
+		_focus = ContentManager::get_instance().getPropAt(3).trans.position;
+        CameraManager::get_instance().currentCamera->set_distance(5.0f);
+		CameraManager::get_instance().currentCamera->set_rotationY(-0.1000f);
+		CameraManager::get_instance().currentCamera->set_rotationY(0.4578f);
+	}
+	// Moon
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
+		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
+		_focus = ContentManager::get_instance().getPropAt(7).trans.position;
+        CameraManager::get_instance().currentCamera->set_distance(100.0f);
+	}
+	cout << _focus.x << " " << _focus.y << " "<< _focus.z << "\n" << endl;
+
+	CameraManager::get_instance().currentCamera->set_target(_focus);
 	CameraManager::get_instance().update(deltaTime);
+	
+	int i;
+	for (i=0; i < ContentManager::get_instance().propListSize(); ++i) {
+		ContentManager::get_instance().getPropAt(i).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
+	}
+
 	ContentManager::get_instance().update(deltaTime);
 }
 
@@ -79,10 +113,17 @@ void SceneManager::renderScene(float deltaTime)
 	{
 		int i;
 		for (i = 0; i < ContentManager::get_instance().propListSize(); ++i) {
-			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(0));
+			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().getPropAt(i));
 			renderer::get_instance().render(prop);
-			//cout << "-- Camera Details --" << endl;
-			//cout << "Position: " 
+			cout << "-- Camera Details --" << endl;
+			cout << "Position: " << CameraManager::get_instance().currentCamera->get_position().x << " "
+				 << CameraManager::get_instance().currentCamera->get_position().y << " "
+				 << CameraManager::get_instance().currentCamera->get_position().z << "\n";
+			cout << "Target: " << CameraManager::get_instance().currentCamera->get_target().x << " "
+				 << CameraManager::get_instance().currentCamera->get_target().y << " "
+				 << CameraManager::get_instance().currentCamera->get_target().z << "\n";
+			cout << "rotX: " << CameraManager::get_instance().currentCamera->get_rotationX() << ""
+				 << "rotY: " << CameraManager::get_instance().currentCamera->get_rotationY() << endl;
 		}
 	}
 	// End the render

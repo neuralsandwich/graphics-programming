@@ -95,27 +95,38 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\resources\Earth.mtl" />
-    <None Include="..\resources\Map__24_Composite.tga" />
-    <None Include="..\resources\Map__28_Falloff.tga" />
-    <None Include="phong.frag" />
-    <None Include="phong.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\resources\Earth-bumpmap.jpg" />
-    <Image Include="..\resources\Earth-cloud.jpg" />
-    <Image Include="..\resources\Earth-specularmap.jpg" />
-    <Image Include="..\resources\Earth.jpg" />
-    <Image Include="Checkered.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\resources\proplist.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\resources\Earth.obj">
-      <FileType>Document</FileType>
+    <Object Include="Earth.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </Resource>
+    </Object>
+    <Object Include="Moon.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="Sputnik.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Earth.frag" />
+    <None Include="Earth.mtl" />
+    <None Include="Earth.vert" />
+    <None Include="Map__24_Composite.tga" />
+    <None Include="Map__28_Falloff.tga" />
+    <None Include="Moon.frag" />
+    <None Include="moon.mtl" />
+    <None Include="Moon.vert" />
+    <None Include="proplist.csv" />
+    <None Include="Sputnik.frag" />
+    <None Include="Sputnik.mtl" />
+    <None Include="Sputnik.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Earth-bumpmap.jpg" />
+    <Image Include="Earth-cloud.jpg" />
+    <Image Include="Earth-specularmap.jpg" />
+    <Image Include="Earth.png" />
+    <Image Include="moon.png" />
+    <Image Include="moon_normal.jpg" />
+    <Image Include="sputnik.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -43,6 +43,8 @@ bool ContentManager::loadPropList(string path) {
 
     vector<string> modelPath;
     vector<vec3> modelPosition;
+    vector<vec3> modelRotation;
+    vector<string> modelVert, modelFrag;
 
     try {
         cout << "Parsing file" << endl;
@@ -53,12 +55,15 @@ bool ContentManager::loadPropList(string path) {
         for (i=0; i < file.rowCount(); ++i) {
             modelPath.push_back(file[i][0]);
             modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
+            modelRotation.push_back(vec3(stof(file[i][4]), stof(file[i][5]), stof(file[i][6])));
+            modelVert.push_back(file[i][7]);
+            modelFrag.push_back(file[i][8]);
         }
         cout << "Finished loading prop list" << endl;
 
         cout << "Loading prop" << endl;
         for (i=0; i < modelPath.size(); ++i) {
-            if (!loadModel(modelPath.at(0), modelPosition.at(0))) {
+            if (!loadModel(modelPath.at(i), modelPosition.at(i), modelRotation.at(i), modelVert.at(i), modelFrag.at(i))) {
                 return false;
             }
         }
@@ -75,7 +80,7 @@ bool ContentManager::loadPropList(string path) {
 }
 
 
-bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
+bool ContentManager::loadModel(string modelPath, vec3 modelPosition, vec3 modelRotation, string modelVert, string modelFrag) {
     cout << "## Loading Model ##" << endl;
 
     std::vector<tinyobj::shape_t> shapes;
@@ -94,7 +99,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
     int i, j;
     for (i=0; i < shapes.size(); ++i) {
         assert((shapes[i].mesh.positions.size() % 3) == 0);
-        cout << "Loading model" << shapes[i].name << endl;
+        cout << "Loading model " << shapes[i].name << endl;
         shared_ptr<mesh> model = make_shared<mesh>();
         model->geom = make_shared<geometry>();
 
@@ -112,7 +117,7 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         assert((shapes[i].mesh.texcoords.size() % 2) == 0);
         cout << "Loading " << shapes[i].mesh.texcoords.size() << " texcoords" << endl;
         for (j=0; j < shapes[i].mesh.texcoords.size() / 2; ++j) {
-			// Invert texture coordinates due to 3d max exporting issues
+            // Invert texture coordinates due to 3d max exporting issues
             model->geom->tex_coords.push_back(vec2(-shapes[i].mesh.texcoords[2*j+0],
                                                    -shapes[i].mesh.texcoords[2*j+1]));
         }
@@ -123,8 +128,8 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         geometry_builder::initialise_geometry(model->geom);
 
         auto eff = make_shared<effect>();
-        eff->add_shader("phong.vert", GL_VERTEX_SHADER);
-        eff->add_shader("phong.frag", GL_FRAGMENT_SHADER);
+        eff->add_shader(modelVert, GL_VERTEX_SHADER);
+        eff->add_shader(modelFrag, GL_FRAGMENT_SHADER);
         if (!effect_loader::build_effect(eff)) {
             return false;
         }
@@ -135,36 +140,24 @@ bool ContentManager::loadModel(string modelPath, vec3 modelPosition) {
         // Set shader data here!
 
         // Set shader values for object
-        model->mat->set_uniform_value("emissive", vec4(0.2,0.2,0.2,1.0));
-
-        model->mat->set_uniform_value("ambient_intensity", vec4(shapes[i].material.diffuse[0],
-                                                                shapes[i].material.diffuse[1],
-                                                                shapes[i].material.diffuse[2],
-                                                                1.0));
-
-        model->mat->set_uniform_value("specular_colour", vec4(shapes[i].material.specular[0],
-                                                              shapes[i].material.specular[1],
-                                                              shapes[i].material.specular[2],
-                                                              1.0));
-
+        model->mat->data.emissive = vec4(shapes[i].material.emission[0], shapes[i].material.emission[1], shapes[i].material.emission[2], shapes[i].material.transmittance[i]);
+        model->mat->data.diffuse_reflection = vec4(shapes[i].material.diffuse[0], shapes[i].material.diffuse[1], shapes[i].material.diffuse[2], shapes[i].material.transmittance[i]);
+        model->mat->data.specular_reflection = vec4(shapes[i].material.specular[0], shapes[i].material.specular[1], shapes[i].material.specular[2], shapes[i].material.transmittance[i]);
         model->mat->data.shininess = shapes[i].material.shininess;
         model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 
-        // Test Code
-        //model->mat->set_uniform_value("light", SceneManager::get_instance().light);
-        model->mat->set_uniform_value("light_colour", vec4(1.0, 1.0, 1.0, 1.0));
-        model->mat->set_uniform_value("light_direction", vec3(1.0, 1.0, -1.0));
-        model->mat->set_uniform_value("material_colour", vec4(1.0f, 1.0f, 1.0f, 1.0f));
-        model->mat->set_uniform_value("shininess", shapes[i].material.shininess);
+        model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
 
-        if (i == 0) {
-            auto tex = texture_loader::load("Earth.jpg");
-            model->mat->set_texture("tex", tex);
-        } else {
-            auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
-            model->mat->set_texture("tex", tex);
+        auto tex = texture_loader::load(shapes[i].material.diffuse_texname);
+        model->mat->set_texture("tex", tex);
+
+        if (!model->mat->build()) {
+            return false;
         }
 
+        model->trans.position = modelPosition;
+        quat rot(modelRotation);
+        model->trans.orientation = model->trans.orientation * rot;
 
         registerProp(*model);
     }
