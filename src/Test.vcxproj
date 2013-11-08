@@ -69,10 +69,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cameramanager.cpp" />
+    <ClCompile Include="ContentManager.cpp" />
+    <ClCompile Include="CSVparser.cpp" />
+    <ClCompile Include="coursework.cpp" />
+    <ClCompile Include="scenemanager.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="test.cpp" />
+    <ClCompile Include="tiny_obj_loader.cc" />
+    <ClCompile Include="usercontrols.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="contentmanager.h" />
+    <ClInclude Include="CSVparser.hpp" />
+    <ClInclude Include="scenemanager.h" />
+    <ClInclude Include="tiny_obj_loader.h" />
+    <ClInclude Include="usercontrols.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -82,11 +95,38 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="phong.frag" />
-    <None Include="phong.vert" />
+    <Object Include="Earth.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="Moon.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="Sputnik.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Checkered.png" />
+    <None Include="Earth.frag" />
+    <None Include="Earth.mtl" />
+    <None Include="Earth.vert" />
+    <None Include="Map__24_Composite.tga" />
+    <None Include="Map__28_Falloff.tga" />
+    <None Include="Moon.frag" />
+    <None Include="moon.mtl" />
+    <None Include="Moon.vert" />
+    <None Include="proplist.csv" />
+    <None Include="Sputnik.frag" />
+    <None Include="Sputnik.mtl" />
+    <None Include="Sputnik.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Earth-bumpmap.jpg" />
+    <Image Include="Earth-cloud.jpg" />
+    <Image Include="Earth-specularmap.jpg" />
+    <Image Include="Earth.png" />
+    <Image Include="moon.png" />
+    <Image Include="moon_normal.jpg" />
+    <Image Include="sputnik.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
