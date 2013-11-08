@@ -15,15 +15,15 @@ bool CameraManager::initialize()
 	/* Set the projection matrix */
 	// First get the aspect ratio (width/height)
 	float aspect = (float)renderer::get_instance().get_screen_width()
-		         / (float)renderer::get_instance().get_screen_height();
+		/ (float)renderer::get_instance().get_screen_height();
 
 	// Set Earth Camera
 	arc_ball_camera ecam = arc_ball_camera();
 	// Use this to set the camera projection matrix
 	ecam.set_projection(quarter_pi<float>(), // FOV
-						aspect,              // Aspect ratio
-						0.2f,                // Near plane
-		                10000.0f);           // Far plane
+		aspect,              // Aspect ratio
+		0.2f,                // Near plane
+		10000.0f);           // Far plane
 	// Set the camera properties
 	ecam.set_target(vec3(0.0,0.0,0.0));
 	ecam.set_distance(300.0f);
@@ -33,18 +33,18 @@ bool CameraManager::initialize()
 	arc_ball_camera scam = arc_ball_camera();
 	// Use this to set the camera projection matrix
 	scam.set_projection(quarter_pi<float>(), // FOV
-						aspect,              // Aspect ratio
-						0.2f,                // Near plane
-		                10000.0f);           // Far plane
+		aspect,              // Aspect ratio
+		0.2f,                // Near plane
+		10000.0f);           // Far plane
 	// Set the camera properties
 	registerCamera(scam);
 
 	arc_ball_camera mcam = arc_ball_camera();
 	// Use this to set the camera projection matrix
 	mcam.set_projection(quarter_pi<float>(), // FOV
-						aspect,              // Aspect ratio
-						0.2f,                // Near plane
-		                10000.0f);           // Far plane
+		aspect,              // Aspect ratio
+		0.2f,                // Near plane
+		10000.0f);           // Far plane
 	// Set the camera properties
 	registerCamera(mcam);
 
@@ -57,7 +57,6 @@ bool CameraManager::initialize()
 
 // Update cameras
 void CameraManager::update(float deltaTime) {
-
 	// Update current camera position
 	moveCamera(deltaTime);
 
@@ -65,26 +64,25 @@ void CameraManager::update(float deltaTime) {
 }
 
 void CameraManager::moveCamera(float deltaTime) {
-
-        // Move the camera when keys are pressed
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-                currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-                currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-                currentCamera->move(-20.0f * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-                currentCamera->move(20.0f * deltaTime);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-                currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0);
-        }
-        if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-                currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
-        }
+	// Move the camera when keys are pressed
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
+		currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+		currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
+		currentCamera->move(-20.0f * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
+		currentCamera->move(20.0f * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
+	}
 }
 
 arc_ball_camera CameraManager::getCameraAtIndex(int index) {

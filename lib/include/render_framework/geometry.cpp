@@ -71,7 +71,7 @@ namespace render_framework
 		// If there is normal data, generate tangent data if it doesn't already exist
 		if (geom->normals.size() > 0 && geom->tangents.size() == 0)
 		{
-			// Iterate through each normal and generate 
+			// Iterate through each normal and generate
 			for (int i = 0; i < geom->normals.size(); ++i)
 			{
 				// Tangent
@@ -81,7 +81,7 @@ namespace render_framework
 				glm::vec3 c1 = glm::cross(geom->normals[i], glm::vec3(0.0f, 0.0f, 1.0f));
 				// Orthogonal to up vector
 				glm::vec3 c2 = glm::cross(geom->normals[i], glm::vec3(0.0f, 1.0f, 0.0f));
-			
+
 				// Determine which vector has greater length.  This will be the tangent
 				if (glm::length(c1) > glm::length(c2))
 					tangent = c1;
@@ -138,19 +138,19 @@ namespace render_framework
 			glEnableVertexAttribArray(5);
 		}
 
-        // If we have texture weights data, then add to the vertex array object
-        if (geom->texture_weights.size() > 0)
-        {
-            // Generate buffer
-            glGenBuffers(1, & geom->texture_weight_buffer);
-            // Bind buffer
-            glBindBuffer(GL_ARRAY_BUFFER, geom->texture_weight_buffer);
-            // Set data for the buffer
-            glBufferData(GL_ARRAY_BUFFER, geom->texture_weights.size() * sizeof(glm::vec4), &geom->texture_weights[0], GL_STATIC_DRAW);
-            // Enable attribute pointer for texture weight data
-            glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 0, 0);
-            glEnableVertexAttribArray(6);
-        }
+		// If we have texture weights data, then add to the vertex array object
+		if (geom->texture_weights.size() > 0)
+		{
+			// Generate buffer
+			glGenBuffers(1, & geom->texture_weight_buffer);
+			// Bind buffer
+			glBindBuffer(GL_ARRAY_BUFFER, geom->texture_weight_buffer);
+			// Set data for the buffer
+			glBufferData(GL_ARRAY_BUFFER, geom->texture_weights.size() * sizeof(glm::vec4), &geom->texture_weights[0], GL_STATIC_DRAW);
+			// Enable attribute pointer for texture weight data
+			glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 0, 0);
+			glEnableVertexAttribArray(6);
+		}
 
 		// If we have index data, then initialise
 		if (geom->indices.size() > 0)
@@ -207,16 +207,16 @@ namespace render_framework
 		glm::vec3(0.5f, -0.5f, -0.5f)
 	};
 
-    // Normals for the box geometry
-    glm::vec3 box_normals[6] =
-    {
-        glm::vec3(0.0f, 0.0f, 1.0f),
-        glm::vec3(1.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 0.0f, -1.0f),
-        glm::vec3(-1.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f),
-        glm::vec3(0.0f, -1.0f, 0.0f)
-    };
+	// Normals for the box geometry
+	glm::vec3 box_normals[6] =
+	{
+		glm::vec3(0.0f, 0.0f, 1.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, -1.0f),
+		glm::vec3(-1.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, -1.0f, 0.0f)
+	};
 
 	glm::vec2 box_texcoords[4] =
 	{
@@ -243,29 +243,29 @@ namespace render_framework
 			// Set the colour to be light grey
 			geom->colours.push_back(glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 		}
-        // Texture coordinates done seperately, based on side
-        // Front
-        for (int i = 0; i < 4; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions));
-        // Right
-        for (int i = 0; i < 4; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
-        // Back
-        for (int i = 0; i < 4; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions));
-        // Left
-        for (int i = 0; i < 4; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
-        // Top
-        for (int i = 0; i < 4; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.x, dimensions.z));
-        // Bottom
-        for (int i = 0; i < 4; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.x, dimensions.z));
+		// Texture coordinates done seperately, based on side
+		// Front
+		for (int i = 0; i < 4; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions));
+		// Right
+		for (int i = 0; i < 4; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
+		// Back
+		for (int i = 0; i < 4; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions));
+		// Left
+		for (int i = 0; i < 4; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
+		// Top
+		for (int i = 0; i < 4; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.x, dimensions.z));
+		// Bottom
+		for (int i = 0; i < 4; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.x, dimensions.z));
 
 		// Initialise geometry
 		if (!initialise_geometry(geom))
-            return nullptr;
+			return nullptr;
 
 		return geom;
 	}
@@ -295,7 +295,7 @@ namespace render_framework
 	};
 
 	// Texture coordinates for the tetrahedron geometry
-	glm::vec2 tetra_texcoords[3] = 
+	glm::vec2 tetra_texcoords[3] =
 	{
 		glm::vec2(1.0f, 0.0f),
 		glm::vec2(0.5f, 1.0f),
@@ -325,23 +325,23 @@ namespace render_framework
 			for (int j = 0; j < 3; ++j)
 				geom->normals.push_back(norm);
 		}
-        // Texture coordinates done seperately, based on side
-        // Side 1
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions));
-        // Side 2
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
-        // Side 3
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
-        // Bottom
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.x));
-        
+		// Texture coordinates done seperately, based on side
+		// Side 1
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions));
+		// Side 2
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
+		// Side 3
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
+		// Bottom
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.x));
+
 		// Initialise geometry
 		if (!initialise_geometry(geom))
-            return nullptr;
+			return nullptr;
 
 		return geom;
 	}
@@ -397,27 +397,27 @@ namespace render_framework
 			for (int j = 0; j < 3; ++j)
 				geom->normals.push_back(norm);
 		}
-        // Texture coordinates done seperately, based on side
-        // Front, right, back and left based on tetrahedron
+		// Texture coordinates done seperately, based on side
+		// Front, right, back and left based on tetrahedron
 		for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions));
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions));
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions));
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions));
 		for (int i = 0; i < 3; ++i)
 			geom->tex_coords.push_back(tetra_texcoords[i] * glm::vec2(dimensions.z, dimensions.y));
 		// Bottom based on box
 		// Bottom
-        for (int i = 0; i < 3; ++i)
-            geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.x, dimensions.z));
-        geom->tex_coords.push_back(box_texcoords[0] * glm::vec2(dimensions.x, dimensions.z));
+		for (int i = 0; i < 3; ++i)
+			geom->tex_coords.push_back(box_texcoords[i] * glm::vec2(dimensions.x, dimensions.z));
+		geom->tex_coords.push_back(box_texcoords[0] * glm::vec2(dimensions.x, dimensions.z));
 		geom->tex_coords.push_back(box_texcoords[2] * glm::vec2(dimensions.x, dimensions.z));
 		geom->tex_coords.push_back(box_texcoords[3] * glm::vec2(dimensions.x, dimensions.z));
 
 		// Initialise geometry
 		if (!initialise_geometry(geom))
-            return nullptr;
+			return nullptr;
 
 		return geom;
 	}
@@ -474,7 +474,7 @@ namespace render_framework
 		// Create geometry
 		auto geom = std::make_shared<geometry>();
 		geom->geometry_type = GL_TRIANGLES;
-	
+
 		// Create top - similar to disk but now using triangles
 		glm::vec3 centre(0.0f, 0.5f * dimensions.y, 0.0f);
 		auto vertex_prev = glm::vec3(0.5f, 0.5f, 0.0f) * dimensions;
@@ -604,76 +604,76 @@ namespace render_framework
 
 	std::shared_ptr<geometry> geometry_builder::create_sphere(int stacks, int slices, const glm::vec3& dimensions)
 	{
-        auto geom = std::make_shared<geometry>();
-        // Create required values
-        float deltaRho = glm::pi<float>() / stacks;
-        float deltaTheta = 2.0f * glm::pi<float>() / slices;
-        float deltaT = dimensions.y / (float)stacks;
-        float deltaS = dimensions.x / (float)slices;
-        float t = dimensions.y;
-        float s = 0.0f;
+		auto geom = std::make_shared<geometry>();
+		// Create required values
+		float deltaRho = glm::pi<float>() / stacks;
+		float deltaTheta = 2.0f * glm::pi<float>() / slices;
+		float deltaT = dimensions.y / (float)stacks;
+		float deltaS = dimensions.x / (float)slices;
+		float t = dimensions.y;
+		float s = 0.0f;
 
-        for (int i = 0; i < stacks; ++i)
-        {
-            float rho = i * deltaRho;
-            s = 0.0f;
-            glm::vec3 vertices[4];
-            glm::vec2 texcoords[4];
-            for (int j = 0; j < slices; ++j)
-            {
-                // Vertex 0
-                float theta = j * deltaTheta;
-                vertices[0] = glm::vec3(dimensions.x * -sin(theta) * sin(rho), 
-                                        dimensions.y * cos(theta) * sin(rho), 
-                                        dimensions.z * cos(rho));
-                texcoords[0] = glm::vec2(s, t);
-                // Vertex 1
-                vertices[1] = glm::vec3(dimensions.x * -sin(theta) * sin(rho + deltaRho), 
-                                        dimensions.y * cos(theta) * sin(rho + deltaRho), 
-                                        dimensions.z * cos(rho + deltaRho));
-                texcoords[1] = glm::vec2(s, t - deltaT);
-                // Vertex 2
-                theta = ((j + 1) == slices) ? 0.0f : (j + 1) * deltaTheta;
-                s += deltaS;
-                vertices[2] = glm::vec3(dimensions.x * -sin(theta) * sin(rho), 
-                                        dimensions.y * cos(theta) * sin(rho), 
-                                        dimensions.z * cos(rho));
-                texcoords[2] = glm::vec2(s, t);
-                // Vertex 3
-                vertices[3] = glm::vec3(dimensions.x * -sin(theta) * sin(rho + deltaRho), 
-                                        dimensions.y * cos(theta) * sin(rho + deltaRho), 
-                                        dimensions.z * cos(rho + deltaRho));
-                texcoords[3] = glm::vec2(s, t - deltaT);
+		for (int i = 0; i < stacks; ++i)
+		{
+			float rho = i * deltaRho;
+			s = 0.0f;
+			glm::vec3 vertices[4];
+			glm::vec2 texcoords[4];
+			for (int j = 0; j < slices; ++j)
+			{
+				// Vertex 0
+				float theta = j * deltaTheta;
+				vertices[0] = glm::vec3(dimensions.x * -sin(theta) * sin(rho),
+					dimensions.y * cos(theta) * sin(rho),
+					dimensions.z * cos(rho));
+				texcoords[0] = glm::vec2(s, t);
+				// Vertex 1
+				vertices[1] = glm::vec3(dimensions.x * -sin(theta) * sin(rho + deltaRho),
+					dimensions.y * cos(theta) * sin(rho + deltaRho),
+					dimensions.z * cos(rho + deltaRho));
+				texcoords[1] = glm::vec2(s, t - deltaT);
+				// Vertex 2
+				theta = ((j + 1) == slices) ? 0.0f : (j + 1) * deltaTheta;
+				s += deltaS;
+				vertices[2] = glm::vec3(dimensions.x * -sin(theta) * sin(rho),
+					dimensions.y * cos(theta) * sin(rho),
+					dimensions.z * cos(rho));
+				texcoords[2] = glm::vec2(s, t);
+				// Vertex 3
+				vertices[3] = glm::vec3(dimensions.x * -sin(theta) * sin(rho + deltaRho),
+					dimensions.y * cos(theta) * sin(rho + deltaRho),
+					dimensions.z * cos(rho + deltaRho));
+				texcoords[3] = glm::vec2(s, t - deltaT);
 
-                // Triangle 1
-                geom->positions.push_back(vertices[0]);
-                geom->normals.push_back(glm::normalize(glm::vec3(vertices[0])));
-                geom->tex_coords.push_back(texcoords[0]);
-                geom->positions.push_back(vertices[1]);
-                geom->normals.push_back(glm::normalize(glm::vec3(vertices[1])));
-                geom->tex_coords.push_back(texcoords[1]);
-                geom->positions.push_back(vertices[2]);
-                geom->normals.push_back(glm::normalize(glm::vec3(vertices[2])));
-                geom->tex_coords.push_back(texcoords[2]);
+				// Triangle 1
+				geom->positions.push_back(vertices[0]);
+				geom->normals.push_back(glm::normalize(glm::vec3(vertices[0])));
+				geom->tex_coords.push_back(texcoords[0]);
+				geom->positions.push_back(vertices[1]);
+				geom->normals.push_back(glm::normalize(glm::vec3(vertices[1])));
+				geom->tex_coords.push_back(texcoords[1]);
+				geom->positions.push_back(vertices[2]);
+				geom->normals.push_back(glm::normalize(glm::vec3(vertices[2])));
+				geom->tex_coords.push_back(texcoords[2]);
 
-                // Triangle 2
-                geom->positions.push_back(vertices[1]);
-                geom->normals.push_back(glm::normalize(glm::vec3(vertices[1])));
-                geom->tex_coords.push_back(texcoords[1]);
-                geom->positions.push_back(vertices[3]);
-                geom->normals.push_back(glm::normalize(glm::vec3(vertices[3])));
-                geom->tex_coords.push_back(texcoords[3]);
-                geom->positions.push_back(vertices[2]);
-                geom->normals.push_back(glm::normalize(glm::vec3(vertices[2])));
-                geom->tex_coords.push_back(texcoords[2]);
-            }
+				// Triangle 2
+				geom->positions.push_back(vertices[1]);
+				geom->normals.push_back(glm::normalize(glm::vec3(vertices[1])));
+				geom->tex_coords.push_back(texcoords[1]);
+				geom->positions.push_back(vertices[3]);
+				geom->normals.push_back(glm::normalize(glm::vec3(vertices[3])));
+				geom->tex_coords.push_back(texcoords[3]);
+				geom->positions.push_back(vertices[2]);
+				geom->normals.push_back(glm::normalize(glm::vec3(vertices[2])));
+				geom->tex_coords.push_back(texcoords[2]);
+			}
 
-            t -= deltaT;
-        }
+			t -= deltaT;
+		}
 
-        // Initialise geometry
-        if (!initialise_geometry(geom))
-            return nullptr;
+		// Initialise geometry
+		if (!initialise_geometry(geom))
+			return nullptr;
 
 		return geom;
 	}
@@ -827,39 +827,39 @@ namespace render_framework
 		auto geom = std::make_shared<geometry>();
 		geom->geometry_type = GL_TRIANGLES;
 		// Iterate through each vertex and add to geometry.
-        glm::vec3 vertices[4];
-        for (int x = 0; x < width; ++x)
-        {
-            for (int z = 0; z < depth; ++z)
-            {
-                vertices[0] = glm::vec3(-float(width) / 2.0f + x, 0.0f, float(depth) / 2.0f - z);
-                vertices[1] = glm::vec3(-float(width) / 2.0f + (x + 1), 0.0f, float(depth) / 2.0f - z);
-                vertices[2] = glm::vec3(-float(width) / 2.0f + x, 0.0f, float(depth) / 2.0f - (z + 1));
-                vertices[3] = glm::vec3(-float(width) / 2.0f + (x + 1), 0.0f, float(depth) / 2.0f - (z + 1));
-            
-                // Triangle 1
-                geom->positions.push_back(vertices[0]);
-                geom->tex_coords.push_back(glm::vec2(x , z) / 10.0f);
-                geom->positions.push_back(vertices[3]);
-                geom->tex_coords.push_back(glm::vec2(x + 1, z + 1) / 10.0f);
-                geom->positions.push_back(vertices[2]);
-                geom->tex_coords.push_back(glm::vec2(x, z + 1) / 10.0f);
-                // Triangle 2
-                geom->positions.push_back(vertices[0]);
-                geom->tex_coords.push_back(glm::vec2(x, z) / 10.0f);
-                geom->positions.push_back(vertices[1]);
-                geom->tex_coords.push_back(glm::vec2(x + 1, z) / 10.0f);
-                geom->positions.push_back(vertices[3]);
-                geom->tex_coords.push_back(glm::vec2(x + 1, z + 1) / 10.0f);
+		glm::vec3 vertices[4];
+		for (int x = 0; x < width; ++x)
+		{
+			for (int z = 0; z < depth; ++z)
+			{
+				vertices[0] = glm::vec3(-float(width) / 2.0f + x, 0.0f, float(depth) / 2.0f - z);
+				vertices[1] = glm::vec3(-float(width) / 2.0f + (x + 1), 0.0f, float(depth) / 2.0f - z);
+				vertices[2] = glm::vec3(-float(width) / 2.0f + x, 0.0f, float(depth) / 2.0f - (z + 1));
+				vertices[3] = glm::vec3(-float(width) / 2.0f + (x + 1), 0.0f, float(depth) / 2.0f - (z + 1));
 
-                // Add normals.  All are up.  Also add colours
-                for (int i = 0; i < 6; ++i)
-                {
-                    geom->normals.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
-                    geom->colours.push_back(glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
-                }
-            }
-        }
+				// Triangle 1
+				geom->positions.push_back(vertices[0]);
+				geom->tex_coords.push_back(glm::vec2(x , z) / 10.0f);
+				geom->positions.push_back(vertices[3]);
+				geom->tex_coords.push_back(glm::vec2(x + 1, z + 1) / 10.0f);
+				geom->positions.push_back(vertices[2]);
+				geom->tex_coords.push_back(glm::vec2(x, z + 1) / 10.0f);
+				// Triangle 2
+				geom->positions.push_back(vertices[0]);
+				geom->tex_coords.push_back(glm::vec2(x, z) / 10.0f);
+				geom->positions.push_back(vertices[1]);
+				geom->tex_coords.push_back(glm::vec2(x + 1, z) / 10.0f);
+				geom->positions.push_back(vertices[3]);
+				geom->tex_coords.push_back(glm::vec2(x + 1, z + 1) / 10.0f);
+
+				// Add normals.  All are up.  Also add colours
+				for (int i = 0; i < 6; ++i)
+				{
+					geom->normals.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
+					geom->colours.push_back(glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
+				}
+			}
+		}
 
 		// Initialise geometry
 		if (!initialise_geometry(geom))
@@ -881,7 +881,7 @@ namespace render_framework
 			v[3] = vertices[1] + ((vertices[2] - vertices[1]) / 2.0f);
 			v[4] = vertices[1] + ((vertices[3] - vertices[1]) / 2.0f);
 			v[5] = vertices[2] + ((vertices[3] - vertices[2]) / 2.0f);
-			
+
 			// Temp working vertices
 			std::array<glm::vec3, 4> temp_verts;
 
@@ -918,7 +918,6 @@ namespace render_framework
 			// Last in a division.  Create triangles
 			for (int i = 0; i < 12; ++i)
 			{
-				
 			}
 		}
 	}
@@ -929,7 +928,7 @@ namespace render_framework
 		auto geom = std::make_shared<geometry>();
 		geom->geometry_type = GL_TRIANGLES;
 
-		// 
+		//
 
 		// Initialise geometry
 		if (!initialise_geometry(geom))

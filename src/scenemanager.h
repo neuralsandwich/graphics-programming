@@ -4,12 +4,11 @@ using namespace std;
 using namespace render_framework;
 
 class SceneManager {
-
 public:
 	// Destructor for SceneManager
 	~SceneManager() { shutdown(); };
 
-	// Gets singleton instance o 
+	// Gets singleton instance o
 	static SceneManager& get_instance()
 	{
 		static SceneManager instance;
@@ -48,5 +47,4 @@ private:
 	void operator=(SceneManager&);
 
 	void shutdown();
-
 };

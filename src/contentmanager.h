@@ -6,12 +6,11 @@ using namespace std;
 using namespace render_framework;
 
 class ContentManager {
-
 public:
 	// Destructor for CameraManager
 	~ContentManager() { shutdown(); };
 
-	// Gets singleton instance o 
+	// Gets singleton instance o
 	static ContentManager& get_instance()
 	{
 		static ContentManager instance;
@@ -29,29 +28,29 @@ public:
 	void update(float deltaTime);
 
 	// Register object with scene manager for rendering
-	void registerProp(mesh object);
+	void register_prop(mesh object);
 
 	// Unregister object with scene manager
-	void unregisterProp(mesh object);
+	void unregister_prop(mesh object);
 
 	// Get object at index
-	mesh getPropAt(int index);
+	mesh get_prop_at(int index);
 
 	// Get propList's size
-	int propListSize();
+	int prop_list_size();
 
 	// Load Content
-	bool loadPropList(string path);
+	bool load_prop_list(string path);
 
-	bool loadModel(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
+	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
 
 private:
 
 	// Private flag for current status of the manager
 	bool _running;
-	 
+
 	// Private collection of objects
-	std::deque<mesh> propList;
+	std::deque<mesh> prop_list;
 
 	// Path to scene prop list
 	string path;
@@ -66,5 +65,4 @@ private:
 	void operator=(ContentManager&);
 
 	void shutdown();
-
 };

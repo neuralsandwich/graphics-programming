@@ -665,7 +665,7 @@ namespace render_framework
 			// Render passes and post processes
 			read_render_passes(data, pt.get_child("render_passes"));
 			read_post_processes(data, pt.get_child("post_processes"));
-			
+
 			// Everything read - return read data
 			return data;
 		}

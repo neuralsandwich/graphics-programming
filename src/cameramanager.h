@@ -5,12 +5,11 @@ using namespace render_framework;
 using namespace std;
 
 class CameraManager {
-
 public:
 	// Destructor for CameraManager
 	~CameraManager() { shutdown(); };
 
-	// Gets singleton instance o 
+	// Gets singleton instance o
 	static CameraManager& get_instance()
 	{
 		static CameraManager instance;
@@ -63,5 +62,4 @@ private:
 	void operator=(CameraManager&);
 
 	void shutdown();
-
 };

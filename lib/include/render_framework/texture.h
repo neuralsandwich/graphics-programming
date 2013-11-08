@@ -19,8 +19,8 @@ namespace render_framework
 		GLuint width;
 		// The height of the texture
 		GLuint height;
-        // The type of the texture
-        GLenum type;
+		// The type of the texture
+		GLenum type;
 
 		// Creates a new texture
 		texture() : image(0), width(0), height(0), type(GL_TEXTURE_2D) { }
@@ -78,7 +78,7 @@ namespace render_framework
 	public:
 		// Generates a texture using a noise function
 		static std::shared_ptr<texture> generate(/* TODO noise - enum to hide libnoise */);
-        // Generates a texture using a multi-dimensional arrray of colour data
-        static std::shared_ptr<texture> generate(const std::vector<glm::vec4>& data, unsigned int width, unsigned int height, bool mipmaps = true, bool anisotropic = true);
+		// Generates a texture using a multi-dimensional arrray of colour data
+		static std::shared_ptr<texture> generate(const std::vector<glm::vec4>& data, unsigned int width, unsigned int height, bool mipmaps = true, bool anisotropic = true);
 	};
 }

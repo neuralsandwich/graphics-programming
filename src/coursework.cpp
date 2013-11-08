@@ -1,7 +1,7 @@
 /*
- * Introduction to graphics programming - SET09115 Coursework
- * Sean Jones, 10004520
- */
+* Introduction to graphics programming - SET09115 Coursework
+* Sean Jones, 10004520
+*/
 
 #include <render_framework\render_framework.h>
 #include <chrono>
@@ -16,7 +16,6 @@ using namespace render_framework;
 using namespace chrono;
 
 bool initialize() {
-
 	// Set window title
 	renderer::get_instance().set_caption("10004520 Coursework");
 
@@ -29,9 +28,7 @@ bool initialize() {
 	return true;
 } // initialize()
 
-
 int main (int argc,char *argv[]) {
-
 	// Initialize needed managers and the render_framework
 	if(!initialize()) {
 		printf("Initialization Fail.\n");
@@ -60,7 +57,6 @@ int main (int argc,char *argv[]) {
 		SceneManager::get_instance().renderScene(seconds);
 
 		prevTimeStamp = currentTimeStamp;
-
 	} // Main render loop
 
 	return 0;

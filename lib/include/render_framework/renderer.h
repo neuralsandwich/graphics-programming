@@ -51,7 +51,7 @@ namespace render_framework
 	/*
 	This class is responsible for rendering objects to the screen, by allowing
 	the binding of values such as effects and buffers, and also the rendering of
-	objects such as geometry, sky boxes, terrain, etc.  This class is at the 
+	objects such as geometry, sky boxes, terrain, etc.  This class is at the
 	heart of the render framework.
 	*/
 	class renderer
@@ -169,7 +169,7 @@ namespace render_framework
 
 		// Sets a uniform block on the currently bound effect
 		bool set_uniform_block(const std::string& name, unsigned int buffer, int size);
-		
+
 		// Renders an object to the screen
 		template <typename T>
 		bool render(std::shared_ptr<T> value);
@@ -198,46 +198,46 @@ namespace render_framework
 	effect is bound in its place
 	*/
 	extern template
-	bool renderer::bind(std::shared_ptr<effect> value);
+		bool renderer::bind(std::shared_ptr<effect> value);
 
 	/*
 	Binds a frame buffer with the renderer.  The frame buffer will be used until
 	another frame buffer is bound in its place
 	*/
 	extern template
-	bool renderer::bind(std::shared_ptr<frame_buffer> value);
+		bool renderer::bind(std::shared_ptr<frame_buffer> value);
 
 	/*
 	Binds a depth buffer with the renderer.  The depth buffer will be used until
 	another frame buffer is bound in its place
 	*/
 	extern template
-	bool renderer::bind(std::shared_ptr<depth_buffer> value);
+		bool renderer::bind(std::shared_ptr<depth_buffer> value);
 
 	/*
-	Binds a shadow map with the renderer.  The shadow map will be used until 
+	Binds a shadow map with the renderer.  The shadow map will be used until
 	another frame buffer is bound in its place.
 	*/
 	extern template
-	bool renderer::bind(std::shared_ptr<shadow_map> value);
+		bool renderer::bind(std::shared_ptr<shadow_map> value);
 
 	/*
 	Binds a render pass with the renderer.  The render pass will be used until
 	another render pass / frame buffer is bound in its place
 	*/
 	extern template
-	bool renderer::bind(std::shared_ptr<render_pass> value);
+		bool renderer::bind(std::shared_ptr<render_pass> value);
 
 	/*
 	Binds a post_process with the renderer.  The post process will be used until
 	another post process is bound in its place
 	*/
 	extern template
-	bool renderer::bind(std::shared_ptr<post_process> value);
+		bool renderer::bind(std::shared_ptr<post_process> value);
 
 	/*
 	Default method called when a bind texture call is made.  This is called when
-	the value attempted to be bound is of an unknown / incorrect type.  Will 
+	the value attempted to be bound is of an unknown / incorrect type.  Will
 	display an error and return false.
 	*/
 	template <typename T>
@@ -252,17 +252,17 @@ namespace render_framework
 	Binds a texture at the given index.  Index is then used in a uniform binding
 	*/
 	extern template
-	bool renderer::bind_texture(std::shared_ptr<texture> value, unsigned int index);
+		bool renderer::bind_texture(std::shared_ptr<texture> value, unsigned int index);
 
 	/*
 	Binds a cube map at the given index.  Index is then used in a uniform binding
 	*/
 	extern template
-	bool renderer::bind_texture(std::shared_ptr<cube_map> value, unsigned int index);
+		bool renderer::bind_texture(std::shared_ptr<cube_map> value, unsigned int index);
 
 	/*
 	Default method called when a set uniform call is made.  This is called when
-	an attempt to set a uniform of an unknown type is made.  Will display an 
+	an attempt to set a uniform of an unknown type is made.  Will display an
 	error and return false.
 	*/
 	template <typename T>
@@ -279,85 +279,85 @@ namespace render_framework
 	Sets the given uniform name with the int value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const int& value);
+		bool renderer::set_uniform(const std::string& name, const int& value);
 
 	/*
 	Sets the given uniform name with the double value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const double& value);
+		bool renderer::set_uniform(const std::string& name, const double& value);
 
 	/*
 	Sets the given uniform name with the float value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const float& value);
+		bool renderer::set_uniform(const std::string& name, const float& value);
 
 	/*
 	Sets the given uniform name with the unsigned int value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const unsigned int& value);
+		bool renderer::set_uniform(const std::string& name, const unsigned int& value);
 
 	/*
 	Sets the given uniform name with the vec2 value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const glm::vec2& value);
+		bool renderer::set_uniform(const std::string& name, const glm::vec2& value);
 
 	/*
 	Sets the given uniform name with the vec3 value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const glm::vec3& value);
+		bool renderer::set_uniform(const std::string& name, const glm::vec3& value);
 
 	/*
 	Sets the given uniform name with the vec4 value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const glm::vec4& value);
+		bool renderer::set_uniform(const std::string& name, const glm::vec4& value);
 
 	/*
 	Sets the given uniform name with the mat2 value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const glm::mat2& value);
+		bool renderer::set_uniform(const std::string& name, const glm::mat2& value);
 
 	/*
 	Sets the given uniform name with the mat3 value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const glm::mat3& value);
+		bool renderer::set_uniform(const std::string& name, const glm::mat3& value);
 
 	/*
 	Sets the given uniform name with the mat4 value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const glm::mat4& value);
+		bool renderer::set_uniform(const std::string& name, const glm::mat4& value);
 
 	/*
 	Sets the given uniform name with the material provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const material& value);
+		bool renderer::set_uniform(const std::string& name, const material& value);
 
 	/*
 	Sets the given uniform name with the directional light value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const directional_light& value);
+		bool renderer::set_uniform(const std::string& name, const directional_light& value);
 
 	/*
 	Sets the given uniform name with the point light value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const point_light& value);
+		bool renderer::set_uniform(const std::string& name, const point_light& value);
 
 	/*
 	Sets the given uniform name with the spot light value provided
 	*/
 	extern template
-	bool renderer::set_uniform(const std::string& name, const spot_light& value);
+		bool renderer::set_uniform(const std::string& name, const spot_light& value);
 
 	/*
 	Default method called when a render call is made.  This method is called when
@@ -378,73 +378,73 @@ namespace render_framework
 	Renders a piece of geometry to the scene
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<geometry> value);
+		bool renderer::render(std::shared_ptr<geometry> value);
 
 	/*
 	Renders a model to the scene
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<model> value);
+		bool renderer::render(std::shared_ptr<model> value);
 
 	/*
-	Renders a texture to the screen.  Assumes that the texture should take up 
+	Renders a texture to the screen.  Assumes that the texture should take up
 	the whole screen
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<texture> value);
+		bool renderer::render(std::shared_ptr<texture> value);
 
 	/*
 	Renders a skybox to the scene
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<skybox> value);
+		bool renderer::render(std::shared_ptr<skybox> value);
 
 	/*
 	Renders a piece of terrain to the scene
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<terrain> value);
+		bool renderer::render(std::shared_ptr<terrain> value);
 
 	/*
 	Renders a mesh to the scene
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<mesh> value);
+		bool renderer::render(std::shared_ptr<mesh> value);
 
 	/*
 	Renders a frame buffer to the screen.  Assumes that the frame buffer should
 	take up the entire screen.
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<frame_buffer> value);
+		bool renderer::render(std::shared_ptr<frame_buffer> value);
 
 	/*
 	Renders a depth buffer to the screen.  Assumes that the depth buffer should
 	take up the entire screen
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<depth_buffer> value);
+		bool renderer::render(std::shared_ptr<depth_buffer> value);
 
 	/*
 	Renders a shadow map to the screen.  Assumes that the shadow map should take
 	up the entire screen
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<shadow_map> value);
+		bool renderer::render(std::shared_ptr<shadow_map> value);
 
 	/*
 	Renders a render pass to the screen.  Assumes that the render pass should
 	take up the entire screen
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<render_pass> value);
+		bool renderer::render(std::shared_ptr<render_pass> value);
 
 	/*
-	Renders a post process to the screen.  Assumes that the post process should 
+	Renders a post process to the screen.  Assumes that the post process should
 	take up the entire screen
 	*/
 	extern template
-	bool renderer::render(std::shared_ptr<post_process> value);
+		bool renderer::render(std::shared_ptr<post_process> value);
 
 	/*
 	Default method called when a shadow render call is made.  This method is called when
@@ -465,23 +465,23 @@ namespace render_framework
 	Renders the shadow of a piece of geometry to the scene
 	*/
 	extern template
-	bool renderer::shadow_render(std::shared_ptr<geometry> value);
+		bool renderer::shadow_render(std::shared_ptr<geometry> value);
 
 	/*
 	Renders the shadow of a model to the scene
 	*/
 	extern template
-	bool renderer::shadow_render(std::shared_ptr<model> value);
+		bool renderer::shadow_render(std::shared_ptr<model> value);
 
 	/*
 	Renders the shadow of a piece of terrain to the scene
 	*/
 	extern template
-	bool renderer::shadow_render(std::shared_ptr<terrain> value);
+		bool renderer::shadow_render(std::shared_ptr<terrain> value);
 
 	/*
 	Renders the shadow of a mesh to the scene
 	*/
 	extern template
-	bool renderer::shadow_render(std::shared_ptr<mesh> value);
+		bool renderer::shadow_render(std::shared_ptr<mesh> value);
 }

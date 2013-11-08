@@ -5,7 +5,6 @@
 
 namespace render_framework
 {
-	
 	// Declaration of texture struct.  Used in terrain loader
 	struct texture;
 

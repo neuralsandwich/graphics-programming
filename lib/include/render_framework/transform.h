@@ -89,7 +89,7 @@ namespace render_framework
 		*/
 		glm::mat3 get_normal_matrix()
 		{
-			// The transform only uses affine matrices.  Simply return the 
+			// The transform only uses affine matrices.  Simply return the
 			// rotation matrix
 			return glm::mat3_cast(orientation);
 		}

@@ -51,7 +51,7 @@ namespace render_framework
 		// Creates a new depth buffer.  Sets OpenGL buffers to 0 (no buffer)
 		depth_buffer() : buffer(0) { depth_texture = std::make_shared<texture>(); }
 
-		// Destroys the depth buffer.  If buffer and depth texture are valid, 
+		// Destroys the depth buffer.  If buffer and depth texture are valid,
 		// deletes them
 		~depth_buffer()
 		{
@@ -67,7 +67,7 @@ namespace render_framework
 	*/
 	struct shadow_map
 	{
-        // Matrix used a bias when calculating shadow matrix
+		// Matrix used a bias when calculating shadow matrix
 		static glm::mat4 bias;
 		// The position of the light used in the shadow map development
 		glm::vec3 light_position;
