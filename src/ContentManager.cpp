@@ -259,7 +259,8 @@ bool ContentManager::load_scene_object(string path) {
 		return false;
 	}
 
-	scene = importer.ReadFile(path, aiProcessPreset_TargetRealtime_Quality);
+	scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals |
+								aiProcess_FlipUVs);
 
 	// If the import failed, report it
 	if (!scene) {
@@ -269,6 +270,7 @@ bool ContentManager::load_scene_object(string path) {
 		int i;
 		for (i = 0;i < scene->mNumMeshes; ++i) {
 			const aiMesh* mesh = scene->mMeshes[i];
+			appy_material(mesh);
 			register_prop(load_mesh(mesh, scene));
 		}
 	}
@@ -281,4 +283,35 @@ bool ContentManager::load_scene_object(string path) {
 }
 
 mesh ContentManager::load_mesh(const aiMesh* pMesh, const aiScene* pScene) {
+	
+	// Create the out going mesh
+	shared_ptr<mesh> model = make_shared<mesh>();
+	// Create a geomerty structure
+	shared_ptr<geometry> geom = make_shared<geometry>();
+	
+	int i=0;
+	// Iterate through and copy all vertice date
+	// add apply it to geomerty
+	for (i=0; i <pMesh->mNumVertices; ++i) {
+		aiVector3D pos = pMesh->mVertices[i];
+		geom->positions.push_back(vec3(pos.x,pos.y,pos.z));
+
+		// Add any existing normals
+		if (pMesh->HasNormals()) {
+			aiVector3D normal = pMesh->mNormals[i];
+			geom->normals.push_back(vec3(normal.x,normal.y,normal.z));
+		}
+
+		// add any tex coordinates
+		if (pMesh->HasTextureCoords) {
+			aiVector3D texCoord = pMesh->mTextureCoords[0][i];
+			geom->tex_coords.push_back(vec2(texCoord.x,texCoord.y));
+		}
+	}
+
+	// Attach loaded data to mesh
+	geometry_builder::initialise_geometry(geom);
+	model->geom = geom;
+
+	return *model;
 }

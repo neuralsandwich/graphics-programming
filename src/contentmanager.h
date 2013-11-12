@@ -65,6 +65,8 @@ private:
 
 	mesh load_mesh(const aiMesh* pMesh, const aiScene* pScene);
 
+	void apply_material(mesh model);
+
 	// Private assignment operator
 	void operator=(ContentManager&);
 
