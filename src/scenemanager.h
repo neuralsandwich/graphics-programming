@@ -1,5 +1,7 @@
 #include <render_framework\render_framework.h>
 
+#pragma once
+
 using namespace std;
 using namespace render_framework;
 

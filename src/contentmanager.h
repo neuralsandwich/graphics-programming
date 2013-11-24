@@ -1,8 +1,16 @@
 #include <vector>
+#include <iostream>
 #include <GLM\glm.hpp>
-#include <render_framework\render_framework.h>
+
+#include "tiny_obj_loader.h"
+#include "CSVparser.hpp"
+#include "cameramanager.h"
+#include "scenemanager.h"
+
+#pragma once
 
 using namespace std;
+using namespace glm;
 using namespace render_framework;
 
 class ContentManager {

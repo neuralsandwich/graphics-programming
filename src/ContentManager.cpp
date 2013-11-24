@@ -1,16 +1,5 @@
 #include "contentmanager.h"
 
-#include <iostream>
-#include <GLM\glm.hpp>
-
-#include "tiny_obj_loader.h"
-#include "CSVparser.hpp"
-#include "cameramanager.h"
-#include "scenemanager.h"
-
-using namespace std;
-using namespace glm;
-
 /*
 * initialize()
 *
@@ -80,10 +69,7 @@ mesh ContentManager::get_prop_at(int index) {
 */
 void ContentManager::register_prop(mesh mesh)
 {
-	printf("propList has %d members.\n", prop_list.size());
-	printf("Added Prop.\n");
 	prop_list.push_back(mesh);
-	printf("propList now has %d members.\n", prop_list.size());
 } // register_prop(mesh mesh)
 
 /*
@@ -93,7 +79,6 @@ void ContentManager::register_prop(mesh mesh)
 */
 void ContentManager::unregister_prop(mesh mesh)
 {
-	printf("Removed Prop.\n");
 	prop_list.push_back(mesh);
 } // unregister_prop(mesh object)
 
@@ -141,9 +126,9 @@ bool ContentManager::load_prop_list(string path) {
 * Uses tinyobj to load the models from their .obj file
 * then assigns the values extracted to the objects
 */
-bool ContentManager::load_model(
-	string modelPath, vec3 modelPosition, vec3 modelRotation,
-	string modelVert, string modelFrag) {
+bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 modelRotation,
+	string modelVert, string modelFrag)
+{
 	std::vector<tinyobj::shape_t> shapes;
 	std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
 

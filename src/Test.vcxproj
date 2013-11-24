@@ -73,6 +73,7 @@
     <ClCompile Include="ContentManager.cpp" />
     <ClCompile Include="CSVparser.cpp" />
     <ClCompile Include="coursework.cpp" />
+    <ClCompile Include="Prop.cpp" />
     <ClCompile Include="scenemanager.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="tiny_obj_loader.cc" />
@@ -82,6 +83,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="contentmanager.h" />
     <ClInclude Include="CSVparser.hpp" />
+    <ClInclude Include="Prop.h" />
     <ClInclude Include="scenemanager.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="usercontrols.h" />

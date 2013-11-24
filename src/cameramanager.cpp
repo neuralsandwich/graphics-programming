@@ -63,10 +63,6 @@ void CameraManager::update(float deltaTime) {
 	currentCamera->update(deltaTime);
 } // update()
 
-void CameraManager::moveCamera(float deltaTime) {
-	//UserControls::moveCamera();
-} // moveCamera()
-
 arc_ball_camera CameraManager::getCameraAtIndex(int index) {
 	return cameras.at(index);
 } // getCameraAtIndex()

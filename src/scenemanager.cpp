@@ -1,3 +1,15 @@
+/** Top Level manager for the program. 
+ * 
+ * #include "scenemanger.h"		header for this class
+ * #include "cameramanager.h"   header for CameraManager
+ * #include "contentmanager.h"	header for ContentManager
+ *
+ * SceneManager controls both the Content and Camera manager for this program.
+ * 
+ * initialise() initialses the needed managers and any needed data.
+ * updateScene() updates the camera position and the objects.
+ */
+
 #include "scenemanager.h"
 
 #include <render_framework\render_framework.h>
@@ -10,18 +22,6 @@
 using namespace std;
 using namespace render_framework;
 using namespace glm;
-
-/** Top Level manager for the program. 
- * 
- * #include "scenemanger.h"		header for this class
- * #include "cameramanager.h"   header for CameraManager
- * #include "contentmanager.h"	header for ContentManager
- *
- * SceneManager controls both the Content and Camera manager for this program.
- * 
- * initialise() initialses the needed managers and any needed data.
- * updateScene() updates the camera position, if changes and the objects.
- */
 
 /** initialize() : Initializes the scene manager
  * 
