@@ -7,8 +7,6 @@
 * are loaded into the ContentManagers proplist
 */
 bool ContentManager::initialize() {
-	cout << "## Initializing ContentManager ##" << endl;
-
 	path = "proplist.csv";
 
 	if (!load_prop_list(path)) {
@@ -17,8 +15,6 @@ bool ContentManager::initialize() {
 	}
 
 	_running = true;
-
-	cout << "## Initialized ContentManager ##" << endl;
 	return true;
 }
 
@@ -37,7 +33,7 @@ void ContentManager::shutdown() {
 * Updates objects in the proplist
 */
 void ContentManager::update(float deltaTime) {
-	//TODO - Needs implemented
+	
 } // update(float deltaTime)
 
 /*
