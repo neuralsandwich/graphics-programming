@@ -6,6 +6,7 @@
 #include "CSVparser.hpp"
 #include "cameramanager.h"
 #include "scenemanager.h"
+#include "Prop.h"
 
 #pragma once
 

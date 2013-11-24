@@ -6,13 +6,14 @@
  */
 Prop::Prop(void) { }
 
-/** Prop : Takes a mesh and creates the prop
+/** Prop : Creates Prop with name and model mesh
  *
- * The prop is created with a model mesh
+ * The prop is created with a model mesh and a Prop identifier
  */
-Prop::Prop(shared_ptr<mesh> mesh)
+Prop::Prop(string string, mesh mesh)
 {
-	*model = *mesh;
+	name = string;
+	models.push_back(mesh);
 } // Prop()
 
 /** ~Prop : Destructs the prop
@@ -21,23 +22,14 @@ Prop::Prop(shared_ptr<mesh> mesh)
  */
 Prop::~Prop(void)
 {
-	model->~mesh();
+	models.erase(models.begin(), models.end());
 } // ~Prop()
 
 /** get_mesh() : Returns Prop model
  *
  * Returns the data structure the represents the model
  */
-mesh Prop::get_mesh()
+mesh Prop::get_mesh(int i)
 {
-	return *model;
+	return models.at(i);
 } // get_mesh()
-
-/** set_mesh() : Sets Prop model
- *
- * Takes a mesh and set Prop model to those values
- */
-void Prop::set_mesh(mesh mesh)
-{
-	*model = mesh;
-} // set_mesh()
