@@ -1,4 +1,5 @@
 #include "contentmanager.h"
+#include "Sputnik.h"
 
 /*
 * initialize()
@@ -33,7 +34,7 @@ void ContentManager::shutdown() {
 * Updates objects in the proplist
 */
 void ContentManager::update(float deltaTime) {
-	
+	// TODO: Implement Props updating
 } // update(float deltaTime)
 
 /*
