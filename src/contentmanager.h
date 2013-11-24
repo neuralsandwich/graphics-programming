@@ -1,10 +1,6 @@
 #include <vector>
 #include <GLM\glm.hpp>
 #include <render_framework\render_framework.h>
-#include <assimp\Importer.hpp>
-#include <assimp\postprocess.h>
-#include <assimp\mesh.h>
-#include <assimp\scene.h>
 
 using namespace std;
 using namespace render_framework;
