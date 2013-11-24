@@ -111,7 +111,7 @@ bool ContentManager::load_prop_list(string path) {
 	vector<string> modelVert, modelFrag;
 
 	try {
-		int i;
+		unsigned int i;
 		csv::Parser file = csv::Parser(path);
 		for (i=0; i < file.rowCount(); ++i) {
 			modelPath.push_back(file[i][0]);
@@ -152,7 +152,7 @@ bool ContentManager::load_model(
 		return false;
 	}
 
-	int i, j;
+	unsigned int i, j;
 	for (i=0; i < shapes.size(); ++i) {
 		assert((shapes[i].mesh.positions.size() % 3) == 0);
 		shared_ptr<mesh> model = make_shared<mesh>();

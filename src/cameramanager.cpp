@@ -5,6 +5,7 @@
 
 #include "scenemanager.h"
 #include "contentmanager.h"
+#include "usercontrols.h"
 
 using namespace std;
 using namespace render_framework;
@@ -58,31 +59,12 @@ bool CameraManager::initialize()
 // Update cameras
 void CameraManager::update(float deltaTime) {
 	// Update current camera position
-	moveCamera(deltaTime);
-
+	user_controls.moveCamera(currentCamera, deltaTime);
 	currentCamera->update(deltaTime);
 } // update()
 
 void CameraManager::moveCamera(float deltaTime) {
-	// Move the camera when keys are pressed
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		currentCamera->rotate(0.0f, quarter_pi<float>() * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		currentCamera->rotate(0.0f, -quarter_pi<float>() * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		currentCamera->move(-20.0f * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		currentCamera->move(20.0f * deltaTime);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		currentCamera->rotate(quarter_pi<float>() * deltaTime, 0.0);
-	}
-	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
-	}
+	//UserControls::moveCamera();
 } // moveCamera()
 
 arc_ball_camera CameraManager::getCameraAtIndex(int index) {

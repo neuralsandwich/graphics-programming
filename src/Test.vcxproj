@@ -106,7 +106,6 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="Earth.frag" />
     <None Include="Earth.mtl" />
     <None Include="Earth.vert" />
