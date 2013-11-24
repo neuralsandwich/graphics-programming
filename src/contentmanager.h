@@ -64,6 +64,8 @@ private:
 	// Path to scene prop list
 	string path;
 
+	Sputnik sputnik;
+
 	// Private constructor (This CameraManager is a singleton)
 	ContentManager() {};
 

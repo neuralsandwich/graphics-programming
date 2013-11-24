@@ -39,6 +39,15 @@
     <ClCompile Include="tiny_obj_loader.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Prop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Earth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sputnik.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -66,6 +75,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tiny_obj_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Earth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sputnik.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

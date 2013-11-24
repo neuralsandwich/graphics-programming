@@ -54,7 +54,6 @@ int ContentManager::prop_list_size() {
 */
 mesh ContentManager::get_prop_at(int index) {
 	mesh result = prop_list.at(index);
-	mesh result1 = result;
 	return result;
 } // get_prop_at(int index)
 
@@ -125,9 +124,11 @@ bool ContentManager::load_prop_list(string path) {
 bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 modelRotation,
 	string modelVert, string modelFrag)
 {
+	// Create and load .OBJ
 	std::vector<tinyobj::shape_t> shapes;
 	std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
 
+	// If an error occured stop
 	if (!err.empty()) {
 		std::cerr << err << std::endl;
 		return false;
