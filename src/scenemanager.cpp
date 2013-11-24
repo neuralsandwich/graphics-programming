@@ -11,24 +11,71 @@ using namespace std;
 using namespace render_framework;
 using namespace glm;
 
-/*
-* Initializes the scene manager
-*/
+/** Top Level manager for the program. 
+ * 
+ * #include "scenemanger.h"		header for this class
+ * #include "cameramanager.h"   header for CameraManager
+ * #include "contentmanager.h"	header for ContentManager
+ *
+ * SceneManager controls both the Content and Camera manager for this program.
+ * 
+ * initialise() initialses the needed managers and any needed data.
+ * updateScene() updates the camera position, if changes and the objects.
+ */
+
+/** initialize() : Initializes the scene manager
+ * 
+ * The render framework is initialised, setting the claire colour and then
+ * updating the scene to apply the new colour. The lighting and CameraManager
+ * are then initialised. The default camera is then set for the renderer and
+ * finally the ContentManager is initialised.
+ * 
+ */
 bool SceneManager::initialize()
 {
-	cout << "## Initializing ##" << endl;
 	// Initialize the renderer
 	if (!renderer::get_instance().initialise()) {
 		printf("Renderer failed to initialize.\n");
 		return false;
 	}
 
-	// Set Scene Clear colour to cyan
-	// Then render the blue background, just something nicer to look at
-	// While we load everything else.
+	// Set Scene Clear colour to cyan Then render the blue background, just
+	// something nicer to look at While we load everything else.
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	renderScene(0.0);
+	render_scene(0.0);
 
+	// Initialise the scenes lighting.
+	if (!initialize_lighting()) {
+		cout << "Lighting failed to initialize.\n";
+		return false;
+	}
+
+	// Load Camera manager
+	if (!CameraManager::get_instance().initialize()) {
+		cout << "Camera manager failed to initialize.\n";
+		return false;
+	}
+
+	// Set the renderer camera to default.
+	renderer::get_instance().set_camera(
+		CameraManager::get_instance().currentCamera);
+
+	// Load Content manager.
+	if (!ContentManager::get_instance().initialize()) {
+		cout << "Content manager failed to initialize.\n";
+		return false;
+	}
+
+	_focus = vec3(0.0, 0.0, 0.0);
+	_running = true;
+
+	return true;
+} // initialize()
+
+/** initialize_lighting() : Intialises light data.
+ *
+ */
+bool SceneManager::initialize_lighting() {
 	light = make_shared<directional_light>();
 	light->data.ambient_intensity = vec4(0.1, 0.1, 0.1, 1.0);
 	light->data.colour = vec4(1.0, 1.0, 1.0, 1.0);
@@ -37,32 +84,13 @@ bool SceneManager::initialize()
 		return false;
 	}
 
-	// Load Camera manager
-	if (!CameraManager::get_instance().initialize()) {
-		printf("Camera manager failed to initialize.\n");
-		return false;
-	}
-
-	renderer::get_instance().set_camera(CameraManager::get_instance().currentCamera);
-
-	// Load Content manager
-	if (!ContentManager::get_instance().initialize()) {
-		printf("Content manager failed to initialize.\n");
-		return false;
-	}
-
-	_focus = vec3(0.0, 0.0, 0.0);
-
-	_running = true;
-
-	cout << "## Initialization Complete ##" << endl;
 	return true;
-}
+} // Initialize_ligting()
 
 /*
-* Updates all registers objects in the scene
-*/
-void SceneManager::updateScene(float deltaTime)
+ * Updates all registers objects in the scene
+ */
+void SceneManager::update_scene(float deltaTime)
 {
 	printf("Updating scene.\n");
 
@@ -74,7 +102,7 @@ void SceneManager::updateScene(float deltaTime)
 		CameraManager::get_instance().currentCamera->set_distance(300.0f);
 		CameraManager::get_instance().currentCamera->set_rotationY(0.336f);
 	}
-	// Sputnik
+	// Sputnik Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
 		_focus = ContentManager::get_instance().get_prop_at(3).trans.position;
@@ -82,29 +110,30 @@ void SceneManager::updateScene(float deltaTime)
 		CameraManager::get_instance().currentCamera->set_rotationY(-0.1000f);
 		CameraManager::get_instance().currentCamera->set_rotationY(0.4578f);
 	}
-	// Moon
+	// Moon Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
 		_focus = ContentManager::get_instance().get_prop_at(7).trans.position;
 		CameraManager::get_instance().currentCamera->set_distance(100.0f);
 	}
-	cout << _focus.x << " " << _focus.y << " "<< _focus.z << "\n" << endl;
 
 	CameraManager::get_instance().currentCamera->set_target(_focus);
 	CameraManager::get_instance().update(deltaTime);
 
 	int i;
 	for (i=0; i < ContentManager::get_instance().prop_list_size(); ++i) {
-		ContentManager::get_instance().get_prop_at(i).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
+		ContentManager::get_instance().get_prop_at(i).mat->set_uniform_value(
+			"eye_position", 
+			CameraManager::get_instance().currentCamera->get_position());
 	}
 
 	ContentManager::get_instance().update(deltaTime);
-}
+} // update_scene()
 
 /*
 * Render registered objects
 */
-void SceneManager::renderScene(float deltaTime)
+void SceneManager::render_scene(float deltaTime)
 {
 	printf("## Rendering ##\n");
 
@@ -114,20 +143,11 @@ void SceneManager::renderScene(float deltaTime)
 		for (i = 0; i < ContentManager::get_instance().prop_list_size(); ++i) {
 			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().get_prop_at(i));
 			renderer::get_instance().render(prop);
-			cout << "-- Camera Details --" << endl;
-			cout << "Position: " << CameraManager::get_instance().currentCamera->get_position().x << " "
-				<< CameraManager::get_instance().currentCamera->get_position().y << " "
-				<< CameraManager::get_instance().currentCamera->get_position().z << "\n";
-			cout << "Target: " << CameraManager::get_instance().currentCamera->get_target().x << " "
-				<< CameraManager::get_instance().currentCamera->get_target().y << " "
-				<< CameraManager::get_instance().currentCamera->get_target().z << "\n";
-			cout << "rotX: " << CameraManager::get_instance().currentCamera->get_rotationX() << ""
-				<< "rotY: " << CameraManager::get_instance().currentCamera->get_rotationY() << endl;
 		}
 	}
 	// End the render
 	renderer::get_instance().end_render();
-}
+} // render_scene(float deltaTime)
 
 /*
 * Shuts down the SceneManagers
@@ -136,4 +156,4 @@ void SceneManager::shutdown()
 {
 	// Set running to false
 	_running = false;
-}
+} // shutdown()

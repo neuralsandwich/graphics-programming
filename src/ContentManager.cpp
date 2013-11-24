@@ -40,7 +40,7 @@ bool ContentManager::initialize() {
 */
 void ContentManager::shutdown() {
 	_running = false;
-}
+} // shutdown()
 
 /*
 * update()
@@ -49,7 +49,7 @@ void ContentManager::shutdown() {
 */
 void ContentManager::update(float deltaTime) {
 	//TODO - Needs implemented
-}
+} // update(float deltaTime)
 
 /*
 * prop_list_size
@@ -58,7 +58,7 @@ void ContentManager::update(float deltaTime) {
 */
 int ContentManager::prop_list_size() {
 	return prop_list.size();
-}
+} // prop_list_size()
 
 /*
 * get_prop_at
@@ -71,31 +71,31 @@ mesh ContentManager::get_prop_at(int index) {
 	mesh result = prop_list.at(index);
 	mesh result1 = result;
 	return result;
-}
+} // get_prop_at(int index)
 
 /*
 * register_prop()
 *
 * Register object with scene manager for rendering
 */
-void ContentManager::register_prop(mesh object)
+void ContentManager::register_prop(mesh mesh)
 {
 	printf("propList has %d members.\n", prop_list.size());
 	printf("Added Prop.\n");
-	prop_list.push_back(object);
+	prop_list.push_back(mesh);
 	printf("propList now has %d members.\n", prop_list.size());
-}
+} // register_prop(mesh mesh)
 
 /*
 *  unregister_prop()
 *
 * Unregister object with scene manager
 */
-void ContentManager::unregister_prop(mesh object)
+void ContentManager::unregister_prop(mesh mesh)
 {
 	printf("Removed Prop.\n");
-	prop_list.push_back(object);
-}
+	prop_list.push_back(mesh);
+} // unregister_prop(mesh object)
 
 /*
 * load_prop_list()
@@ -105,20 +105,14 @@ void ContentManager::unregister_prop(mesh object)
 * interal proplist
 */
 bool ContentManager::load_prop_list(string path) {
-	cout << "## Loading prop list ##" << endl;
-	printf("Loading Scene from %s.\n", path.c_str());
-
 	vector<string> modelPath;
 	vector<vec3> modelPosition;
 	vector<vec3> modelRotation;
 	vector<string> modelVert, modelFrag;
 
 	try {
-		cout << "Parsing file" << endl;
-		csv::Parser file = csv::Parser(path);
-		cout << "Finished parsing file" << endl;
 		int i;
-		cout << "Loading prop list" << endl;
+		csv::Parser file = csv::Parser(path);
 		for (i=0; i < file.rowCount(); ++i) {
 			modelPath.push_back(file[i][0]);
 			modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
@@ -126,24 +120,20 @@ bool ContentManager::load_prop_list(string path) {
 			modelVert.push_back(file[i][7]);
 			modelFrag.push_back(file[i][8]);
 		}
-		cout << "Finished loading prop list" << endl;
 
-		cout << "Loading prop" << endl;
 		for (i=0; i < modelPath.size(); ++i) {
 			if (!load_model(modelPath.at(i), modelPosition.at(i),
 				modelRotation.at(i), modelVert.at(i), modelFrag.at(i))) {
 					return false;
 			}
 		}
-		cout << "Finished loading prop" << endl;
 	} catch (csv::Error &e) {
 		std::cerr << e.what() << std::endl;
 		return false;
 	}
 
-	cout << "## Loaded prop list ##" << endl;
 	return true;
-}
+} // load_prop_list(string path)
 
 /*
 * load_model
@@ -151,7 +141,9 @@ bool ContentManager::load_prop_list(string path) {
 * Uses tinyobj to load the models from their .obj file
 * then assigns the values extracted to the objects
 */
-bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 modelRotation, string modelVert, string modelFrag) {
+bool ContentManager::load_model(
+	string modelPath, vec3 modelPosition, vec3 modelRotation,
+	string modelVert, string modelFrag) {
 	std::vector<tinyobj::shape_t> shapes;
 	std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
 
@@ -160,11 +152,9 @@ bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 model
 		return false;
 	}
 
-	cout << "## Loading model data ##" << endl;
 	int i, j;
 	for (i=0; i < shapes.size(); ++i) {
 		assert((shapes[i].mesh.positions.size() % 3) == 0);
-		cout << "Loading model " << shapes[i].name << endl;
 		shared_ptr<mesh> model = make_shared<mesh>();
 		model->geom = make_shared<geometry>();
 
@@ -179,7 +169,6 @@ bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 model
 		}
 
 		assert((shapes[i].mesh.texcoords.size() % 2) == 0);
-		cout << "Loading " << shapes[i].mesh.texcoords.size() << " texcoords" << endl;
 		for (j=0; j < shapes[i].mesh.texcoords.size() / 2; ++j) {
 			// Invert texture coordinates due to 3d max exporting issues
 			model->geom->tex_coords.push_back(vec2(-shapes[i].mesh.texcoords[2*j+0],
@@ -234,9 +223,7 @@ bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 model
 		model->trans.orientation = model->trans.orientation * rot;
 
 		register_prop(*model);
-	}
-
-	cout << "## Model Loaded ##" << endl;
+	} // for shapes.size()
 
 	return true;
-}
+} // load_model()

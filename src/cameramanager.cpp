@@ -53,7 +53,7 @@ bool CameraManager::initialize()
 	printf("Camera manager initialized.\n");
 
 	return true;
-}
+} // initialize()
 
 // Update cameras
 void CameraManager::update(float deltaTime) {
@@ -61,7 +61,7 @@ void CameraManager::update(float deltaTime) {
 	moveCamera(deltaTime);
 
 	currentCamera->update(deltaTime);
-}
+} // update()
 
 void CameraManager::moveCamera(float deltaTime) {
 	// Move the camera when keys are pressed
@@ -83,24 +83,24 @@ void CameraManager::moveCamera(float deltaTime) {
 	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
 		currentCamera->rotate(-quarter_pi<float>() * deltaTime, 0.0);
 	}
-}
+} // moveCamera()
 
 arc_ball_camera CameraManager::getCameraAtIndex(int index) {
 	return cameras.at(index);
-}
+} // getCameraAtIndex()
 
 void CameraManager::setRenderCamera(arc_ball_camera cam) {
 	currentCamera = make_shared<arc_ball_camera>(cam);
 	renderer::get_instance().set_camera(currentCamera);
-}
+} // setRenderCamera(
 
 void CameraManager::registerCamera(arc_ball_camera cam) {
 	cameras.push_back(cam);
-}
+} // registerCamera(
 
 void CameraManager::unregisterCamera(int index) {
 	cameras.erase(cameras.begin()+index-1);
-}
+} // unregisterCamera()
 
 /*
 * Shuts down the CameraManagers
@@ -109,4 +109,4 @@ void CameraManager::shutdown()
 {
 	// Set running to false
 	_running = false;
-}
+} // shutdown()
