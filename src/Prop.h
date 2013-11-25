@@ -19,7 +19,6 @@ class Prop
 public:
 	// Constructors
 	Prop(void);
-	Prop(string string, mesh models);
 	// Destructors
 	~Prop(void);
 
@@ -28,6 +27,10 @@ public:
 	virtual void update(void) = 0;
 	// Get Prop model
 	mesh get_mesh(int i);
+	// Set Prop model
+	void add_mesh(mesh* mesh);
+	// get path
+	string get_path();
 
 protected:
 	// name
@@ -40,4 +43,6 @@ protected:
 	vec3 position;
 	// Rotation
 	vec3 rotation;
+	// Path to .OBJ file
+	string path;
 };

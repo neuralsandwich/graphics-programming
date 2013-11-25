@@ -97,7 +97,7 @@ bool ContentManager::load_prop_list(string path) {
 	try {
 		unsigned int i;
 		csv::Parser file = csv::Parser(path);
-		for (i=0; i < file.rowCount(); ++i) {
+		for (i = 0; i < file.rowCount(); ++i) {
 			modelPath.push_back(file[i][0]);
 			modelPosition.push_back(vec3(stof(file[i][1]), stof(file[i][2]), stof(file[i][3])));
 			modelRotation.push_back(vec3(stof(file[i][4]), stof(file[i][5]), stof(file[i][6])));
@@ -119,19 +119,48 @@ bool ContentManager::load_prop_list(string path) {
 	return true;
 } // load_prop_list(string path)
 
-bool load_prop_list(string path) {
+bool load_props() {
 	Earth earth;
 	Sputnik sputnik;
 
-	// Trying loading the prop list
-	try {
-		csv::Parser file = csv::Parser(path);
-	} catch (csv::Error &e) {
-		std::cerr << e.what() << '\n';
+	//sputnik.add_mesh(load_model(sputnik.get_path()));
+
+	return false;
+}
+
+
+bool ContentManager::load_model(Prop* prop, string modelPath)
+{
+	// Load .OBJ
+	std::vector<tinyobj::shape_t> shapes;
+	std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
+
+	// If an error occured stop
+	if (!err.empty()) {
+		std::cerr << err << std::endl;
 		return false;
 	}
 
-	return true;
+	// Create mesh
+	shared_ptr<mesh> model = make_shared<mesh>();
+
+	unsigned int i;
+	for (i=0; i < shapes.size(); ++i) {
+		tinyobj::shape_t* shape = &shapes[i];
+		load_vertices(shape, model.get());
+		// TODO: load_normals(shape, model.get());
+	}
+
+	return false;
+} // load_model()
+
+void load_vertices(tinyobj::shape_t * shape, mesh * model) {
+	unsigned int i;
+	for (i=0; i < shape->mesh.positions.size() / 3 ; ++i) {
+		model->geom->positions.push_back(vec3(shape->mesh.positions[3*i+0],
+				shape->mesh.positions[3*i+1],
+				shape->mesh.positions[3*i+2]));
+	}
 }
 
 /*

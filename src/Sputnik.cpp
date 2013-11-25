@@ -5,6 +5,7 @@ double const Sputnik::mass = 84.06;
 Sputnik::Sputnik(void)
 {
 	name = "Sputnik";
+	path = "Sputnik.obj";
 	position = vec3(228e3, 0.0, 0.0);
 	velocity = vec3((float)8e3, (float) 0.0, (float) 0.0);
 }

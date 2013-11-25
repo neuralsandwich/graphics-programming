@@ -8,7 +8,7 @@
 
 #pragma once
 
-class Sputnik : Prop
+class Sputnik : public Prop
 {
 public:
 	static const int sphere  = 0;
@@ -17,10 +17,12 @@ public:
 	static const int legs    = 3;
 
 	Sputnik(void);
+	Sputnik(mesh models);
 	~Sputnik(void);
 
 		// Updated model
 	virtual void update(void);
+
 private:
 	static const double mass;
 	vec3 velocity;

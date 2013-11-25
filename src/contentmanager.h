@@ -52,7 +52,10 @@ public:
 	// Load Content
 	bool load_prop_list(string path);
 
+	// Load Model
 	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
+
+	bool load_model(Prop* prop, string modelPath);
 
 private:
 

@@ -8,7 +8,7 @@
 
 #pragma once
 
-class Earth : Prop
+class Earth : public Prop
 {
 public:
 	// Read only variables

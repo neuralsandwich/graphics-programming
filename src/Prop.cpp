@@ -6,16 +6,6 @@
  */
 Prop::Prop(void) { }
 
-/** Prop : Creates Prop with name and model mesh
- *
- * The prop is created with a model mesh and a Prop identifier
- */
-Prop::Prop(string string, mesh mesh)
-{
-	name = string;
-	models.push_back(mesh);
-} // Prop()
-
 /** ~Prop : Destructs the prop
  *
  * Destroys the object.
@@ -33,3 +23,17 @@ mesh Prop::get_mesh(int i)
 {
 	return models.at(i);
 } // get_mesh()
+
+void Prop::add_mesh(mesh* mesh)
+{
+	models.push_back(*mesh);
+}
+
+/**
+ *
+ *
+ */
+string Prop::get_path()
+{
+	return path;
+}
