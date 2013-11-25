@@ -7,6 +7,7 @@
 #include "cameramanager.h"
 #include "scenemanager.h"
 #include "Prop.h"
+#include "Sputnik.h"
 
 #pragma once
 

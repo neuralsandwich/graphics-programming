@@ -11,10 +11,10 @@
 class Sputnik : Prop
 {
 public:
-	const int sphere  = 0;
-	const int sputnik = 1;
-	const int tarpine = 2;
-	const int legs    = 3;
+	static const int sphere  = 0;
+	static const int sputnik = 1;
+	static const int tarpine = 2;
+	static const int legs    = 3;
 
 	Sputnik(void);
 	~Sputnik(void);
@@ -22,6 +22,6 @@ public:
 		// Updated model
 	virtual void update(void);
 private:
-	const double mass = 83.60e3;
+	static const double mass;
 	vec3 velocity;
 };

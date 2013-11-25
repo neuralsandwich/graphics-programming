@@ -12,9 +12,9 @@ class Earth : Prop
 {
 public:
 	// Read only variables
-	const int earth = 0;
-	const int clouds = 1;
-	const int atmosphere = 2;
+	static const int earth = 0;
+	static const int clouds = 1;
+	static const int atmosphere = 2;
 
 	// Constructor
 	Earth(void);
@@ -26,7 +26,7 @@ public:
 	// Update Clouds
 	void update_clouds(void);
 private:
-	const double mass = 5.9721986e24;
+	static const double mass;
 	vec3 velocity;
 };
 
