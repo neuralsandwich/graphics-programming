@@ -1,4 +1,7 @@
 #include "contentmanager.h"
+
+// Model Classes
+#include "Earth.h"
 #include "Sputnik.h"
 
 /*
@@ -115,6 +118,21 @@ bool ContentManager::load_prop_list(string path) {
 
 	return true;
 } // load_prop_list(string path)
+
+bool load_prop_list(string path) {
+	Earth earth;
+	Sputnik sputnik;
+
+	// Trying loading the prop list
+	try {
+		csv::Parser file = csv::Parser(path);
+	} catch (csv::Error &e) {
+		std::cerr << e.what() << '\n';
+		return false;
+	}
+
+	return true;
+}
 
 /*
 * load_model

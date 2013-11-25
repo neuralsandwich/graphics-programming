@@ -11,6 +11,11 @@
 class Sputnik : Prop
 {
 public:
+	const int sphere  = 0;
+	const int sputnik = 1;
+	const int tarpine = 2;
+	const int legs    = 3;
+
 	Sputnik(void);
 	~Sputnik(void);
 
