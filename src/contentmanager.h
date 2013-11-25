@@ -49,13 +49,29 @@ public:
 	// Get propList's size
 	int prop_list_size();
 
-	// Load Content
+	// DEPRECATED: Load Content
 	bool load_prop_list(string path);
 
-	// Load Model
+	// Load Content
+	bool load_props();
+
+	// DEPRECATED: Load Model
 	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
 
+	// Load model
 	bool load_model(Prop* prop, string modelPath);
+
+	// load vertices for model
+	void load_vertices(tinyobj::shape_t * shape, mesh * model);
+
+	// load normals for model
+	void load_normals(tinyobj::shape_t * shape, mesh * model);
+
+	// load texture coordinates for model
+	void load_texcoords(tinyobj::shape_t * shape, mesh * model);
+
+	// load indices for model
+	void load_indices(tinyobj::shape_t * shape, mesh * model);
 
 private:
 
