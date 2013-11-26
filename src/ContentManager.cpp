@@ -13,8 +13,8 @@ bool ContentManager::initialize()
 {
     path = "proplist.csv";
 
-    if (!load_prop_list(path)) {
-        printf("Failed to read prop list, cannot render scene.\n");
+    if (!load_props()) {
+        cout << "Props failed to load" << '\n';
         return false;
     }
 
@@ -140,7 +140,7 @@ bool ContentManager::load_props()
         return false;
     }
 
-    return false;
+    return true;
 } // load_props()
 
 /* load_model : Loads the meshs for a Prop
@@ -162,6 +162,7 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
 
     // Create mesh
     shared_ptr<mesh> model = make_shared<mesh>();
+    model->geom = make_shared<geometry>();
 
     unsigned int i;
     for (i=0; i < shapes.size(); ++i) {
@@ -177,7 +178,7 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
         // Created effect for mesh
         auto eff = make_shared<effect>();
         eff->add_shader(prop->get_vert_path(), GL_VERTEX_SHADER);
-        eff->add_shader(prop->get_vert_path(), GL_FRAGMENT_SHADER);
+        eff->add_shader(prop->get_frag_path(), GL_FRAGMENT_SHADER);
         // Build effect
         if (!effect_loader::build_effect(eff)) {
             return false;
