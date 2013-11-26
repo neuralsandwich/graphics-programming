@@ -122,9 +122,7 @@ void SceneManager::update_scene(float deltaTime)
 
 	int i;
 	for (i=0; i < ContentManager::get_instance().prop_list_size(); ++i) {
-		ContentManager::get_instance().get_prop_at(i).mat->set_uniform_value(
-			"eye_position", 
-			CameraManager::get_instance().currentCamera->get_position());
+		ContentManager::get_instance().get_prop_at(i).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 	}
 
 	ContentManager::get_instance().update(deltaTime);
@@ -140,6 +138,7 @@ void SceneManager::render_scene(float deltaTime)
 	if (renderer::get_instance().begin_render())
 	{
 		int i;
+		int j = ContentManager::get_instance().prop_list_size();
 		for (i = 0; i < ContentManager::get_instance().prop_list_size(); ++i) {
 			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().get_prop_at(i));
 			renderer::get_instance().render(prop);

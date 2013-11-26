@@ -77,3 +77,12 @@ vec3 Prop::get_rotation()
 {
 	return rotation;
 } // get_rotation()
+
+/* mesh_size : number of mesh for prop
+ *
+ * Returns and integer for the number of meshes in prop
+ */
+int Prop::mesh_size()
+{
+	return models.size();
+}

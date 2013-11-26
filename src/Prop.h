@@ -48,6 +48,9 @@ public:
 	// Get Prop rotation
 	vec3 get_rotation();
 
+	// Get number of meshes
+	int mesh_size();
+
 protected:
 	// name
 	string name;

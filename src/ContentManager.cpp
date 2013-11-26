@@ -22,64 +22,6 @@ bool ContentManager::initialize()
     return true;
 } // initialize()
 
-/* shutdown : Shuts down the ContentManager
- * 
- * Sets the ContentManager to stop running
- */
-void ContentManager::shutdown()
-{
-    _running = false;
-} // shutdown()
-
-/* update : Updates all tracked objects
- * 
- * Updates objects in the proplist
- */
-void ContentManager::update(float deltaTime)
-{
-    // TODO: Implement Props updating
-} // update(float deltaTime)
-
-/* prop_list_size : Returns the size of prop_list
-* 
-* returns the size of prop_list
-*/
-int ContentManager::prop_list_size()
-{
-    return prop_list.size();
-} // prop_list_size()
-
-/* get_prop_at : Returns prop at the given index
- * 
- * Parameter (int index) - index of prop
- *
- * Gets the prop at the index provided from
- * prop_list
- */
-mesh ContentManager::get_prop_at(int index)
-{
-    mesh result = prop_list.at(index);
-    return result;
-} // get_prop_at()
-
-/* register_prop : Adds prop to prop_list
- * 
- * Register object with scene manager for rendering
- */
-void ContentManager::register_prop(mesh mesh)
-{
-    prop_list.push_back(mesh);
-} // register_prop()
-
-/*  unregister_prop : Removes prop from prop_list
- *
- * Unregister object with scene manager
- */
-void ContentManager::unregister_prop(mesh mesh)
-{
-    prop_list.push_back(mesh);
-} // unregister_prop()
-
 /* load_prop_list : Loads props from propList.csv
  *
  * DEPRECATED:
@@ -131,13 +73,23 @@ bool ContentManager::load_props()
     Sputnik sputnik = Sputnik();
 
     // Load Earth
-    if (!load_model(&sputnik, sputnik.get_path())) {
+    if (!load_model(&earth, earth.get_path())) {
         return false;
     }
 
     // Load Sputnik
     if (!load_model(&sputnik, sputnik.get_path())) {
         return false;
+    }
+
+    // Add Earth meshes
+    int i;
+    for (i = 0; i < earth.mesh_size(); ++i) {
+        new_prop_list.push_back(earth.get_mesh(i));
+    }
+    // Add Sputnik meshes
+    for (i = 0; i < sputnik.mesh_size(); ++i) {
+        new_prop_list.push_back(sputnik.get_mesh(i));
     }
 
     return true;
@@ -188,6 +140,8 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
         model->mat = make_shared<material>();
         model->mat->effect = eff;
         
+        load_shader_data(shape, model.get());
+
         // Set "eye position" and lighting for shader
         model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
         model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
@@ -283,7 +237,7 @@ void ContentManager::load_indices(tinyobj::shape_t * shape, mesh * model)
  *
  * Loads shader data from shape and applies it to the effect for model
  */
-void load_shader_data(tinyobj::shape_t * shape, mesh * model)
+void ContentManager::load_shader_data(tinyobj::shape_t * shape, mesh * model)
 {
     // Set shader values for object
     model->mat->data.emissive            = vec4(shape->material.emission[0],
@@ -405,3 +359,60 @@ bool ContentManager::load_model(string modelPath, vec3 modelPosition, vec3 model
 
     return true;
 } // load_model()
+
+/* shutdown : Shuts down the ContentManager
+ * 
+ * Sets the ContentManager to stop running
+ */
+void ContentManager::shutdown()
+{
+    _running = false;
+} // shutdown()
+
+/* update : Updates all tracked objects
+ * 
+ * Updates objects in the proplist
+ */
+void ContentManager::update(float deltaTime)
+{
+    // TODO: Implement Props updating
+} // update(float deltaTime)
+
+/* prop_list_size : Returns the size of prop_list
+* 
+* returns the size of prop_list
+*/
+int ContentManager::prop_list_size()
+{
+    return new_prop_list.size();
+} // prop_list_size()
+
+/* get_prop_at : Returns prop at the given index
+ * 
+ * Parameter (int index) - index of prop
+ *
+ * Gets the prop at the index provided from
+ * prop_list
+ */
+mesh ContentManager::get_prop_at(int index)
+{
+    return new_prop_list.at(index);;
+} // get_prop_at()
+
+/* register_prop : Adds prop to prop_list
+ * 
+ * Register object with scene manager for rendering
+ */
+void ContentManager::register_prop(mesh mesh)
+{
+    prop_list.push_back(mesh);
+} // register_prop()
+
+/*  unregister_prop : Removes prop from prop_list
+ *
+ * Unregister object with scene manager
+ */
+void ContentManager::unregister_prop(mesh mesh)
+{
+    prop_list.push_back(mesh);
+} // unregister_prop()

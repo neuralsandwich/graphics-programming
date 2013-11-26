@@ -73,13 +73,19 @@ public:
 	// load indices for model
 	void load_indices(tinyobj::shape_t * shape, mesh * model);
 
+	// load shader information for model
+	void load_shader_data(tinyobj::shape_t * shape, mesh * model);
+
 private:
 
 	// Private flag for current status of the manager
 	bool _running;
 
 	// Private collection of objects
-	std::deque<mesh> prop_list;
+	deque<mesh> prop_list;
+
+	// Private collection of Props
+	vector<mesh> new_prop_list;
 
 	// Path to scene prop list
 	string path;
