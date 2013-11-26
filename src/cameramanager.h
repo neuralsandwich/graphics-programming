@@ -1,5 +1,8 @@
 #include <vector>
 #include <render_framework\render_framework.h>
+#include "usercontrols.h"
+
+#pragma once
 
 using namespace render_framework;
 using namespace std;
@@ -46,6 +49,9 @@ private:
 	// vector of cameras
 	std::vector<arc_ball_camera> cameras;
 
+	// User controls
+	UserControls user_controls;
+
 	// Private constructor (This CameraManager is a singleton)
 	CameraManager() {};
 
@@ -54,9 +60,6 @@ private:
 
 	// Create new camera
 	bool createCamera(arc_ball_camera cam);
-
-	// Move current Camera
-	void CameraManager::moveCamera(float deltaTime);
 
 	// Private assignment operator
 	void operator=(CameraManager&);

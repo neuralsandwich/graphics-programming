@@ -1,3 +1,15 @@
+/** Top Level manager for the program. 
+ * 
+ * #include "scenemanger.h"		header for this class
+ * #include "cameramanager.h"   header for CameraManager
+ * #include "contentmanager.h"	header for ContentManager
+ *
+ * SceneManager controls both the Content and Camera manager for this program.
+ * 
+ * initialise() initialses the needed managers and any needed data.
+ * updateScene() updates the camera position and the objects.
+ */
+
 #include "scenemanager.h"
 
 #include <render_framework\render_framework.h>
@@ -10,18 +22,6 @@
 using namespace std;
 using namespace render_framework;
 using namespace glm;
-
-/** Top Level manager for the program. 
- * 
- * #include "scenemanger.h"		header for this class
- * #include "cameramanager.h"   header for CameraManager
- * #include "contentmanager.h"	header for ContentManager
- *
- * SceneManager controls both the Content and Camera manager for this program.
- * 
- * initialise() initialses the needed managers and any needed data.
- * updateScene() updates the camera position, if changes and the objects.
- */
 
 /** initialize() : Initializes the scene manager
  * 
@@ -98,14 +98,14 @@ void SceneManager::update_scene(float deltaTime)
 	// Earth Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
-		_focus = ContentManager::get_instance().get_prop_at(0).trans.position;
+		_focus = ContentManager::get_instance().get_prop_at(0)->get_mesh(0).trans.position;
 		CameraManager::get_instance().currentCamera->set_distance(300.0f);
 		CameraManager::get_instance().currentCamera->set_rotationY(0.336f);
 	}
 	// Sputnik Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
-		_focus = ContentManager::get_instance().get_prop_at(3).trans.position;
+		_focus = ContentManager::get_instance().get_prop_at(1)->get_mesh(0).trans.position;
 		CameraManager::get_instance().currentCamera->set_distance(5.0f);
 		CameraManager::get_instance().currentCamera->set_rotationY(-0.1000f);
 		CameraManager::get_instance().currentCamera->set_rotationY(0.4578f);
@@ -113,7 +113,7 @@ void SceneManager::update_scene(float deltaTime)
 	// Moon Cam
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
-		_focus = ContentManager::get_instance().get_prop_at(7).trans.position;
+		_focus = ContentManager::get_instance().get_prop_at(2)->get_mesh(0).trans.position;
 		CameraManager::get_instance().currentCamera->set_distance(100.0f);
 	}
 
@@ -122,9 +122,7 @@ void SceneManager::update_scene(float deltaTime)
 
 	int i;
 	for (i=0; i < ContentManager::get_instance().prop_list_size(); ++i) {
-		ContentManager::get_instance().get_prop_at(i).mat->set_uniform_value(
-			"eye_position", 
-			CameraManager::get_instance().currentCamera->get_position());
+		ContentManager::get_instance().get_prop_at(i)->get_mesh(0).mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
 	}
 
 	ContentManager::get_instance().update(deltaTime);
@@ -139,10 +137,12 @@ void SceneManager::render_scene(float deltaTime)
 
 	if (renderer::get_instance().begin_render())
 	{
-		int i;
+		int i, j;
 		for (i = 0; i < ContentManager::get_instance().prop_list_size(); ++i) {
-			shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().get_prop_at(i));
-			renderer::get_instance().render(prop);
+			for (j = 0; j < ContentManager::get_instance().get_prop_at(i)->mesh_size(); ++j) {
+				shared_ptr<mesh> prop = make_shared<mesh>(ContentManager::get_instance().get_prop_at(i)->get_mesh(j));
+				renderer::get_instance().render(prop);
+			}
 		}
 	}
 	// End the render
