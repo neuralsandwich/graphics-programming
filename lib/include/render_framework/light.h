@@ -21,16 +21,16 @@ namespace render_framework
 		// Padding to make data structure size multiple of sizeof vec4
 		float _padding;
 
-		// Creates a new directional light.  Default values assigned to 
+		// Creates a new directional light.  Default values assigned to
 		// attributes to provide a grey coloured light.
 		directional_light_data()
 			: ambient_intensity(glm::vec4(0.7f, 0.7f, 0.7f, 1.0f)),
-			  colour(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f)),
-			  direction(glm::vec3(1.0f, 0.0f, 0.0f))
+			colour(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f)),
+			direction(glm::vec3(1.0f, 0.0f, 0.0f))
 		{
 		}
 	};
-	
+
 	/*
 	Structure representing a directional light
 	*/
@@ -65,7 +65,7 @@ namespace render_framework
 
 		bool build();
 	};
-	
+
 	/*
 	Structure representing data necessary to define a point light
 	*/
@@ -86,8 +86,8 @@ namespace render_framework
 		// (almost white) light, with a radius of 10.
 		point_light_data()
 			: colour(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f)),
-			  position(glm::vec3(0.0f, 0.0f, 0.0f)),
-			  attenuation(glm::vec3(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f)))
+			position(glm::vec3(0.0f, 0.0f, 0.0f)),
+			attenuation(glm::vec3(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f)))
 		{
 		}
 	};
@@ -148,14 +148,14 @@ namespace render_framework
 
 		/*
 		Creates new spot light data.  Initialises colour to be light grey,
-		postion to be -10 down the Z axis, and the direction to face up the 
+		postion to be -10 down the Z axis, and the direction to face up the
 		Z axis.  Range of spot light is 10 units
 		*/
 		spot_light_data()
 			: colour(glm::vec4(0.9f, 0.9f, 0.9f, 1.0f)),
-			  position(glm::vec3(0.0f, 0.0f, 0.0f)),
-			  direction(glm::vec3(0.0f, 0.0f, 1.0f)),
-			  attenuation(glm::vec3(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f)))
+			position(glm::vec3(0.0f, 0.0f, 0.0f)),
+			direction(glm::vec3(0.0f, 0.0f, 1.0f)),
+			attenuation(glm::vec3(1.0f, 2.0f / 10.0f, 1.0f / (10.0f * 10.0f)))
 		{
 		}
 	};

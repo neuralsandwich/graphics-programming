@@ -123,7 +123,7 @@ namespace render_framework
 	}
 
 	/*
-	Gets a piece of geometry from the content manager.  If geometry doesn't 
+	Gets a piece of geometry from the content manager.  If geometry doesn't
 	exist, will return nullptr
 	*/
 	template <>
@@ -155,7 +155,7 @@ namespace render_framework
 	}
 
 	/*
-	Gets a texture from the content manager.  If texture doesn't exist, will 
+	Gets a texture from the content manager.  If texture doesn't exist, will
 	return nullptr
 	*/
 	template <>
@@ -283,7 +283,7 @@ namespace render_framework
 	}
 
 	/*
-	Gets a spot light from the content manager.  If spot light doesn't exist, 
+	Gets a spot light from the content manager.  If spot light doesn't exist,
 	will return nullptr
 	*/
 	template <>
@@ -331,7 +331,7 @@ namespace render_framework
 	}
 
 	/*
-	Gets an effect from the content manager.  If effect doesn't exist, will 
+	Gets an effect from the content manager.  If effect doesn't exist, will
 	return nullptr
 	*/
 	template <>
@@ -379,7 +379,7 @@ namespace render_framework
 	}
 
 	/*
-	Gets a shadow map from the content manager.  If shadow map doesn't 
+	Gets a shadow map from the content manager.  If shadow map doesn't
 	exist, will return nullptr
 	*/
 	template <>
@@ -446,7 +446,7 @@ namespace render_framework
 		auto value = model_loader::load<geometry>(filename);
 		if (value != nullptr)
 			// Model loaded successfully.  Add to content manager
-			_geometry[filename] = value;
+				_geometry[filename] = value;
 
 		// Now just return the value.  If it is a nullptr, caller has to deal with it
 		return value;
@@ -471,7 +471,7 @@ namespace render_framework
 		auto value = model_loader::load<model>(filename);
 		if (value != nullptr)
 			// Model loaded successfully.  Add to content manager
-			_models[filename] = value;
+				_models[filename] = value;
 
 		// Now just return the value.  If it is a nullptr, caller has to deal with it
 		return value;
@@ -496,8 +496,8 @@ namespace render_framework
 		auto value = texture_loader::load(filename);
 		if (value != nullptr)
 			// Texture loaded successfully.  Add to content manager
-			_textures[filename] = value;
-		
+				_textures[filename] = value;
+
 		// Return value.  Caller will deal with if nullptr
 		return value;
 	}
@@ -522,7 +522,7 @@ namespace render_framework
 		auto value = terrain_loader::load(filename);
 		if (value != nullptr)
 			// Terrain loaded successfully.  Add to content manager
-			_terrain[filename] = value;
+				_terrain[filename] = value;
 		// Return loaded terrain.  nullptr dealt with by caller
 		return value;
 	}
@@ -611,7 +611,7 @@ namespace render_framework
 		value->tex = texture_loader::load(value->tex->filenames);
 		if (value->tex == nullptr)
 			// Cube map not loaded.  Return false
-			return false;
+				return false;
 
 		// Skybox is now built.  Add to content manager
 		// First add cube map
@@ -646,7 +646,7 @@ namespace render_framework
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<mesh>& value)
 	{
-		 // TODO - build mesh
+		// TODO - build mesh
 		return false;
 	}
 
@@ -688,37 +688,37 @@ namespace render_framework
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<frame_buffer>& value)
 	{
-        // Set the draw buffer
-        static GLenum draw_buffer = GL_COLOR_ATTACHMENT0;
+		// Set the draw buffer
+		static GLenum draw_buffer = GL_COLOR_ATTACHMENT0;
 
 		// Create texture to store data into
-        value->tex = std::make_shared<texture>();
-        value->tex->width = value->width;
-        value->tex->height = value->height;
+		value->tex = std::make_shared<texture>();
+		value->tex->width = value->width;
+		value->tex->height = value->height;
 
-        // Initialise texture with OpenGL
-        glGenTextures(1, &value->tex->image);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, value->tex->image);
+		// Initialise texture with OpenGL
+		glGenTextures(1, &value->tex->image);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, value->tex->image);
 
-        // Create the image data
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, value->width, value->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+		// Create the image data
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, value->width, value->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-        // Set properties
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		// Set properties
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        // Check for errors
-        if (CHECK_GL_ERROR)
-            return false;
+		// Check for errors
+		if (CHECK_GL_ERROR)
+			return false;
 
-        // The second buffer stores depth information
-        // Create depth texture
-        value->depth = std::make_shared<texture>();
-        value->depth->width = value->width;
-        value->depth->height = value->height;
+		// The second buffer stores depth information
+		// Create depth texture
+		value->depth = std::make_shared<texture>();
+		value->depth->width = value->width;
+		value->depth->height = value->height;
 
 		glGenTextures(1, &value->depth->image);
 		glBindTexture(GL_TEXTURE_2D, value->depth->image);
@@ -735,26 +735,26 @@ namespace render_framework
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, value->depth->image);
 
-        // Now create the framebuffer
-        glGenFramebuffers(1, &value->buffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, value->buffer);
-        // Set the texture and depth
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, value->tex->image, 0);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, value->depth->image, 0);
+		// Now create the framebuffer
+		glGenFramebuffers(1, &value->buffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, value->buffer);
+		// Set the texture and depth
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, value->tex->image, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, value->depth->image, 0);
 
-        // Check for errors
-        if (CHECK_GL_ERROR)
-            return false;
+		// Check for errors
+		if (CHECK_GL_ERROR)
+			return false;
 
-        // Set draw buffer
-        glDrawBuffers(1, &draw_buffer);
+		// Set draw buffer
+		glDrawBuffers(1, &draw_buffer);
 
-        // Unbind framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// Unbind framebuffer
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // Check for errors
-        if (CHECK_GL_ERROR)
-            return false;
+		// Check for errors
+		if (CHECK_GL_ERROR)
+			return false;
 
 		_frame_buffers[name] = value;
 		return true;
@@ -805,17 +805,17 @@ namespace render_framework
 	template <>
 	bool content_manager::build(const std::string& name, std::shared_ptr<render_pass>& value)
 	{
-        // Check if effect is built
-        if (value->eff->program == 0)
-            if (!effect_loader::build_effect(value->eff))
-                return false;
-        // Build framebuffer if necessary
-        if (value->buffer->buffer == 0)
-            if (!build(name, value->buffer))
-                return false;
-        
-        // Add to the content manager
-        _render_passes[name] = value;
+		// Check if effect is built
+		if (value->eff->program == 0)
+			if (!effect_loader::build_effect(value->eff))
+				return false;
+		// Build framebuffer if necessary
+		if (value->buffer->buffer == 0)
+			if (!build(name, value->buffer))
+				return false;
+
+		// Add to the content manager
+		_render_passes[name] = value;
 
 		return true;
 	}
@@ -824,15 +824,15 @@ namespace render_framework
 	bool content_manager::build(const std::string& name, std::shared_ptr<post_process>& value)
 	{
 		// Loop through each render pass and build
-        auto index = 0;
-        for (auto& p : value->passes)
-        {
-            if (!build(name + std::string("_" + index), p))
-            {
-                std::cerr << "Failed to build all render passes for post process " << name << std::endl;
-                return false;
-            }
-        }
+		auto index = 0;
+		for (auto& p : value->passes)
+		{
+			if (!build(name + std::string("_" + index), p))
+			{
+				std::cerr << "Failed to build all render passes for post process " << name << std::endl;
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -857,11 +857,11 @@ namespace render_framework
 			// Geometry does not exist.  Check if built
 			if (value->vertex_array_object == 0)
 				// Geometry not built (vertex array is 0).  Build.
-				if (!geometry_builder::initialise_geometry(value))
-					// Geometry not built.  Return false
-					return false;
+					if (!geometry_builder::initialise_geometry(value))
+						// Geometry not built.  Return false
+							return false;
 
-			// Geometry is successfully built, and name doesn't exist in 
+			// Geometry is successfully built, and name doesn't exist in
 			// content manager.  Add to content manager
 			_geometry[name] = value;
 
@@ -871,7 +871,7 @@ namespace render_framework
 	}
 
 	/*
-	Adds a model to the content manager.  Will check if model has been loaded, 
+	Adds a model to the content manager.  Will check if model has been loaded,
 	and if not will do so.
 	*/
 	template <>
@@ -896,7 +896,7 @@ namespace render_framework
 				value = model_loader::load<model>(name);
 				if (value == nullptr)
 					// Model not loaded.  Return false
-					return false;
+						return false;
 			}
 
 			// Model is successfully loaded and does not exist in the content
@@ -919,7 +919,7 @@ namespace render_framework
 		auto found = _textures.find(name);
 		if (found != _textures.end())
 		{
-			// Texture already exists in the content manager.  Display message 
+			// Texture already exists in the content manager.  Display message
 			// and return false
 			std::cerr << "Error: texture " << name << " already exists" << std::endl;
 			return false;
@@ -934,7 +934,7 @@ namespace render_framework
 				value = texture_loader::load(name);
 				if (value == nullptr)
 					// Texture not loaded.  Return false
-					return false;
+						return false;
 			}
 
 			// Texture is already loaded and does not exist in the content
@@ -967,7 +967,7 @@ namespace render_framework
 			// Cube map does not exist.  Check if loaded
 			if (value->image == 0)
 				// Image ID in OpenGL is 0 (no image).  Try and build
-				return build(name, value);
+					return build(name, value);
 
 			// Cube map is successfully loaded and does not exist in the content
 			// manager.  Add to content manager
@@ -999,8 +999,8 @@ namespace render_framework
 			// Skybox does not exist.  Check if built
 			if (value->tex->image == 0)
 				// Image ID in OpenGL is 0 (no image).  Try and build.  Return
-				// result of build
-				return build(name, value);
+					// result of build
+						return build(name, value);
 
 			// Skybox is successfully built and is not in content manager.  Add
 			// to content manager
@@ -1012,7 +1012,7 @@ namespace render_framework
 	}
 
 	/*
-	Adds a piece of terrain to the content manager.  Will check if the terrain 
+	Adds a piece of terrain to the content manager.  Will check if the terrain
 	has been built, and if not will do so.
 	*/
 	template <>
@@ -1032,27 +1032,27 @@ namespace render_framework
 			// Terrain does not exist.  Check if loaded
 			if (value->geom->positions.size() == 0)
 			{
-				// Terrain is not loaded.  Load terrain assuming name is 
+				// Terrain is not loaded.  Load terrain assuming name is
 				// is filename
 				value = terrain_loader::load(name);
 				if (value == nullptr)
 					// Terrain not loaded.  Return false
-					return false;
+						return false;
 			}
 			// Geometry data exists, but is it built?
 			else if (value->geom->vertex_array_object == 0)
 				// Vertex array is 0 (no array).  Try and build
 				if (!geometry_builder::initialise_geometry(value->geom))
 					// Geometry not initialise.  Return false
-					return false;
+						return false;
 
 			// Now check if material is initialised
 			if (value->mat->buffer == 0)
-				// Material data is not built.  Build material, using name of 
-				// terrain
-				if (!build((name + "_mat"), value->mat))
-					// Material not built.  Return false
-					return false;
+				// Material data is not built.  Build material, using name of
+					// terrain
+						if (!build((name + "_mat"), value->mat))
+							// Material not built.  Return false
+								return false;
 
 			// Terrain is successfully loaded / built, but not in content manager.
 			// Add to content manager.
@@ -1084,8 +1084,8 @@ namespace render_framework
 			// Material doesn't exist.  Check if built
 			if (value->buffer == 0)
 				// Material data not built.  Try and build.  Return result of
-				// build
-				return build(name, value);
+					// build
+						return build(name, value);
 
 			// Material is already built but not in content manager.  Add to
 			// the content manager.
@@ -1116,10 +1116,10 @@ namespace render_framework
 		{
 			// Mesh doesn't exist.  Check if built
 			if (value->geom->vertex_array_object == 0 || value->mat->buffer == 0)
-				// We check bot the vertex array and material buffer for 
-				// for initialisation.  Either one being 0 (not built) will 
-				// cause a build operation.  Return result from build
-				return build(name, value);
+				// We check bot the vertex array and material buffer for
+					// for initialisation.  Either one being 0 (not built) will
+						// cause a build operation.  Return result from build
+							return build(name, value);
 
 			// Mesh already built and not in content manager.  Add to
 			// the content manager
@@ -1151,10 +1151,10 @@ namespace render_framework
 			// Directional light doesn't exist.  Check if built
 			if (value->buffer == 0)
 				// Directional light not built.  Try and build.  Return result
-				// from build
-				return build(name, value);
+					// from build
+						return build(name, value);
 
-			// Directional light built and not in content manager.  Add to the 
+			// Directional light built and not in content manager.  Add to the
 			// content manager
 			_directional_lights[name] = value;
 
@@ -1164,7 +1164,7 @@ namespace render_framework
 	}
 
 	/*
-	Adds a point light to the content manager.  Will check if the light has 
+	Adds a point light to the content manager.  Will check if the light has
 	been built, and if not will do so.
 	*/
 	template <>
@@ -1174,7 +1174,7 @@ namespace render_framework
 		auto found = _point_lights.find(name);
 		if (found != _point_lights.end())
 		{
-			// Point light of given name already exists.  Display error and 
+			// Point light of given name already exists.  Display error and
 			// return false
 			std::cerr << "Error: point light " << name << " already exists" << std::endl;
 			return false;
@@ -1184,8 +1184,8 @@ namespace render_framework
 			// Point light doesn't exist.  Check if built
 			if (value->buffer == 0)
 				// Point light not built.  Try and build.  Return result from
-				// build
-				return build(name, value);
+					// build
+						return build(name, value);
 
 			// Point light built and not in content manager.  Add to the content
 			// manager
@@ -1217,10 +1217,10 @@ namespace render_framework
 			// Spot light doesn't exist.  Check if built
 			if (value->buffer == 0)
 				// Spot light not built.  Try and build.  Return result from
-				// build
-				return build(name, value);
+					// build
+						return build(name, value);
 
-			// Spot light built and not in content manager.  Add to the content 
+			// Spot light built and not in content manager.  Add to the content
 			// manager
 			_spot_lights[name] = value;
 
@@ -1230,7 +1230,7 @@ namespace render_framework
 	}
 
 	/*
-	Adds a set of dynamic lights to the content manager.  Will check if the 
+	Adds a set of dynamic lights to the content manager.  Will check if the
 	light has been built, and if not will do so.
 	*/
 	template <>
@@ -1241,7 +1241,7 @@ namespace render_framework
 		auto found = _dynamic_lights.find(name);
 		if (found != _dynamic_lights.end())
 		{
-			// Dynamic lights of given name already exists.  Display error and 
+			// Dynamic lights of given name already exists.  Display error and
 			// return false
 			std::cerr << "Error: dynamic lights " << name << " << already exists" << std::endl;
 			return false;
@@ -1251,8 +1251,8 @@ namespace render_framework
 			// Dynamic lights do not exist in content manager.  Check if built
 			if (value->buffer == 0)
 				// Dynamic lights not built.  Try and build.  Return result from
-				// build
-				return build(name, value);
+					// build
+						return build(name, value);
 
 			// Dynamic lights built and not in content manager.  Add to the
 			// content manager
@@ -1290,7 +1290,7 @@ namespace render_framework
 				return (value != nullptr);
 			}
 
-			// Shader loaded and not in content manager.  Add to the content 
+			// Shader loaded and not in content manager.  Add to the content
 			// manager
 			_shaders[name] = value;
 
@@ -1352,17 +1352,17 @@ namespace render_framework
 		else
 		{
 			// Frame buffer does not exist.  Check if screen
-            if (name == "SCREEN")
-            {
-                // Just add - no need to build
-                _frame_buffers[name] = value;
-                return true;
-            }
-            // Check if built
+			if (name == "SCREEN")
+			{
+				// Just add - no need to build
+				_frame_buffers[name] = value;
+				return true;
+			}
+			// Check if built
 			if (value->buffer == 0)
 				// Frame buffer not built.  Try and build.  Return result of
-				// build operation
-				return build(name, value);
+					// build operation
+						return build(name, value);
 
 			// Frame buffer built.  Add to content manager
 			_frame_buffers[name] = value;
@@ -1393,8 +1393,8 @@ namespace render_framework
 			// Depth buffer does not exist.  Check if built
 			if (value->buffer == 0)
 				// Depth buffer not built.  Try and build.  Return result of
-				// build operation
-				return build(name, value);
+					// build operation
+						return build(name, value);
 
 			// Depth buffer built.  Add to content manager
 			_depth_buffers[name] = value;
@@ -1425,8 +1425,8 @@ namespace render_framework
 			// Shadow map does not exist.  Check if built
 			if (value->buffer == 0 || value->buffer->buffer == 0)
 				// Depth buffer not built.  Try and build.  Return result of
-				// build operation
-				return build(name, value);
+					// build operation
+						return build(name, value);
 
 			// Shadow map built.  Add to content manager
 			_shadow_maps[name] = value;
@@ -1447,7 +1447,7 @@ namespace render_framework
 		auto found = _render_passes.find(name);
 		if (found != _render_passes.end())
 		{
-			// Render pass of given name already exists.  Display error and 
+			// Render pass of given name already exists.  Display error and
 			// return false
 			std::cerr << "Error: render pass " << name << " already exists" << std::endl;
 			return false;
@@ -1457,8 +1457,8 @@ namespace render_framework
 			// Render pass does not exist.  Check if built
 			if (value->buffer == 0 || value->buffer->buffer == 0)
 				// Render pass not built.  Try and build.  Return result of
-				// build operation
-				return build(name, value);
+					// build operation
+						return build(name, value);
 
 			// Render pass built.  Add to content manager
 			_render_passes[name] = value;

@@ -7,38 +7,24 @@ using namespace std;
 using namespace render_framework;
 using namespace glm;
 
-void UserControls::moveCamera (free_camera* cam, float deltaTime) {
-	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
-		cam->move(vec3(0.0, 0.0, -5.0) * deltaTime);
-		if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
-			cam->move(vec3(0.0, 0.0, 5.0) * deltaTime);
-		}
-		if (glfwGetKey(renderer::get_instance().get_window(), 'A')) {
-			cam->move(vec3(-5.0, 0.0, 0.0) * deltaTime);
-		}
-		if (glfwGetKey(renderer::get_instance().get_window(), 'D')) {
-			cam->move(vec3(5.0, 0.0, 0.0) * deltaTime);
-		}
-		if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT_SHIFT)) {
-			cam->move(vec3(0.0, 5.0, 0.0) * deltaTime);
-		}
-		if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT_CONTROL)) {
-			cam->move(vec3(0.0, 5.0, 0.0) * deltaTime);
-		}
-	}
-} // moveCamera()
-
-void UserControls::rotateCamera(free_camera* cam, float deltaTime) {
-	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
-		cam->rotate(half_pi<float>() * deltaTime, 0.0);
-	}
+void UserControls::moveCamera(shared_ptr<arc_ball_camera> cam, float deltaTime) {
+	// Move the camera when keys are pressed
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_RIGHT)) {
-		cam->rotate(-half_pi<float>() * deltaTime, 0.0);
+		cam->rotate(0.0f, quarter_pi<float>() * deltaTime);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_LEFT)) {
+		cam->rotate(0.0f, -quarter_pi<float>() * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		cam->rotate(0.0, half_pi<float>() * deltaTime);
+		cam->move(-20.0f * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		cam->rotate(0.0, -half_pi<float>() * deltaTime);
+		cam->move(20.0f * deltaTime);
 	}
-} //rotateCamera
+	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
+		cam->rotate(quarter_pi<float>() * deltaTime, 0.0);
+	}
+	if (glfwGetKey(renderer::get_instance().get_window(), 'S')) {
+		cam->rotate(-quarter_pi<float>() * deltaTime, 0.0);
+	}
+} // moveCamera()

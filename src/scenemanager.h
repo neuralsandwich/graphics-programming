@@ -1,15 +1,16 @@
 #include <render_framework\render_framework.h>
 
+#pragma once
+
 using namespace std;
 using namespace render_framework;
 
 class SceneManager {
-
 public:
 	// Destructor for SceneManager
 	~SceneManager() { shutdown(); };
 
-	// Gets singleton instance o 
+	// Gets singleton instance o
 	static SceneManager& get_instance()
 	{
 		static SceneManager instance;
@@ -24,10 +25,10 @@ public:
 	bool initialize();
 
 	// Render all registered objects
-	void renderScene(float deltaTime);
+	void render_scene(float deltaTime);
 
 	// Updates the current scene
-	void updateScene(float deltaTime);
+	void update_scene(float deltaTime);
 
 	shared_ptr<directional_light> light;
 
@@ -44,9 +45,11 @@ private:
 	// Private copy constructor
 	SceneManager(const SceneManager&);
 
+	// Initialises the lighting for the scene
+	bool initialize_lighting();
+
 	// Private assignment operator
 	void operator=(SceneManager&);
 
 	void shutdown();
-
 };

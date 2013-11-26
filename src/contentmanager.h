@@ -1,17 +1,28 @@
 #include <vector>
+#include <iostream>
 #include <GLM\glm.hpp>
-#include <render_framework\render_framework.h>
+
+#include "tiny_obj_loader.h"
+#include "CSVparser.hpp"
+#include "cameramanager.h"
+#include "scenemanager.h"
+#include "Prop.h"
+#include "Sputnik.h"
+#include "Earth.h"
+#include "Moon.h"
+
+#pragma once
 
 using namespace std;
+using namespace glm;
 using namespace render_framework;
 
 class ContentManager {
-
 public:
 	// Destructor for CameraManager
 	~ContentManager() { shutdown(); };
 
-	// Gets singleton instance o 
+	// Gets singleton instance o
 	static ContentManager& get_instance()
 	{
 		static ContentManager instance;
@@ -29,32 +40,60 @@ public:
 	void update(float deltaTime);
 
 	// Register object with scene manager for rendering
-	void registerProp(mesh object);
+	void register_prop(Prop* prop);
 
 	// Unregister object with scene manager
-	void unregisterProp(mesh object);
+	void unregister_prop(Prop* prop);
 
 	// Get object at index
-	mesh getPropAt(int index);
+	Prop* get_prop_at(int index);
 
 	// Get propList's size
-	int propListSize();
+	int prop_list_size();
+
+	// DEPRECATED: Load Content
+	bool load_prop_list(string path);
 
 	// Load Content
-	bool loadPropList(string path);
+	bool load_props();
 
-	bool loadModel(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
+	// DEPRECATED: Load Model
+	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
+
+	// Load model
+	bool load_model(Prop* prop, string modelPath);
+
+	// load vertices for model
+	void load_vertices(tinyobj::shape_t * shape, mesh * model);
+
+	// load normals for model
+	void load_normals(tinyobj::shape_t * shape, mesh * model);
+
+	// load texture coordinates for model
+	void load_texcoords(tinyobj::shape_t * shape, mesh * model);
+
+	// load indices for model
+	void load_indices(tinyobj::shape_t * shape, mesh * model);
+
+	// load shader information for model
+	void load_shader_data(tinyobj::shape_t * shape, mesh * model);
 
 private:
 
 	// Private flag for current status of the manager
 	bool _running;
-	 
-	// Private collection of objects
-	std::deque<mesh> propList;
+
+	// Private collection of Props
+	vector<Prop*> prop_list;
 
 	// Path to scene prop list
 	string path;
+
+	Sputnik sputnik;
+
+	Earth earth;
+
+	Moon moon;
 
 	// Private constructor (This CameraManager is a singleton)
 	ContentManager() {};
@@ -66,5 +105,4 @@ private:
 	void operator=(ContentManager&);
 
 	void shutdown();
-
 };
