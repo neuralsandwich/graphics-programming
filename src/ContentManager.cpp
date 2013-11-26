@@ -239,7 +239,9 @@ void ContentManager::shutdown()
  */
 void ContentManager::update(float deltaTime)
 {
-    // TODO: Implement Props updating
+    for each (Prop* ptr_p in prop_list) {
+        ptr_p->update();
+    }
 } // update(float deltaTime)
 
 /* prop_list_size : Returns the size of prop_list

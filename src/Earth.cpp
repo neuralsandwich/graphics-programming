@@ -27,4 +27,5 @@ void Earth::update(void)
 
 void Earth::update_clouds(void)
 {
+	models.at(clouds).trans.rotate(vec3(0.0, pi<float>(), 0.0) * (float) 0.00005);
 }
