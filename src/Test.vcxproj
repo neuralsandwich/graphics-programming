@@ -74,8 +74,10 @@
     <ClCompile Include="CSVparser.cpp" />
     <ClCompile Include="coursework.cpp" />
     <ClCompile Include="Earth.cpp" />
+    <ClCompile Include="Moon.cpp" />
     <ClCompile Include="Prop.cpp" />
     <ClCompile Include="scenemanager.cpp" />
+    <ClCompile Include="Sol.cpp" />
     <ClCompile Include="Sputnik.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="tiny_obj_loader.cc" />
@@ -86,8 +88,10 @@
     <ClInclude Include="contentmanager.h" />
     <ClInclude Include="CSVparser.hpp" />
     <ClInclude Include="Earth.h" />
+    <ClInclude Include="Moon.h" />
     <ClInclude Include="Prop.h" />
     <ClInclude Include="scenemanager.h" />
+    <ClInclude Include="Sol.h" />
     <ClInclude Include="Sputnik.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="usercontrols.h" />

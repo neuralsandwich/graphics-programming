@@ -3,6 +3,9 @@
 // Model Classes
 #include "Earth.h"
 #include "Sputnik.h"
+#include "Moon.h"
+
+#pragma once
 
 /* initialize : Initializes the ContentManager.  
  * 
@@ -31,6 +34,7 @@ bool ContentManager::load_props()
 {
     Earth earth = Earth();
     Sputnik sputnik = Sputnik();
+    Moon moon = Moon();
 
     // Load Earth
     if (!load_model(&earth, earth.get_path())) {
@@ -38,6 +42,11 @@ bool ContentManager::load_props()
     }
     // Load Sputnik
     if (!load_model(&sputnik, sputnik.get_path())) {
+       return false;
+    }
+
+    // Load Moon
+    if (!load_model(&moon, moon.get_path())) {
        return false;
     }
 
@@ -49,6 +58,10 @@ bool ContentManager::load_props()
     // Add Sputnik meshes
     for (i = 0; i < sputnik.mesh_size(); ++i) {
         new_prop_list.push_back(sputnik.get_mesh(i));
+    }
+    // AddMoon meshes
+    for (i = 0; i < moon.mesh_size(); ++i) {
+        new_prop_list.push_back(moon.get_mesh(i));
     }
 
     return true;
