@@ -19,6 +19,7 @@ bool ContentManager::initialize()
     }
 
     _running = true;
+    cout << "## ContentManager Initialised ##" << '\n';
     return true;
 } // initialize()
 
@@ -76,10 +77,9 @@ bool ContentManager::load_props()
     if (!load_model(&earth, earth.get_path())) {
         return false;
     }
-
     // Load Sputnik
     if (!load_model(&sputnik, sputnik.get_path())) {
-        return false;
+       return false;
     }
 
     // Add Earth meshes
@@ -103,8 +103,8 @@ bool ContentManager::load_props()
 bool ContentManager::load_model(Prop* prop, string modelPath)
 {
     // Load .OBJ
-    std::vector<tinyobj::shape_t> shapes;
-    std::string err = tinyobj::LoadObj(shapes, modelPath.c_str());
+    vector<tinyobj::shape_t> shapes;
+    string err = tinyobj::LoadObj(shapes, modelPath.c_str());
 
     // If an error occured stop
     if (!err.empty()) {
@@ -112,12 +112,12 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
         return false;
     }
 
-    // Create mesh
-    shared_ptr<mesh> model = make_shared<mesh>();
-    model->geom = make_shared<geometry>();
-
     unsigned int i;
     for (i=0; i < shapes.size(); ++i) {
+        // Create mesh
+        shared_ptr<mesh> model = make_shared<mesh>();
+        model->geom = make_shared<geometry>();
+
         tinyobj::shape_t* shape = &shapes[i];
         load_vertices(shape, model.get());
         load_normals(shape, model.get());

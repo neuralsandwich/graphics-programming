@@ -13,6 +13,7 @@ Sputnik::Sputnik(void)
 	position = vec3(0.0, 0.0, 280.0);
 	//velocity = vec3((float)8e3, (float) 0.0, (float) 0.0);
 	velocity = vec3(0.0, 0.0, 0.0);
+	rotation = vec3(0.0,0.0,-1.5707963267);
 }
 
 

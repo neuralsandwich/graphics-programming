@@ -12,6 +12,7 @@ Earth::Earth(void)
 	position = vec3(0.0, 0.0, 0.0);
 	//velocity = vec3((float) 29.78e3, (float) 0, (float) 0);
 	velocity = vec3(0.0, 0.0, 0.0);
+	rotation = vec3(0.0, 0.0, 0.0);
 }
 
 
