@@ -8,6 +8,8 @@
 #include "scenemanager.h"
 #include "Prop.h"
 #include "Sputnik.h"
+#include "Earth.h"
+#include "Moon.h"
 
 #pragma once
 
@@ -38,13 +40,13 @@ public:
 	void update(float deltaTime);
 
 	// Register object with scene manager for rendering
-	void register_prop(mesh object);
+	void register_prop(Prop* prop);
 
 	// Unregister object with scene manager
-	void unregister_prop(mesh object);
+	void unregister_prop(Prop* prop);
 
 	// Get object at index
-	mesh get_prop_at(int index);
+	Prop* get_prop_at(int index);
 
 	// Get propList's size
 	int prop_list_size();
@@ -81,16 +83,17 @@ private:
 	// Private flag for current status of the manager
 	bool _running;
 
-	// Private collection of objects
-	deque<mesh> prop_list;
-
 	// Private collection of Props
-	vector<mesh> new_prop_list;
+	vector<Prop*> prop_list;
 
 	// Path to scene prop list
 	string path;
 
 	Sputnik sputnik;
+
+	Earth earth;
+
+	Moon moon;
 
 	// Private constructor (This CameraManager is a singleton)
 	ContentManager() {};

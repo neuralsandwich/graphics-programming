@@ -22,6 +22,7 @@ Earth::~Earth(void)
 
 void Earth::update(void)
 {
+	update_clouds();
 }
 
 void Earth::update_clouds(void)

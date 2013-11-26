@@ -1,10 +1,5 @@
 #include "contentmanager.h"
 
-// Model Classes
-#include "Earth.h"
-#include "Sputnik.h"
-#include "Moon.h"
-
 #pragma once
 
 /* initialize : Initializes the ContentManager.  
@@ -32,9 +27,9 @@ bool ContentManager::initialize()
  */
 bool ContentManager::load_props()
 {
-    Earth earth = Earth();
-    Sputnik sputnik = Sputnik();
-    Moon moon = Moon();
+    earth = Earth();
+    sputnik = Sputnik();
+    moon = Moon();
 
     // Load Earth
     if (!load_model(&earth, earth.get_path())) {
@@ -51,18 +46,11 @@ bool ContentManager::load_props()
     }
 
     // Add Earth meshes
-    int i;
-    for (i = 0; i < earth.mesh_size(); ++i) {
-        new_prop_list.push_back(earth.get_mesh(i));
-    }
+    register_prop(&earth);
     // Add Sputnik meshes
-    for (i = 0; i < sputnik.mesh_size(); ++i) {
-        new_prop_list.push_back(sputnik.get_mesh(i));
-    }
-    // AddMoon meshes
-    for (i = 0; i < moon.mesh_size(); ++i) {
-        new_prop_list.push_back(moon.get_mesh(i));
-    }
+    register_prop(&sputnik);
+    // Add Moon meshes
+    register_prop(&moon);
 
     return true;
 } // load_props()
@@ -260,7 +248,7 @@ void ContentManager::update(float deltaTime)
 */
 int ContentManager::prop_list_size()
 {
-    return new_prop_list.size();
+    return prop_list.size();
 } // prop_list_size()
 
 /* get_prop_at : Returns prop at the given index
@@ -270,25 +258,25 @@ int ContentManager::prop_list_size()
  * Gets the prop at the index provided from
  * prop_list
  */
-mesh ContentManager::get_prop_at(int index)
+Prop* ContentManager::get_prop_at(int index)
 {
-    return new_prop_list.at(index);;
+    return prop_list.at(index);
 } // get_prop_at()
 
 /* register_prop : Adds prop to prop_list
  * 
  * Register object with scene manager for rendering
  */
-void ContentManager::register_prop(mesh mesh)
+void ContentManager::register_prop(Prop* prop)
 {
-    prop_list.push_back(mesh);
+    prop_list.push_back(prop);
 } // register_prop()
 
 /*  unregister_prop : Removes prop from prop_list
  *
  * Unregister object with scene manager
  */
-void ContentManager::unregister_prop(mesh mesh)
+void ContentManager::unregister_prop(Prop* prop)
 {
-    prop_list.push_back(mesh);
+    prop_list.push_back(prop);
 } // unregister_prop()
