@@ -16,10 +16,10 @@ void UserControls::moveCamera(shared_ptr<arc_ball_camera> cam, float deltaTime) 
 		cam->rotate(0.0f, -quarter_pi<float>() * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_UP)) {
-		cam->move(-20.0f * deltaTime);
+		cam->move(-1000.0f * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_DOWN)) {
-		cam->move(20.0f * deltaTime);
+		cam->move(1000.0f * deltaTime);
 	}
 	if (glfwGetKey(renderer::get_instance().get_window(), 'W')) {
 		cam->rotate(quarter_pi<float>() * deltaTime, 0.0);

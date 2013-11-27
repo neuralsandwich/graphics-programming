@@ -113,9 +113,10 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
             return false;
         }
 
-        model->trans.position = prop->get_position();
+        model->trans.scale = prop->get_scale();
         quat rot(prop->get_rotation());
         model->trans.orientation = model->trans.orientation * rot;
+        model->trans.position = prop->get_position();
 
         prop->add_mesh(model.get());
     } // for each in shapes[]

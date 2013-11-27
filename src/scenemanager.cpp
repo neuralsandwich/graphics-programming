@@ -99,7 +99,7 @@ void SceneManager::update_scene(float deltaTime)
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
 		_focus = ContentManager::get_instance().get_prop_at(0)->get_mesh(0).trans.position;
-		CameraManager::get_instance().currentCamera->set_distance(300.0f);
+		CameraManager::get_instance().currentCamera->set_distance(20000.0f);
 		CameraManager::get_instance().currentCamera->set_rotationY(0.336f);
 	}
 	// Sputnik Cam
@@ -114,7 +114,7 @@ void SceneManager::update_scene(float deltaTime)
 	if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
 		CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
 		_focus = ContentManager::get_instance().get_prop_at(2)->get_mesh(0).trans.position;
-		CameraManager::get_instance().currentCamera->set_distance(100.0f);
+		CameraManager::get_instance().currentCamera->set_distance(3000.0f);
 	}
 
 	CameraManager::get_instance().currentCamera->set_target(_focus);

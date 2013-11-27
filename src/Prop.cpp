@@ -78,6 +78,15 @@ vec3 Prop::get_rotation()
 	return rotation;
 } // get_rotation()
 
+/* get_scale : Get Prop scale
+ *
+ * Returns vec3 scale
+ */
+vec3 Prop::get_scale()
+{
+	return scale;
+} // get_scale()
+
 /* mesh_size : number of mesh for prop
  *
  * Returns and integer for the number of meshes in prop

@@ -13,7 +13,6 @@ out vec3 vertex_position;
 out vec3 transformed_normal;
 out vec2 vertex_tex_coord;
 
-
 void main()
 {
   // Past through position
@@ -28,4 +27,6 @@ void main()
   // Output tex coord
   vertex_tex_coord = tex_coord;
 
+  // Using Logarithmic Depth to stop Z fighting on Earth atmosphere
+  gl_Position.z = log(1e-6 * gl_Position.z + 1) / log(1e-6 * 150e6 + 1) * gl_Position.w;
 }

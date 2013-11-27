@@ -9,10 +9,11 @@ Earth::Earth(void)
 	vert = "Earth.vert";
 	frag = "Earth.frag";
 	//position = vec3(1.52097701e8, 0, 0);
-	position = vec3(0.0, 0.0, 0.0);
+	position = vec3(0.0,  0.0,  0.0);
 	//velocity = vec3((float) 29.78e3, (float) 0, (float) 0);
-	velocity = vec3(0.0, 0.0, 0.0);
-	rotation = vec3(0.0, 0.0, 0.0);
+	velocity = vec3(0.0,  0.0,  0.0);
+	rotation = vec3(0.0,  0.0,  0.0);
+	scale    = vec3(60.0, 60.0, 60.0);
 }
 
 
