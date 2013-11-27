@@ -147,6 +147,12 @@
     <None Include="Sputnik.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="sky_box.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sky_box.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Earth-specularmap.jpg">

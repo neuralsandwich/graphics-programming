@@ -19,6 +19,9 @@ using namespace render_framework;
 
 class ContentManager {
 public:
+
+	shared_ptr<skybox> sky_box;
+
 	// Destructor for CameraManager
 	~ContentManager() { shutdown(); };
 
@@ -51,14 +54,11 @@ public:
 	// Get propList's size
 	int prop_list_size();
 
-	// DEPRECATED: Load Content
-	bool load_prop_list(string path);
-
 	// Load Content
 	bool load_props();
 
-	// DEPRECATED: Load Model
-	bool load_model(string modelPath, glm::vec3 modelPosition, glm::vec3 modelRotation, string modelVert, string modelFrag);
+	// Load Content
+	bool load_skybox();
 
 	// Load model
 	bool load_model(Prop* prop, string modelPath);

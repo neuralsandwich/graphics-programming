@@ -41,8 +41,8 @@ bool SceneManager::initialize()
 
 	// Set Scene Clear colour to cyan Then render the blue background, just
 	// something nicer to look at While we load everything else.
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	render_scene(0.0);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//render_scene(0.0);
 
 	// Initialise the scenes lighting.
 	if (!initialize_lighting()) {
@@ -137,6 +137,10 @@ void SceneManager::render_scene(float deltaTime)
 
 	if (renderer::get_instance().begin_render())
 	{
+		if (!(ContentManager::get_instance().sky_box == nullptr)) {
+			renderer::get_instance().render(ContentManager::get_instance().sky_box);
+		}
+
 		int i, j;
 		for (i = 0; i < ContentManager::get_instance().prop_list_size(); ++i) {
 			for (j = 0; j < ContentManager::get_instance().get_prop_at(i)->mesh_size(); ++j) {

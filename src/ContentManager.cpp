@@ -11,6 +11,10 @@ bool ContentManager::initialize()
 {
     path = "proplist.csv";
 
+    if (!load_skybox()) {
+        cout << "Skybox failed to load" << '\n';
+    }
+
     if (!load_props()) {
         cout << "Props failed to load" << '\n';
         return false;
@@ -20,6 +24,35 @@ bool ContentManager::initialize()
     cout << "## ContentManager Initialised ##" << '\n';
     return true;
 } // initialize()
+
+/* load_skybox : loads the props for the scene
+ *
+ * Loads the stars for the solar system.
+ */
+bool ContentManager::load_skybox() {
+    // Create skybox
+    sky_box = make_shared<skybox>();
+
+    // Load in cube map
+    vector<string> filenames;
+    filenames.push_back("stars_left2.png");
+    filenames.push_back("stars_right1.png");
+    filenames.push_back("stars_top3.png");
+    filenames.push_back("stars_bottom4.png");
+    filenames.push_back("stars_front5.png");
+    filenames.push_back("stars_back6.png");
+    sky_box->tex = texture_loader::load(filenames);
+
+    // Load in skybox shader
+    sky_box->eff = make_shared<effect>();
+    sky_box->eff->add_shader("sky_box.vert", GL_VERTEX_SHADER);
+    sky_box->eff->add_shader("sky_box.frag", GL_FRAGMENT_SHADER);
+    if (!effect_loader::build_effect(sky_box->eff)){
+        return false;
+    }
+
+
+} // load_skybox()
 
 /* load_props : loads the props for the scene
  *
