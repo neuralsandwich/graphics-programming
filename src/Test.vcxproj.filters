@@ -109,6 +109,9 @@
     <Object Include="Moon.obj">
       <Filter>Resource Files</Filter>
     </Object>
+    <Object Include="Sol.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <None Include="Earth.vert">
@@ -181,6 +184,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="sin.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sol.mtl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -122,6 +122,7 @@ bool ContentManager::load_props()
     earth = Earth();
     sputnik = Sputnik();
     moon = Moon();
+    sol = Sol();
 
     // Load Earth
     if (!load_model(&earth, earth.get_path())) {
@@ -137,12 +138,19 @@ bool ContentManager::load_props()
        return false;
     }
 
+    // Load Sol
+    if (!load_model(&sol, sol.get_path())) {
+       return false;
+    }
+
     // Add Earth meshes
     register_prop(&earth);
     // Add Sputnik meshes
     register_prop(&sputnik);
     // Add Moon meshes
     register_prop(&moon);
+    // Add Sun meshes
+    register_prop(&sol);
 
     return true;
 } // load_props()

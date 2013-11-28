@@ -101,21 +101,24 @@ void SceneManager::update_scene(float deltaTime)
         CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(0));
         _focus = ContentManager::get_instance().get_prop_at(0)->get_mesh(0).trans.position;
         CameraManager::get_instance().currentCamera->set_distance(20000.0f);
-        CameraManager::get_instance().currentCamera->set_rotationY(0.336f);
     }
     // Sputnik Cam
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_2)) {
         CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(1));
         _focus = ContentManager::get_instance().get_prop_at(1)->get_mesh(0).trans.position;
         CameraManager::get_instance().currentCamera->set_distance(5.0f);
-        CameraManager::get_instance().currentCamera->set_rotationY(-0.1000f);
-        CameraManager::get_instance().currentCamera->set_rotationY(0.4578f);
     }
     // Moon Cam
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_3)) {
         CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
         _focus = ContentManager::get_instance().get_prop_at(2)->get_mesh(0).trans.position;
-        CameraManager::get_instance().currentCamera->set_distance(3000.0f);
+        CameraManager::get_instance().currentCamera->set_distance(6000.0f);
+    }
+    // Sol Cam
+    if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_4)) {
+        CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
+        _focus = ContentManager::get_instance().get_prop_at(3)->get_mesh(0).trans.position;
+        CameraManager::get_instance().currentCamera->set_distance(10900.0f);
     }
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_G)) {
         ContentManager::get_instance().post->passes.pop_back();
