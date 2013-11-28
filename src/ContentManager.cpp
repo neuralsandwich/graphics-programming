@@ -27,7 +27,21 @@ bool ContentManager::initialize()
 
 bool ContentManager::load_frame_buffer() {
 
-    frame = make_shared<frame_buffer>();
+    post = make_shared<post_process>();
+    auto pass = make_shared<render_pass>();
+    pass->buffer = make_shared<frame_buffer>();
+    pass->buffer->width = renderer::get_instance().get_screen_width();
+    pass->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    pass->eff = make_shared<effect>();
+    pass->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    pass->eff->add_shader("display.frag", GL_FRAGMENT_SHADER);
+    // Add render pass to the post process
+    post->passes.push_back(pass);
+    // Build post process
+    if (!content_manager::get_instance().build("display", post)) {
+        return false;
+    }
 
     return true;
 }

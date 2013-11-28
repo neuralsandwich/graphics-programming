@@ -22,6 +22,8 @@ public:
 
 	shared_ptr<skybox> sky_box;
 
+	shared_ptr<post_process> post;
+
 	// Destructor for CameraManager
 	~ContentManager() { shutdown(); };
 
@@ -59,6 +61,8 @@ public:
 
 	// Load Content
 	bool load_skybox();
+
+	bool load_frame_buffer();
 
 	// Load model
 	bool load_model(Prop* prop, string modelPath);

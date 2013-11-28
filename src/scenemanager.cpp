@@ -135,6 +135,10 @@ void SceneManager::render_scene(float deltaTime)
 {
 	printf("## Rendering ##\n");
 
+	if (!(ContentManager::get_instance().post == nullptr)) {
+		renderer::get_instance().bind(ContentManager::get_instance().post);
+	}
+	
 	if (renderer::get_instance().begin_render())
 	{
 		if (!(ContentManager::get_instance().sky_box == nullptr)) {
@@ -149,6 +153,12 @@ void SceneManager::render_scene(float deltaTime)
 			}
 		}
 	}
+
+		// Render the post process
+	if (!(ContentManager::get_instance().post == nullptr)) {
+		renderer::get_instance().render(ContentManager::get_instance().post);
+	}
+
 	// End the render
 	renderer::get_instance().end_render();
 } // render_scene(float deltaTime)
