@@ -33,16 +33,51 @@ bool ContentManager::initialize()
 bool ContentManager::load_frame_buffer() {
 
     post = make_shared<post_process>();
-    auto pass = make_shared<render_pass>();
-    pass->buffer = make_shared<frame_buffer>();
-    pass->buffer->width = renderer::get_instance().get_screen_width();
-    pass->buffer->height = renderer::get_instance().get_screen_height();
+
+    // Create Normal framebuffer
+    normal = make_shared<render_pass>();
+    normal->buffer = make_shared<frame_buffer>();
+    normal->buffer->width = renderer::get_instance().get_screen_width();
+    normal->buffer->height = renderer::get_instance().get_screen_height();
     // Add effect
-    pass->eff = make_shared<effect>();
-    pass->eff->add_shader("display.vert", GL_VERTEX_SHADER);
-    pass->eff->add_shader("display.frag", GL_FRAGMENT_SHADER);
+    normal->eff = make_shared<effect>();
+    normal->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    normal->eff->add_shader("display.frag", GL_FRAGMENT_SHADER);
+    
+    // Create Grey scale framebuffer
+    grey = make_shared<render_pass>();
+    grey->buffer = make_shared<frame_buffer>();
+    grey->buffer->width = renderer::get_instance().get_screen_width();
+    grey->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    grey->eff = make_shared<effect>();
+    grey->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    grey->eff->add_shader("grey.frag", GL_FRAGMENT_SHADER);
+    
+    // Create hdr framebuffer
+    hdr = make_shared<render_pass>();
+    hdr->buffer = make_shared<frame_buffer>();
+    hdr->buffer->width = renderer::get_instance().get_screen_width();
+    hdr->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    hdr->eff = make_shared<effect>();
+    hdr->eff->add_shader("hdr.vert", GL_VERTEX_SHADER);
+    hdr->eff->add_shader("hdrblur.frag", GL_FRAGMENT_SHADER);
+    hdr->set_uniform_value("inverse_width", 1.0f/renderer::get_instance().get_screen_width());
+    hdr->set_uniform_value("inverse_height", 1.0f/renderer::get_instance().get_screen_height());
+
+    // Create pixelate scale framebuffer
+    pixelate = make_shared<render_pass>();
+    pixelate->buffer = make_shared<frame_buffer>();
+    pixelate->buffer->width = renderer::get_instance().get_screen_width();
+    pixelate->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    pixelate->eff = make_shared<effect>();
+    pixelate->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    pixelate->eff->add_shader("pixelate.frag", GL_FRAGMENT_SHADER);
+
     // Add render pass to the post process
-    post->passes.push_back(pass);
+    post->passes.push_back(normal);
     // Build post process
     if (!content_manager::get_instance().build("display", post)) {
         return false;

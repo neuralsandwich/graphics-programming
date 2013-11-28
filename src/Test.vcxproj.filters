@@ -171,6 +171,18 @@
     <None Include="display.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="grey.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="hdr.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="hdrblur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pixelate.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Earth-specularmap.jpg">

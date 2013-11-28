@@ -125,11 +125,15 @@
     <None Include="Earth.frag" />
     <None Include="Earth.mtl" />
     <None Include="Earth.vert" />
+    <None Include="grey.frag" />
+    <None Include="hdr.vert" />
+    <None Include="hdrblur.frag" />
     <None Include="Map__24_Composite.tga" />
     <None Include="Map__28_Falloff.tga" />
     <None Include="Moon.frag" />
     <None Include="moon.mtl" />
     <None Include="Moon.vert" />
+    <None Include="pixelate.frag" />
     <None Include="proplist.csv" />
     <None Include="sky_box.frag" />
     <None Include="sky_box.vert" />

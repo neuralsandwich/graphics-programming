@@ -24,6 +24,14 @@ public:
 
 	shared_ptr<post_process> post;
 
+	shared_ptr<render_pass> normal;
+
+	shared_ptr<render_pass> grey;
+
+	shared_ptr<render_pass> hdr;
+
+	shared_ptr<render_pass> pixelate;
+
 	// Destructor for CameraManager
 	~ContentManager() { shutdown(); };
 
