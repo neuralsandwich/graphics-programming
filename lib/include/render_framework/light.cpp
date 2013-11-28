@@ -262,10 +262,10 @@ namespace render_framework
 			return;
 		// Change the buffer data
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer);
-		glBufferSubData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + sizeof(glm::vec4),
-			sizeof(glm::vec3),
-			&data.spot_lights[index].position);
+		glBufferSubData(GL_UNIFORM_BUFFER, 
+						data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + sizeof(glm::vec4), 
+						sizeof(glm::vec3),
+						&data.spot_lights[index].position);
 		// Display any errors
 		CHECK_GL_ERROR;
 	}
@@ -289,9 +289,9 @@ namespace render_framework
 		// Change the buffer data
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer);
 		glBufferSubData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + 2 * sizeof(glm::vec4),
-			sizeof(glm::vec3),
-			&data.spot_lights[index].position);
+						data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + 2 * sizeof(glm::vec4),
+						sizeof(glm::vec3),
+						&data.spot_lights[index].position);
 		// Display any errors
 		CHECK_GL_ERROR;
 	}
@@ -306,9 +306,9 @@ namespace render_framework
 		// Change the buffer data
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer);
 		glBufferSubData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data),
-			sizeof(glm::vec4),
-			&data.spot_lights[index].colour);
+						data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data),
+						sizeof(glm::vec4),
+						&data.spot_lights[index].colour);
 		// Display any errors
 		CHECK_GL_ERROR;
 	}
@@ -323,9 +323,9 @@ namespace render_framework
 		// Change the buffer data
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer);
 		glBufferSubData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + 3 * sizeof(glm::vec4),
-			sizeof(glm::vec3),
-			&data.spot_lights[index].attenuation);
+						data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + 3 * sizeof(glm::vec4), 
+						sizeof(glm::vec3), 
+						&data.spot_lights[index].attenuation);
 		// Display any errors
 		CHECK_GL_ERROR;
 	}
@@ -340,9 +340,9 @@ namespace render_framework
 		// Change the buffer data
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer);
 		glBufferSubData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + 3 * sizeof(glm::vec4) + sizeof(glm::vec3),
-			sizeof(float),
-			&data.spot_lights[index].power);
+						data.point_lights.size() * sizeof(point_light_data) + index * sizeof(spot_light_data) + 3 * sizeof(glm::vec4) + sizeof(glm::vec3),
+						sizeof(float),
+						&data.spot_lights[index].power);
 		// Display any errors
 		CHECK_GL_ERROR;
 	}
@@ -354,19 +354,19 @@ namespace render_framework
 		// Bind
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer);
 		// Set the buffer data - first create buffer
-		glBufferData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data) + data.spot_lights.size() * sizeof(spot_light_data),
-			nullptr,
-			GL_STATIC_DRAW);
+		glBufferData(GL_UNIFORM_BUFFER, 
+					 data.point_lights.size() * sizeof(point_light_data) + data.spot_lights.size() * sizeof(spot_light_data), 
+					 nullptr, 
+					 GL_STATIC_DRAW);
 		// Now set the data
-		glBufferSubData(GL_UNIFORM_BUFFER,
-			0,
-			data.point_lights.size() * sizeof(point_light_data),
-			&data.point_lights[0]);
-		glBufferSubData(GL_UNIFORM_BUFFER,
-			data.point_lights.size() * sizeof(point_light_data),
-			data.spot_lights.size() * sizeof(spot_light_data),
-			&data.spot_lights[0]);
+		glBufferSubData(GL_UNIFORM_BUFFER, 
+						0, 
+						data.point_lights.size() * sizeof(point_light_data), 
+						&data.point_lights[0]);
+		glBufferSubData(GL_UNIFORM_BUFFER, 
+						data.point_lights.size() * sizeof(point_light_data), 
+						data.spot_lights.size() * sizeof(spot_light_data), 
+						&data.spot_lights[0]);
 		return !CHECK_GL_ERROR;
 	}
 }

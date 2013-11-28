@@ -28,8 +28,8 @@ namespace render_framework
 		GLuint binormal_buffer;
 		// ID of buffer of colour data as stored by OpenGL
 		GLuint colour_buffer;
-		// ID of buffer of texture weights used for multitexturing on terrain
-		GLuint texture_weight_buffer;
+        // ID of buffer of texture weights used for multitexturing on terrain
+        GLuint texture_weight_buffer;
 		// ID of buffer of indices as stored by OpenGL
 		GLuint index_buffer;
 
@@ -45,8 +45,8 @@ namespace render_framework
 		std::vector<glm::vec3> binormals;
 		// Vector containing colour data
 		std::vector<glm::vec4> colours;
-		// Vector containing texture weights used for multitexturing on terrain
-		std::vector<glm::vec4> texture_weights;
+        // Vector containing texture weights used for multitexturing on terrain
+        std::vector<glm::vec4> texture_weights;
 		// Vector containing index data
 		std::vector<unsigned int> indices;
 
@@ -55,15 +55,15 @@ namespace render_framework
 		(no buffer)
 		*/
 		geometry() : geometry_type(GL_TRIANGLES),
-			vertex_array_object(0),
-			position_buffer(0),
-			normal_buffer(0),
-			tex_coord_buffer(0),
-			tangent_buffer(0),
-			binormal_buffer(0),
-			colour_buffer(0),
-			texture_weight_buffer(0),
-			index_buffer(0)
+					 vertex_array_object(0),
+					 position_buffer(0),
+					 normal_buffer(0),
+					 tex_coord_buffer(0),
+					 tangent_buffer(0),
+					 binormal_buffer(0),
+					 colour_buffer(0),
+                     texture_weight_buffer(0),
+					 index_buffer(0)
 		{
 		}
 
@@ -79,12 +79,12 @@ namespace render_framework
 			if (tangent_buffer) glDeleteBuffers(1, &tangent_buffer);
 			if (binormal_buffer) glDeleteBuffers(1, &binormal_buffer);
 			if (colour_buffer) glDeleteBuffers(1, &colour_buffer);
-			if (texture_weight_buffer) glDeleteBuffers(1, & texture_weight_buffer);
+            if (texture_weight_buffer) glDeleteBuffers(1, & texture_weight_buffer);
 			if (index_buffer) glDeleteBuffers(1, &index_buffer);
 			if (vertex_array_object) glDeleteVertexArrays(1, &vertex_array_object);
 			// Set all buffer values to 0 (no buffer)
 			vertex_array_object = position_buffer = normal_buffer = tex_coord_buffer
-				= tangent_buffer = binormal_buffer = colour_buffer = texture_weight_buffer = index_buffer = 0;
+			= tangent_buffer = binormal_buffer = colour_buffer = texture_weight_buffer = index_buffer = 0;
 		}
 	};
 

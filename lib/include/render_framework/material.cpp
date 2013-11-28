@@ -6,9 +6,9 @@
 
 namespace render_framework
 {
-	bool effect_values::bind()
-	{
-		// Now attempt to bind all the uniform values.
+    bool effect_values::bind()
+    {
+        // Now attempt to bind all the uniform values.
 		for (auto iter = value_map.begin(); iter != value_map.end(); ++iter)
 		{
 			switch (iter->second.first)
@@ -136,15 +136,16 @@ namespace render_framework
 				return false;
 			++index;
 		}
-		for (auto& e : cubemap_map)
-		{
-			if (!renderer::get_instance().bind_texture(e.second, index))
-				return false;
-			if (!renderer::get_instance().set_uniform(e.first, index))
-				return false;
-			++index;
-		}
-	}
+        for (auto& e : cubemap_map)
+        {
+            if (!renderer::get_instance().bind_texture(e.second, index))
+                return false;
+            if (!renderer::get_instance().set_uniform(e.first, index))
+                return false;
+            ++index;
+        }
+    }
+
 
 	//****** TODO - check types of uniform values ******
 
@@ -374,21 +375,21 @@ namespace render_framework
 		}
 	}
 
-	bool material::set_texture(const std::string& name, std::shared_ptr<cube_map> value)
-	{
-		if (uniform_values == nullptr)
-			uniform_values = std::make_shared<effect_values>();
-		if (effect->uniforms.find(name) != effect->uniforms.end())
-		{
-			uniform_values->cubemap_map[name] = value;
-			return true;
-		}
-		else
-		{
-			std::cerr << "Uniform " << name << " does not exist" << std::endl;
-			return false;
-		}
-	}
+    bool material::set_texture(const std::string& name, std::shared_ptr<cube_map> value)
+    {
+        if (uniform_values == nullptr)
+            uniform_values = std::make_shared<effect_values>();
+        if (effect->uniforms.find(name) != effect->uniforms.end())
+        {
+            uniform_values->cubemap_map[name] = value;
+            return true;
+        }
+        else
+        {
+            std::cerr << "Uniform " << name << " does not exist" << std::endl;
+            return false;
+        }
+    }
 
 	bool material::bind()
 	{
@@ -405,8 +406,8 @@ namespace render_framework
 
 		if (uniform_values)
 		{
-			if (!uniform_values->bind())
-				return false;
+            if (!uniform_values->bind())
+                return false;
 		}
 
 		// Return true

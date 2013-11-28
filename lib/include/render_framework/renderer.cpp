@@ -23,11 +23,11 @@
 
 namespace render_framework
 {
-	// Set shadow bias matrix
+    // Set shadow bias matrix
 	glm::mat4 shadow_map::bias = glm::mat4(0.5f, 0.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.5f, 1.0f);
+								           0.0f, 0.5f, 0.0f, 0.0f,
+								           0.0f, 0.0f, 0.5f, 0.0f,
+								           0.5f, 0.5f, 0.5f, 1.0f);
 	/*
 	Helper function to print OpenGL information
 	*/
@@ -92,17 +92,17 @@ namespace render_framework
 			return false;
 		}
 
-		// Enable textures
-		glEnable(GL_TEXTURE_1D);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_TEXTURE_CUBE_MAP);
+        // Enable textures
+        glEnable(GL_TEXTURE_1D);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_CUBE_MAP);
 
 		// Enable client state to use arrays
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
 		glEnableClientState(GL_INDEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
-
+		
 		if (CHECK_GL_ERROR)
 			std::cerr << "Error enabling client states for arrays!" << std::endl;
 
@@ -174,45 +174,45 @@ namespace render_framework
 		geom->tex_coords.push_back(glm::vec2(1.0f, 0.0f));
 		if (geometry_builder::initialise_geometry(geom))
 			content_manager::get_instance().add("SCREEN_QUAD", geom);
-		// Skybox geometry
-		geom = std::make_shared<geometry>();
-		geom->geometry_type = GL_QUADS;
-		// Face 1
-		geom->positions.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
-		// Face 2
-		geom->positions.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
-		// Face 3
-		geom->positions.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
-		// Face 4
-		geom->positions.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
-		// Face 5
-		geom->positions.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
-		// Face 6
-		geom->positions.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
-		geom->positions.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
-		geom->positions.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
-		if (geometry_builder::initialise_geometry(geom))
-			content_manager::get_instance().add("SKYBOX", geom);
+        // Skybox geometry
+        geom = std::make_shared<geometry>();
+        geom->geometry_type = GL_QUADS;
+        // Face 1
+        geom->positions.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
+        // Face 2
+        geom->positions.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
+        // Face 3
+        geom->positions.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
+        // Face 4
+        geom->positions.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
+        // Face 5
+        geom->positions.push_back(glm::vec3(1.0f, 1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, 1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, 1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, 1.0f, -1.0f));
+        // Face 6
+        geom->positions.push_back(glm::vec3(1.0f, -1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, -1.0f, -1.0f));
+        geom->positions.push_back(glm::vec3(-1.0f, -1.0f, 1.0f));
+        geom->positions.push_back(glm::vec3(1.0f, -1.0f, 1.0f));
+        if (geometry_builder::initialise_geometry(geom))
+            content_manager::get_instance().add("SKYBOX", geom);
 		// Screen render target
 		auto fb = std::make_shared<frame_buffer>();
-		fb->width = _width;
-		fb->height = _height;
+        fb->width = _width;
+        fb->height = _height;
 		content_manager::get_instance().add("SCREEN", fb);
 
 		return true;
@@ -315,7 +315,7 @@ namespace render_framework
 		// Generate view and projection matrices for shadow mapping
 		_shadow_map->view_matrix = glm::lookAt(_shadow_map->light_position, _shadow_map->light_position + _shadow_map->light_direction, glm::vec3(0.0f, 1.0f, 0.0f));
 		// Set projection matrix for shadow map - based on light angle
-		_shadow_map->projection_matrix = glm::perspective(glm::degrees(glm::half_pi<float>()), static_cast<float>(_width) / static_cast<float>(_height), 1.0f, 1000.0f);
+        _shadow_map->projection_matrix = glm::perspective(glm::degrees(glm::half_pi<float>()), static_cast<float>(_width) / static_cast<float>(_height), 1.0f, 1000.0f);
 
 		// Enable front face culling
 		glCullFace(GL_FRONT);
@@ -337,88 +337,88 @@ namespace render_framework
 	}
 
 	/*
-	Binds an effect to the renderer
+    Binds an effect to the renderer
 	*/
 	template <>
 	bool renderer::bind(std::shared_ptr<effect> value)
 	{
-		// Set the effect on the rendere
+        // Set the effect on the rendere
 		_effect = value;
-		// Use the program
+        // Use the program
 		glUseProgram(value->program);
-		// Return error check
+        // Return error check
 		return (!CHECK_GL_ERROR);
 	}
 
-	/*
-	Binds a framebuffer for use on the renderer
-	*/
+    /*
+    Binds a framebuffer for use on the renderer
+    */
 	template <>
 	bool renderer::bind(std::shared_ptr<frame_buffer> value)
 	{
-		// Bind the framebuffer
+        // Bind the framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, value->buffer);
-		// Return error check
+        // Return error check
 		return (!CHECK_GL_ERROR);
 	}
 
-	/*
-	Binds a depth buffer (framebuffer) for use on the renderer
-	*/
+    /*
+    Binds a depth buffer (framebuffer) for use on the renderer
+    */
 	template <>
 	bool renderer::bind(std::shared_ptr<depth_buffer> value)
 	{
-		// Bind the framebuffer
+        // Bind the framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, value->buffer);
-		// Return error check
+        // Return error check
 		return (!CHECK_GL_ERROR);
 	}
 
-	/*
-	Binds a shadow map for use on the renderer
-	*/
+    /*
+    Binds a shadow map for use on the renderer
+    */
 	template <>
 	bool renderer::bind(std::shared_ptr<shadow_map> value)
 	{
 		// Set the shadow map
 		_shadow_map = value;
-		// Simply bind the depth buffer.  Return result of this operation
-		return bind(value->buffer);
+        // Simply bind the depth buffer.  Return result of this operation
+        return bind(value->buffer);
 	}
 
 	template <>
 	bool renderer::bind(std::shared_ptr<post_process> value)
 	{
-		// Bind the first framebuffer
-		return bind(value->passes[0]->buffer);
+        // Bind the first framebuffer
+        return bind(value->passes[0]->buffer);
 	}
 
-	/*
-	Binds a texture for us in an effect
-	*/
+    /*
+    Binds a texture for us in an effect
+    */
 	template <>
 	bool renderer::bind_texture(std::shared_ptr<texture> value, unsigned int index)
 	{
-		// Set the active texture index
+        // Set the active texture index
 		glActiveTexture(GL_TEXTURE0 + index);
-		// Bind the type of texture
+        // Bind the type of texture
 		glBindTexture(value->type, value->image);
-		// Return error check
+        // Return error check
 		return (!CHECK_GL_ERROR);
 	}
 
-	/*
-	Binds a cube map texture in an effect
-	*/
+    /*
+    Binds a cube map texture in an effect
+    */
 	template <>
 	bool renderer::bind_texture(std::shared_ptr<cube_map> value, unsigned int index)
 	{
-		// Set the active texture index
+        // Set the active texture index
 		glActiveTexture(GL_TEXTURE0 + index);
-		// Bind the type of texture
+        // Bind the type of texture
 		glBindTexture(GL_TEXTURE_CUBE_MAP, value->image);
-		// Return error check
-		return (!CHECK_GL_ERROR);
+        // Return error check
+        return (!CHECK_GL_ERROR);
 	}
 
 	/*
@@ -443,63 +443,63 @@ namespace render_framework
 		return !CHECK_GL_ERROR;
 	}
 
-	/*
-	Sets an int uniform value on the currently bound effect
-	*/
+    /*
+    Sets an int uniform value on the currently bound effect
+    */
 	template <>
 	bool renderer::set_uniform(const std::string& name, const int& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform1i(found->second, value);
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
-
+	
 	template <>
 	bool renderer::set_uniform(const std::string& name, const double& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform1d(found->second, value);
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -507,28 +507,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const float& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform1f(found->second, value);
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -536,28 +536,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const unsigned int& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform1ui(found->second, value);
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -565,28 +565,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const glm::vec2& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform2fv(found->second, 1, glm::value_ptr(value));
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -594,28 +594,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const glm::vec3& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform3fv(found->second, 1, glm::value_ptr(value));
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -623,28 +623,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const glm::vec4& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniform4fv(found->second, 1, glm::value_ptr(value));
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -652,28 +652,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const glm::mat2& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniformMatrix2fv(found->second, 1, GL_FALSE, glm::value_ptr(value));
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -681,28 +681,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const glm::mat3& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniformMatrix3fv(found->second, 1, GL_FALSE, glm::value_ptr(value));
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -710,28 +710,28 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const glm::mat4& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
-		// Try and find the uniform on the effect
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
+        // Try and find the uniform on the effect
 		auto found = _effect->uniforms.find(name);
 		if (found == _effect->uniforms.end())
 		{
-			// Uniform of given name does not exist in bound effect.  Display error
+            // Uniform of given name does not exist in bound effect.  Display error
 			std::cerr << "Uniform " << name << " does not exist in current effect" << std::endl;
-			// Return false
+            // Return false
 			return false;
 		}
 		else
 		{
-			// Uniform of name does exist.  Set value
+            // Uniform of name does exist.  Set value
 			glUniformMatrix4fv(found->second, 1, GL_FALSE, glm::value_ptr(value));
-			// Return error check
+            // Return error check
 			return (!CHECK_GL_ERROR);
 		}
 	}
@@ -740,13 +740,13 @@ namespace render_framework
 	bool renderer::set_uniform(const std::string& name, const material& value)
 	{
 		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
 		else
 		{
 			auto found = _effect->uniforms.find(name + ".emissive");
@@ -768,14 +768,14 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const directional_light& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
 		// Check if buffer has been created or not
 		if (value.buffer)
 		{
@@ -799,27 +799,27 @@ namespace render_framework
 	template <>
 	bool renderer::set_uniform(const std::string& name, const point_light& value)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
 		return false;
 	}
 
 	bool renderer::set_uniform_block(const std::string& name, unsigned int buffer, int size)
 	{
-		// Check that effect is bound
-		if (_effect == nullptr)
-		{
-			// Display error
-			std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
-			// Return false
-			return false;
-		}
+        // Check that effect is bound
+        if (_effect == nullptr)
+        {
+            // Display error
+            std::cerr << "Cannot set uniform - no effect bound with renderer" << std::endl;
+            // Return false
+            return false;
+        }
 		auto found = _effect->block_uniforms.find(name);
 		if (found == _effect->block_uniforms.end())
 			return false;
@@ -851,80 +851,80 @@ namespace render_framework
 	void set_mvp(std::shared_ptr<effect> eff, const glm::mat4& model, const glm::mat4& view, const glm::mat4& projection)
 	{
 		// Try and set the model matrix
-		if (eff->uniforms.find("model") != eff->uniforms.end())
-			renderer::get_instance().set_uniform("model", model);
+        if (eff->uniforms.find("model") != eff->uniforms.end())
+		    renderer::get_instance().set_uniform("model", model);
 		// Try and set the view matrix
-		if (eff->uniforms.find("view") != eff->uniforms.end())
-			renderer::get_instance().set_uniform("view", view);
+        if (eff->uniforms.find("view") != eff->uniforms.end())
+		    renderer::get_instance().set_uniform("view", view);
 		// Try and set the projection matrix
-		if (eff->uniforms.find("projection") != eff->uniforms.end())
-			renderer::get_instance().set_uniform("projection", projection);
+        if (eff->uniforms.find("projection") != eff->uniforms.end())
+		    renderer::get_instance().set_uniform("projection", projection);
 		// Create model-view matrix and try and set
-		if (eff->uniforms.find("MV") != eff->uniforms.end())
-		{
-			glm::mat4 modelView = view * model;
-			renderer::get_instance().set_uniform("MV", modelView);
-		}
+        if (eff->uniforms.find("MV") != eff->uniforms.end())
+        {
+		    glm::mat4 modelView = view * model;
+		    renderer::get_instance().set_uniform("MV", modelView);
+        }
 		// Create model-view-projection matrix and try and set
-		if (eff->uniforms.find("MVP") != eff->uniforms.end())
-		{
-			glm::mat4 modelViewProjection = projection * view * model;
-			renderer::get_instance().set_uniform("MVP", modelViewProjection);
-		}
+        if (eff->uniforms.find("MVP") != eff->uniforms.end())
+        {
+		    glm::mat4 modelViewProjection = projection * view * model;
+		    renderer::get_instance().set_uniform("MVP", modelViewProjection);
+        }
 	}
 
-	bool validate_program(std::shared_ptr<effect> value)
-	{
-		glValidateProgram(value->program);
-		GLint status;
-		glGetProgramiv(value->program, GL_VALIDATE_STATUS, &status);
-		if (!status)
-		{
-			GLsizei length;
-			glGetProgramiv(value->program, GL_INFO_LOG_LENGTH, &length);
-			std::unique_ptr<char[]> log(new char[length]);
-			glGetProgramInfoLog(value->program, length, &length, log.get());
-			std::cerr << "Error running program - could not validate" << std::endl;
-			std::cerr << log.get() << std::endl;
-			return false;
-		}
-		return true;
-	}
+    bool validate_program(std::shared_ptr<effect> value)
+    {
+        glValidateProgram(value->program);
+        GLint status;
+        glGetProgramiv(value->program, GL_VALIDATE_STATUS, &status);
+        if (!status)
+        {
+            GLsizei length;
+            glGetProgramiv(value->program, GL_INFO_LOG_LENGTH, &length);
+            std::unique_ptr<char[]> log(new char[length]);
+            glGetProgramInfoLog(value->program, length, &length, log.get());
+            std::cerr << "Error running program - could not validate" << std::endl;
+            std::cerr << log.get() << std::endl;
+            return false;
+        }
+        return true;
+    }
 
 	template <>
 	bool renderer::render(std::shared_ptr<geometry> value)
 	{
-		// Check if running
+        // Check if running
 		if (!_running)
 			return false;
 
 		// If an effect is enabled, then set view and projection values
 		if (_effect != nullptr)
 		{
-			// If we have a set camera, use it to get view and projection matrices
+            // If we have a set camera, use it to get view and projection matrices
 			if (_camera != nullptr)
 				set_mvp(_effect, glm::mat4(1.0f), _camera->get_view(), _camera->get_projection());
-			// Otherwise use the bound view and projection
+            // Otherwise use the bound view and projection
 			else
 				set_mvp(_effect, glm::mat4(1.0f), _view, _projection);
-			if (!validate_program(_effect))
-				return false;
+            if (!validate_program(_effect))
+                return false;
 		}
-		// Otherwise use deprecated matrix binding
+        // Otherwise use deprecated matrix binding
 		else
 		{
-			// If we have a set camera, use it to get view and projection matrices
+            // If we have a set camera, use it to get view and projection matrices
 			if (_camera != nullptr)
 				set_mvp(glm::mat4(1.0f), _camera->get_view(), _camera->get_projection());
-			// Otherwise use the bound view and projection
+            // Otherwise use the bound view and projection
 			else
 				set_mvp(glm::mat4(1.0f), _view, _projection);
 		}
 
 		// Now render the geometry
-		// Try and bind the vertex array
+        // Try and bind the vertex array
 		glBindVertexArray(value->vertex_array_object);
-		// Check if error
+        // Check if error
 		if (CHECK_GL_ERROR)
 		{
 			std::cerr << "Error trying to bind vertex array for geometry" << std::endl;
@@ -976,34 +976,34 @@ namespace render_framework
 	template <>
 	bool renderer::render(std::shared_ptr<skybox> value)
 	{
-		// Create model matrix for geometry
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), _camera->get_position());
-		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+        // Create model matrix for geometry
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), _camera->get_position());
+        model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 
-		// Disable depth testing
-		glDisable(GL_DEPTH_TEST);
-		glDepthMask(GL_FALSE);
+        // Disable depth testing
+        glDisable(GL_DEPTH_TEST);
+        glDepthMask(GL_FALSE);
 
-		// Bind effect
-		bind(value->eff);
+        // Bind effect
+        bind(value->eff);
 
-		// Set MVP
-		// If we have a set camera, use it to get view and projection matrices
+        // Set MVP
+        // If we have a set camera, use it to get view and projection matrices
 		if (_camera != nullptr)
 			set_mvp(value->eff, model, _camera->get_view(), _camera->get_projection());
-		// Otherwise use the bound view and projection
+        // Otherwise use the bound view and projection
 		else
 			set_mvp(model, _view, _projection);
 
-		// Set cubemap on effect
-		bind_texture(value->tex, 0);
-		set_uniform("cubemap", 0);
+        // Set cubemap on effect
+        bind_texture(value->tex, 0);
+        set_uniform("cubemap", 0);
 
-		// Now render the geometry
-		auto geom = content_manager::get_instance().get<geometry>("SKYBOX");
-		// Try and bind the vertex array
+        // Now render the geometry
+        auto geom = content_manager::get_instance().get<geometry>("SKYBOX");
+        // Try and bind the vertex array
 		glBindVertexArray(geom->vertex_array_object);
-		// Check if error
+        // Check if error
 		if (CHECK_GL_ERROR)
 		{
 			std::cerr << "Error trying to bind vertex array for skybox geometry" << std::endl;
@@ -1016,8 +1016,8 @@ namespace render_framework
 			return false;
 		}
 
-		glDepthMask(true);
-		glEnable(GL_DEPTH_TEST);
+        glDepthMask(true);
+        glEnable(GL_DEPTH_TEST);
 
 		return true;
 	}
@@ -1037,7 +1037,7 @@ namespace render_framework
 		// Check if mesh has a material
 		if (value->mat)
 			// Mesh has a material.  Bind
-				value->mat->bind();
+			value->mat->bind();
 		else
 			// Mesh doesn't have a material.  Set _effect to nullptr
 			_effect = nullptr;
@@ -1050,10 +1050,10 @@ namespace render_framework
 			else
 				set_mvp(_effect, value->trans.get_transform_matrix(), _view, _projection);
 			// Set the normal matrix if present
-			if (_effect->uniforms.find("normal_matrix") != _effect->uniforms.end())
-				set_uniform("normal_matrix", value->trans.get_normal_matrix());
-			if (!validate_program(_effect))
-				return false;
+            if (_effect->uniforms.find("normal_matrix") != _effect->uniforms.end())
+			    set_uniform("normal_matrix", value->trans.get_normal_matrix());
+            if (!validate_program(_effect))
+                return false;
 		}
 		else
 		{
@@ -1122,41 +1122,41 @@ namespace render_framework
 	template <>
 	bool renderer::render(std::shared_ptr<render_pass> value)
 	{
-		static auto geom = content_manager::get_instance().get<geometry>("SCREEN_QUAD");
-		// Begin render
-		begin_render();
-		// Bind effect
-		bind(value->eff);
-		// Bind the material
-		if (value->uniform_values != nullptr)
-			value->uniform_values->bind();
-		// Bind the texture
-		auto index = 0;
-		if (value->uniform_values != nullptr)
-			index = value->uniform_values->texture_map.size()
-			+ value->uniform_values->cubemap_map.size();
-		bind_texture(value->buffer->tex, index);
-		set_uniform("tex", index);
-
-		// Render geometry
-		render(geom);
+        static auto geom = content_manager::get_instance().get<geometry>("SCREEN_QUAD");
+        // Begin render
+        begin_render();
+        // Bind effect
+        bind(value->eff);
+        // Bind the material
+        if (value->uniform_values != nullptr)
+            value->uniform_values->bind();
+        // Bind the texture
+        auto index = 0;
+        if (value->uniform_values != nullptr)
+            index = value->uniform_values->texture_map.size()
+                  + value->uniform_values->cubemap_map.size();
+        bind_texture(value->buffer->tex, index);
+        set_uniform("tex", index);
+        
+        // Render geometry
+        render(geom);
 		return true;
 	}
 
 	template <>
 	bool renderer::render(std::shared_ptr<post_process> value)
 	{
-		// Render each pass
-		for (auto i = 1; i < value->passes.size(); ++i)
-		{
-			// Bind the buffer
-			bind(value->passes[i]->buffer);
-			// Render pass
-			render(value->passes[i - 1]);
-		}
-		// Render final pass using the screen
-		bind(content_manager::get_instance().get<frame_buffer>("SCREEN"));
-		render(value->passes[value->passes.size() - 1]);
+        // Render each pass
+        for (auto i = 1; i < value->passes.size(); ++i)
+        {
+            // Bind the buffer
+            bind(value->passes[i]->buffer);
+            // Render pass
+            render(value->passes[i - 1]);
+        }
+        // Render final pass using the screen
+        bind(content_manager::get_instance().get<frame_buffer>("SCREEN"));
+        render(value->passes[value->passes.size() - 1]);
 		return true;
 	}
 
@@ -1170,21 +1170,21 @@ namespace render_framework
 		// If an effect is enabled, then set view and projection values
 		if (_effect != nullptr)
 		{
-			set_mvp(_effect, glm::mat4(1.0f), _shadow_map->view_matrix, _shadow_map->projection_matrix);
-			if (!validate_program(_effect))
-				return false;
+            set_mvp(_effect, glm::mat4(1.0f), _shadow_map->view_matrix, _shadow_map->projection_matrix);
+            if (!validate_program(_effect))
+                return false;
 		}
-		// Otherwise we have a problem - shadow shader not bound
+        // Otherwise we have a problem - shadow shader not bound
 		else
 		{
-			std::cerr << "Cannot perform shadow render - shadow effect not bound" << std::endl;
+            std::cerr << "Cannot perform shadow render - shadow effect not bound" << std::endl;
 			return false;
 		}
 
 		// Now render the geometry
-		// Try and bind the vertex array
+        // Try and bind the vertex array
 		glBindVertexArray(value->vertex_array_object);
-		// Check if error
+        // Check if error
 		if (CHECK_GL_ERROR)
 		{
 			std::cerr << "Error trying to bind vertex array for geometry" << std::endl;
@@ -1239,12 +1239,13 @@ namespace render_framework
 		if (!_running)
 			return false;
 
+
 		// If an effect is enabled, then set view and projection values
 		if (_effect != nullptr)
 		{
 			set_mvp(_effect, value->trans.get_transform_matrix(), _shadow_map->view_matrix, _shadow_map->projection_matrix);
 			if (!validate_program(_effect))
-				return false;
+                return false;
 		}
 		else
 		{

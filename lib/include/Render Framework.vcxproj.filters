@@ -51,6 +51,9 @@
     <ClCompile Include="render_framework\content_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="render_framework\render_pass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render_framework\effect.h">
