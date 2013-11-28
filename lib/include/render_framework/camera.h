@@ -28,7 +28,7 @@ namespace render_framework
 		// Camera destructor.  Virtual as this is a virtual class
 		virtual ~camera() { }
 		/*
-		Updates the camera given a certain amount of elapsed time.  Time is not
+		Updates the camera given a certain amount of elapsed time.  Time is not 
 		generally used, but left in for completeness
 		*/
 		virtual void update(float deltaTime) = 0;

@@ -11,6 +11,15 @@ bool ContentManager::initialize()
 {
     path = "proplist.csv";
 
+    if (!load_skybox()) {
+        cout << "Skybox failed to load" << '\n';
+    }
+
+    if (!load_frame_buffer()) {
+        cout << "Frame buffer failed to load" << '\n';
+        return false;
+    }
+
     if (!load_props()) {
         cout << "Props failed to load" << '\n';
         return false;
@@ -20,6 +29,89 @@ bool ContentManager::initialize()
     cout << "## ContentManager Initialised ##" << '\n';
     return true;
 } // initialize()
+
+bool ContentManager::load_frame_buffer() {
+
+    post = make_shared<post_process>();
+
+    // Create Normal framebuffer
+    normal = make_shared<render_pass>();
+    normal->buffer = make_shared<frame_buffer>();
+    normal->buffer->width = renderer::get_instance().get_screen_width();
+    normal->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    normal->eff = make_shared<effect>();
+    normal->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    normal->eff->add_shader("display.frag", GL_FRAGMENT_SHADER);
+    
+    // Create Grey scale framebuffer
+    grey = make_shared<render_pass>();
+    grey->buffer = make_shared<frame_buffer>();
+    grey->buffer->width = renderer::get_instance().get_screen_width();
+    grey->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    grey->eff = make_shared<effect>();
+    grey->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    grey->eff->add_shader("grey.frag", GL_FRAGMENT_SHADER);
+    
+    // Create hdr framebuffer
+    sin = make_shared<render_pass>();
+    sin->buffer = make_shared<frame_buffer>();
+    sin->buffer->width = renderer::get_instance().get_screen_width();
+    sin->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    sin->eff = make_shared<effect>();
+    sin->eff->add_shader("sin.vert", GL_VERTEX_SHADER);
+    sin->eff->add_shader("sin.frag", GL_FRAGMENT_SHADER);
+
+    // Create pixelate scale framebuffer
+    pixelate = make_shared<render_pass>();
+    pixelate->buffer = make_shared<frame_buffer>();
+    pixelate->buffer->width = renderer::get_instance().get_screen_width();
+    pixelate->buffer->height = renderer::get_instance().get_screen_height();
+    // Add effect
+    pixelate->eff = make_shared<effect>();
+    pixelate->eff->add_shader("display.vert", GL_VERTEX_SHADER);
+    pixelate->eff->add_shader("pixelate.frag", GL_FRAGMENT_SHADER);
+
+    // Add render pass to the post process
+    post->passes.push_back(normal);
+    // Build post process
+    if (!content_manager::get_instance().build("display", post)) {
+        return false;
+    }
+
+    return true;
+}
+
+/* load_skybox : loads the props for the scene
+ *
+ * Loads the stars for the solar system.
+ */
+bool ContentManager::load_skybox() {
+    // Create skybox
+    sky_box = make_shared<skybox>();
+
+    // Load in cube map
+    vector<string> filenames;
+    filenames.push_back("stars_left2.png");
+    filenames.push_back("stars_right1.png");
+    filenames.push_back("stars_top3.png");
+    filenames.push_back("stars_bottom4.png");
+    filenames.push_back("stars_front5.png");
+    filenames.push_back("stars_back6.png");
+    sky_box->tex = texture_loader::load(filenames);
+
+    // Load in skybox shader
+    sky_box->eff = make_shared<effect>();
+    sky_box->eff->add_shader("sky_box.vert", GL_VERTEX_SHADER);
+    sky_box->eff->add_shader("sky_box.frag", GL_FRAGMENT_SHADER);
+    if (!effect_loader::build_effect(sky_box->eff)){
+        return false;
+    }
+
+    return true;
+} // load_skybox()
 
 /* load_props : loads the props for the scene
  *
@@ -89,8 +181,13 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
 
         // Created effect for mesh
         auto eff = make_shared<effect>();
-        eff->add_shader(prop->get_vert_path(), GL_VERTEX_SHADER);
-        eff->add_shader(prop->get_frag_path(), GL_FRAGMENT_SHADER);
+        if (prop->get_name() == "Earth") {
+            eff->add_shader(shape->material.name + ".vert", GL_VERTEX_SHADER);
+            eff->add_shader(shape->material.name + ".frag", GL_FRAGMENT_SHADER);
+        } else {
+            eff->add_shader(prop->get_vert_path(), GL_VERTEX_SHADER);
+            eff->add_shader(prop->get_frag_path(), GL_FRAGMENT_SHADER);
+        }
         // Build effect
         if (!effect_loader::build_effect(eff)) {
             return false;
@@ -106,6 +203,17 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
         model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
         model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
 
+        if (shape->material.normal_texname != "") {
+            auto tex_normal = texture_loader::load(shape->material.normal_texname);
+            model->mat->set_texture("normal_map", tex_normal);
+            model->mat->set_uniform_value("light_direction", SceneManager::get_instance().light->data.direction);
+        }
+
+        if (shape->material.specular_texname != "") {
+            auto tex_specular = texture_loader::load(shape->material.normal_texname);
+            model->mat->set_texture("specular_map", tex_specular);
+        }
+
         auto tex = texture_loader::load(shape->material.diffuse_texname);
         model->mat->set_texture("tex", tex);
         // build material
@@ -113,9 +221,10 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
             return false;
         }
 
-        model->trans.position = prop->get_position();
+        model->trans.scale = prop->get_scale();
         quat rot(prop->get_rotation());
         model->trans.orientation = model->trans.orientation * rot;
+        model->trans.position = prop->get_position();
 
         prop->add_mesh(model.get());
     } // for each in shapes[]

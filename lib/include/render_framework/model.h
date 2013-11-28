@@ -38,8 +38,8 @@ namespace render_framework
 	}
 
 	extern template
-		std::shared_ptr<model> model_loader::load(const std::string& filename);
+	std::shared_ptr<model> model_loader::load(const std::string& filename);
 
 	extern template
-		std::shared_ptr<geometry> model_loader::load(const std::string& filename);
+	std::shared_ptr<geometry> model_loader::load(const std::string& filename);
 }

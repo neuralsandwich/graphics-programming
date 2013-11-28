@@ -41,7 +41,7 @@ namespace render_framework
 			return nullptr;
 		}
 		// Create new shader object
-		auto value = std::make_shared<shader>();
+        auto value = std::make_shared<shader>();
 		value->type = type;
 		// File has been read.  Try and create shader
 		value->id = glCreateShader(value->type);
@@ -65,11 +65,11 @@ namespace render_framework
 			// Shader not compiled.  Get log and display
 			// Length of the shader compile log
 			GLsizei length;
-
+			
 			// Get length of log
 			glGetShaderiv(value->id, GL_INFO_LOG_LENGTH, &length);
 			// Use the length to create log buffer
-			// Buffer for the log
+            // Buffer for the log
 			std::unique_ptr<char[]> log(new char[length]);
 			// Get the log
 			glGetShaderInfoLog(value->id, length, &length, log.get());
@@ -124,7 +124,7 @@ namespace render_framework
 			// Get length of log
 			glGetProgramiv(value->program, GL_INFO_LOG_LENGTH, &length);
 			// Use length to create log buffer
-			// Info log
+            // Info log
 			std::unique_ptr<char[]> log(new char[length]);
 			// Get info log
 			glGetProgramInfoLog(value->program, length, &length, log.get());
@@ -140,7 +140,7 @@ namespace render_framework
 			// Return false
 			return false;
 		}
-
+		
 		// Effect built successfully.  Log
 		std::clog << "Effect built" << std::endl;
 
@@ -215,7 +215,7 @@ namespace render_framework
 				CHECK_GL_ERROR;
 			}
 		}
-
+		
 		// All uniforms added to effect and effect built.  Return true
 		return true;
 	}

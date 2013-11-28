@@ -147,7 +147,7 @@ namespace render_framework
 		template <typename T>
 		std::shared_ptr<T> get(const std::string& name);
 
-		// Loads content into the content manager.  Filename is used as the
+		// Loads content into the content manager.  Filename is used as the 
 		// storage key
 		template <typename T>
 		std::shared_ptr<T> load(const std::string& filename);
@@ -180,133 +180,133 @@ namespace render_framework
 	has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<geometry>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<geometry>& value);
 
 	/*
-	Adds a model to the content manager.  Will check if model has been loaded,
+	Adds a model to the content manager.  Will check if model has been loaded, 
 	and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<model>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<model>& value);
 
 	/*
 	Adds a texture to the content manager.  Will check if the texture has been
 	loaded, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<texture>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<texture>& value);
 
 	/*
 	Adds a cube map to the content manager.  Will check if the cube map has been
 	loaded, and if not will do so
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<cube_map>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<cube_map>& value);
 
 	/*
 	Adds a skybox to the content manager.  Will check if the skybox has been built
 	and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<skybox>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<skybox>& value);
 
 	/*
-	Adds a piece of terrain to the content manager.  Will check if the terrain
+	Adds a piece of terrain to the content manager.  Will check if the terrain 
 	has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<terrain>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<terrain>& value);
 
 	/*
 	Adds a material to the content manager.  Will check if the material has been
 	built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<material>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<material>& value);
 
 	/*
 	Adds a mesh to the content manager.  Will check if the relevant
 	content has been loaded / built, and if not will do so
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<mesh>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<mesh>& value);
 
 	/*
 	Adds a directional light to the content manager.  Will check if the light
 	has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<directional_light>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<directional_light>& value);
 
 	/*
-	Adds a point light to the content manager.  Will check if the light has
+	Adds a point light to the content manager.  Will check if the light has 
 	been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<point_light>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<point_light>& value);
 
 	/*
 	Adds a spot light to the content manager.  Will check if the light has been
 	built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<spot_light>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<spot_light>& value);
 
 	/*
-	Adds a set of dynamic lights to the content manager.  Will check if the
+	Adds a set of dynamic lights to the content manager.  Will check if the 
 	light has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<dynamic_lights>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<dynamic_lights>& value);
 
 	/*
 	Adds a shader to the content manager.  Will check if the shader has been
 	loaded, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<shader>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<shader>& value);
 
 	/*
 	Adds an effect to the content manager.  Will check if the effect has been
 	built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<effect>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<effect>& value);
 
 	/*
 	Adds a frame buffer to the content manager.  Will check if the frame buffer
 	has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<frame_buffer>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<frame_buffer>& value);
 
 	/*
 	Adds a depth buffer to the content manager.  Will check if the depth buffer
 	has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<depth_buffer>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<depth_buffer>& value);
 
 	/*
 	Adds a shadow map to the content manager.  Will check if the shadow map has
 	been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<shadow_map>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<shadow_map>& value);
 
 	/*
 	Adds a render pass to the content manager.  Will check if the render pass
 	has been built, and if not will do so
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<render_pass>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<render_pass>& value);
 
 	/*
 	Adds a post process to the content manager.  Will check if the post process
 	has been built, and if not will do so.
 	*/
 	extern template
-		bool content_manager::add(const std::string& name, std::shared_ptr<post_process>& value);
+	bool content_manager::add(const std::string& name, std::shared_ptr<post_process>& value);
 
 	/*
 	Default get method of the content manager.  This is called when an attempt
@@ -323,137 +323,137 @@ namespace render_framework
 	}
 
 	/*
-	Gets a piece of geometry from the content manager.  If geometry doesn't
+	Gets a piece of geometry from the content manager.  If geometry doesn't 
 	exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<geometry> content_manager::get(const std::string& name);
+	std::shared_ptr<geometry> content_manager::get(const std::string& name);
 
 	/*
 	Gets a model from the content manager.  If model doesn't exist, will return
 	nullptr
 	*/
 	extern template
-		std::shared_ptr<model> content_manager::get(const std::string& name);
+	std::shared_ptr<model> content_manager::get(const std::string& name);
 
 	/*
-	Gets a texture from the content manager.  If texture doesn't exist, will
+	Gets a texture from the content manager.  If texture doesn't exist, will 
 	return nullptr
 	*/
 	extern template
-		std::shared_ptr<texture> content_manager::get(const std::string& name);
+	std::shared_ptr<texture> content_manager::get(const std::string& name);
 
 	/*
 	Gets a cube map from the content manager.  If cube map doesn't exist, will
 	return nullptr
 	*/
 	extern template
-		std::shared_ptr<cube_map> content_manager::get(const std::string& name);
+	std::shared_ptr<cube_map> content_manager::get(const std::string& name);
 
 	/*
 	Gets a skybox from the content manager.  If sky box doesn't exist, will
 	return nullptr
 	*/
 	extern template
-		std::shared_ptr<skybox> content_manager::get(const std::string& name);
+	std::shared_ptr<skybox> content_manager::get(const std::string& name);
 
 	/*
 	Gets a piece of terrain from the content manager.  If terrain doesn't exist,
 	will return nullptr
 	*/
 	extern template
-		std::shared_ptr<terrain> content_manager::get(const std::string& name);
+	std::shared_ptr<terrain> content_manager::get(const std::string& name);
 
 	/*
 	Gets a material from the content manager.  If material doesn't exist, will
 	return nullptr
 	*/
 	extern template
-		std::shared_ptr<material> content_manager::get(const std::string& name);
+	std::shared_ptr<material> content_manager::get(const std::string& name);
 
 	/*
 	Gets a mesh from the content manager.  If render object doesn't
 	exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<mesh> content_manager::get(const std::string& name);
+	std::shared_ptr<mesh> content_manager::get(const std::string& name);
 
 	/*
 	Gets a directional light from the content manager.  If directional light
 	doesn't exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<directional_light> content_manager::get(const std::string& name);
+	std::shared_ptr<directional_light> content_manager::get(const std::string& name);
 
 	/*
 	Gets a point light from the content manager.  If point light doesn't exist,
 	will return nullptr
 	*/
 	extern template
-		std::shared_ptr<point_light> content_manager::get(const std::string& name);
+	std::shared_ptr<point_light> content_manager::get(const std::string& name);
 
 	/*
-	Gets a spot light from the content manager.  If spot light doesn't exist,
+	Gets a spot light from the content manager.  If spot light doesn't exist, 
 	will return nullptr
 	*/
 	extern template
-		std::shared_ptr<spot_light> content_manager::get(const std::string& name);
+	std::shared_ptr<spot_light> content_manager::get(const std::string& name);
 
 	/*
 	Gets a set of dynamic lights from the content manager.  If light doesn't
 	exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<dynamic_lights> content_manager::get(const std::string& name);
+	std::shared_ptr<dynamic_lights> content_manager::get(const std::string& name);
 
 	/*
 	Gets a shader from the content manager.  If shader doesn't exist, will return
 	nullptr
 	*/
 	extern template
-		std::shared_ptr<shader> content_manager::get(const std::string& name);
+	std::shared_ptr<shader> content_manager::get(const std::string& name);
 
 	/*
-	Gets an effect from the content manager.  If effect doesn't exist, will
+	Gets an effect from the content manager.  If effect doesn't exist, will 
 	return nullptr
 	*/
 	extern template
-		std::shared_ptr<effect> content_manager::get(const std::string& name);
+	std::shared_ptr<effect> content_manager::get(const std::string& name);
 
 	/*
 	Gets a frame buffer from the content manager.  If frame buffer doesn't
 	exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<frame_buffer> content_manager::get(const std::string& name);
+	std::shared_ptr<frame_buffer> content_manager::get(const std::string& name);
 
 	/*
 	Gets a depth buffer from the content manager.  If depth buffer doesn't
 	exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<depth_buffer> content_manager::get(const std::string& name);
+	std::shared_ptr<depth_buffer> content_manager::get(const std::string& name);
 
 	/*
-	Gets a shadow map from the content manager.  If shadow map doesn't
+	Gets a shadow map from the content manager.  If shadow map doesn't 
 	exist, will return nullptr
 	*/
 	extern template
-		std::shared_ptr<shadow_map> content_manager::get(const std::string& name);
+	std::shared_ptr<shadow_map> content_manager::get(const std::string& name);
 
 	/*
 	Gets a render pass from the content manager.  If render pass doesn't exist
 	will return nullptr
 	*/
 	extern template
-		std::shared_ptr<render_pass> content_manager::get(const std::string& name);
+	std::shared_ptr<render_pass> content_manager::get(const std::string& name);
 
 	/*
 	Gets a frame buffer from the content manager.  If post process doesn't exist
 	will return nullptr
 	*/
 	extern template
-		std::shared_ptr<post_process> content_manager::get(const std::string& name);
+	std::shared_ptr<post_process> content_manager::get(const std::string& name);
 
 	/*
 	Default load method for the content manager.  Called when an attempt to
@@ -473,26 +473,26 @@ namespace render_framework
 	geometry.  Also adds to content manager store
 	*/
 	extern template
-		std::shared_ptr<geometry> content_manager::load(const std::string& filename);
+	std::shared_ptr<geometry> content_manager::load(const std::string& filename); 
 
 	/*
 	Loads a model from a file.  Also adds to content manager store
 	*/
 	extern template
-		std::shared_ptr<model> content_manager::load(const std::string& filename);
+	std::shared_ptr<model> content_manager::load(const std::string& filename);
 
 	/*
 	Loads a texture from a file.  Also adds to content manager store
 	*/
 	extern template
-		std::shared_ptr<texture> content_manager::load(const std::string& filename);
+	std::shared_ptr<texture> content_manager::load(const std::string& filename);
 
 	/*
 	Loads a piece of terrain from a texture file.  Also adds to content manager
 	store
 	*/
 	extern template
-		std::shared_ptr<terrain> content_manager::load(const std::string& filename);
+	std::shared_ptr<terrain> content_manager::load(const std::string& filename);
 
 	/*
 	Default method called for building on the content manager.  Is called attempted
@@ -511,83 +511,83 @@ namespace render_framework
 	Builds a cube map.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<cube_map>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<cube_map>& value);
 
 	/*
 	Builds a skybox.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<skybox>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<skybox>& value);
 
 	/*
 	Builds a piece of terrain.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<terrain>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<terrain>& value);
 
 	/*
 	Builds a mesh.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<mesh>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<mesh>& value);
 
 	/*
 	Builds a directional light.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<directional_light>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<directional_light>& value);
 
 	/*
 	Builds a point light.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<point_light>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<point_light>& value);
 
 	/*
 	Builds a spot light.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<spot_light>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<spot_light>& value);
 
 	/*
 	Builds a set of dynamic lights.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<dynamic_lights>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<dynamic_lights>& value);
 
 	/*
 	Builds an effect.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<effect>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<effect>& value);
 
 	/*
 	Builds a frame buffer.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<frame_buffer>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<frame_buffer>& value);
 
 	/*
 	Builds a depth buffer.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<depth_buffer>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<depth_buffer>& value);
 
 	/*
 	Builds a shadow map.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<shadow_map>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<shadow_map>& value);
 
 	/*
 	Builds a render pass.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<render_pass>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<render_pass>& value);
 
 	/*
 	Builds a post process.  Will also add to the content manager
 	*/
 	extern template
-		bool content_manager::build(const std::string& name, std::shared_ptr<post_process>& value);
+	bool content_manager::build(const std::string& name, std::shared_ptr<post_process>& value);
 };

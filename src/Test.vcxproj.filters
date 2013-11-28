@@ -147,6 +147,42 @@
     <None Include="Sputnik.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="sky_box.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sky_box.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Atmosphere.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Clouds.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Clouds.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Atmosphere.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="display.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="display.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="grey.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="pixelate.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sin.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sin.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Earth-specularmap.jpg">

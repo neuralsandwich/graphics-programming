@@ -48,22 +48,36 @@ public:
 	// Get Prop rotation
 	vec3 get_rotation();
 
+	// Get Prop scale
+	vec3 get_scale();
+
 	// Get number of meshes
 	int mesh_size();
+	
+	// get Prop name
+	string Prop::get_name();
 
 protected:
 	// name
 	string name;
+	
 	// Prop model
 	vector<mesh> models;
+	
 	// Position
 	vec3 position;
+	
 	// Rotation
 	vec3 rotation;
+
+	vec3 scale;
+	
 	// Path to .OBJ file
 	string path;
+	
 	// Path to vertex shader
 	string vert;
+	
 	// Path to fragment shader
 	string frag;
 };

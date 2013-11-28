@@ -116,15 +116,27 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Atmosphere.frag" />
+    <None Include="Atmosphere.vert" />
+    <None Include="Clouds.frag" />
+    <None Include="Clouds.vert" />
+    <None Include="display.frag" />
+    <None Include="display.vert" />
     <None Include="Earth.frag" />
     <None Include="Earth.mtl" />
     <None Include="Earth.vert" />
+    <None Include="grey.frag" />
+    <None Include="sin.vert" />
+    <None Include="sin.frag" />
     <None Include="Map__24_Composite.tga" />
     <None Include="Map__28_Falloff.tga" />
     <None Include="Moon.frag" />
     <None Include="moon.mtl" />
     <None Include="Moon.vert" />
+    <None Include="pixelate.frag" />
     <None Include="proplist.csv" />
+    <None Include="sky_box.frag" />
+    <None Include="sky_box.vert" />
     <None Include="Sputnik.frag" />
     <None Include="Sputnik.mtl" />
     <None Include="Sputnik.vert" />

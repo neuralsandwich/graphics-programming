@@ -46,7 +46,7 @@ namespace render_framework
 
 		// Now calculate up vector using same technique as forward vector
 		_up = _orientation * glm::vec3(0.0f, 1.0f, 0.0f);
-
+		
 		// We can now calculate the view matrix
 		_view = glm::lookAt(_position, _target, _up);
 	}
@@ -64,7 +64,7 @@ namespace render_framework
 	}
 
 	/*
-	Moves the free camera.  This is used in the update with the orientation to
+	Moves the free camera.  This is used in the update with the orientation to 
 	calculate actual movement
 	*/
 	void free_camera::move(const glm::vec3& translation)
@@ -80,8 +80,8 @@ namespace render_framework
 	{
 		// Calculate the combined rotation as a quaternion
 		glm::quat rotation(_targetRotation + _relativeRotation);
-
-		// Now calculate the desired position (position if there was no
+		
+		// Now calculate the desired position (position if there was no 
 		// springiness between target and camera)
 		glm::vec3 desiredPosition = _targetPosition + (rotation * _positionOffset);
 		// Out position lies somewhere between our current position and the

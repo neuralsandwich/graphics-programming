@@ -20,7 +20,7 @@ namespace render_framework
 		if (error)
 		{
 			std::cerr << "OpenGL Error: " << gluErrorString(error) << " at line "
-				<< line << " in file " << file << std::endl;
+					  << line << " in file " << file << std::endl;
 			return true;
 		}
 		return false;

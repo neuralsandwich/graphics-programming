@@ -19,6 +19,7 @@
     <ClCompile Include="render_framework\material.cpp" />
     <ClCompile Include="render_framework\model.cpp" />
     <ClCompile Include="render_framework\renderer.cpp" />
+    <ClCompile Include="render_framework\render_pass.cpp" />
     <ClCompile Include="render_framework\scene.cpp" />
     <ClCompile Include="render_framework\terrain.cpp" />
     <ClCompile Include="render_framework\texture.cpp" />
