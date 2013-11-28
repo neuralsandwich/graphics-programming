@@ -95,3 +95,8 @@ int Prop::mesh_size()
 {
 	return models.size();
 }
+
+string Prop::get_name()
+{
+	return name;
+}

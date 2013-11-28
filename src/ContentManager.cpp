@@ -25,6 +25,13 @@ bool ContentManager::initialize()
     return true;
 } // initialize()
 
+bool ContentManager::load_frame_buffer() {
+
+    frame = make_shared<frame_buffer>();
+
+    return true;
+}
+
 /* load_skybox : loads the props for the scene
  *
  * Loads the stars for the solar system.
@@ -51,7 +58,7 @@ bool ContentManager::load_skybox() {
         return false;
     }
 
-
+    return true;
 } // load_skybox()
 
 /* load_props : loads the props for the scene
@@ -122,8 +129,13 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
 
         // Created effect for mesh
         auto eff = make_shared<effect>();
-        eff->add_shader(prop->get_vert_path(), GL_VERTEX_SHADER);
-        eff->add_shader(prop->get_frag_path(), GL_FRAGMENT_SHADER);
+        if (prop->get_name() == "Earth") {
+            eff->add_shader(shape->material.name + ".vert", GL_VERTEX_SHADER);
+            eff->add_shader(shape->material.name + ".frag", GL_FRAGMENT_SHADER);
+        } else {
+            eff->add_shader(prop->get_vert_path(), GL_VERTEX_SHADER);
+            eff->add_shader(prop->get_frag_path(), GL_FRAGMENT_SHADER);
+        }
         // Build effect
         if (!effect_loader::build_effect(eff)) {
             return false;
@@ -138,6 +150,17 @@ bool ContentManager::load_model(Prop* prop, string modelPath)
         // Set "eye position" and lighting for shader
         model->mat->set_uniform_value("eye_position", CameraManager::get_instance().currentCamera->get_position());
         model->mat->set_uniform_value("directional_light", SceneManager::get_instance().light);
+
+        if (shape->material.normal_texname != "") {
+            auto tex_normal = texture_loader::load(shape->material.normal_texname);
+            model->mat->set_texture("normal_map", tex_normal);
+            model->mat->set_uniform_value("light_direction", SceneManager::get_instance().light->data.direction);
+        }
+
+        if (shape->material.specular_texname != "") {
+            auto tex_specular = texture_loader::load(shape->material.normal_texname);
+            model->mat->set_texture("specular_map", tex_specular);
+        }
 
         auto tex = texture_loader::load(shape->material.diffuse_texname);
         model->mat->set_texture("tex", tex);

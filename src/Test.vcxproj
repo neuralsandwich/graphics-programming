@@ -116,6 +116,10 @@
     </Object>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Atmosphere.frag" />
+    <None Include="Atmosphere.vert" />
+    <None Include="Clouds.frag" />
+    <None Include="Clouds.vert" />
     <None Include="Earth.frag" />
     <None Include="Earth.mtl" />
     <None Include="Earth.vert" />

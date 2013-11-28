@@ -425,7 +425,7 @@ namespace tinyobj {
 			}
 
 			// normal texture
-			if ((0 == strncmp(token, "map_Ns", 6)) && isSpace(token[6])) {
+			if ((0 == strncmp(token, "map_d", 6)) && isSpace(token[6])) {
 				token += 7;
 				material.normal_texname = token;
 				continue;

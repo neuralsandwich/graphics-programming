@@ -53,6 +53,9 @@ public:
 
 	// Get number of meshes
 	int mesh_size();
+	
+	// get Prop name
+	string Prop::get_name();
 
 protected:
 	// name

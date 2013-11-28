@@ -12,7 +12,7 @@ newmtl Material__25
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
+	Kt 1.000 1.0000 1.0000
 	map_Ka moon.png
 	map_Kd moon.png
-	map_bump moon_normal.jpg
-	bump moon_normal.jpg
+	map_d moon_normal.jpg

@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
 # File Created: 28.10.2013 00:36:33
 
-newmtl wire_088088225
+newmtl Earth
 	Ns 32
 	d 1.0
 	Tr 0
@@ -9,10 +9,13 @@ newmtl wire_088088225
 	illum 2
 	Ke 0.0000 0.0000 0.0000
 	Ka 0.3451 0.3451 0.8824
-	Kd 0.3451 0.3451 0.8824
-	Ks 0.3500 0.3500 0.3500
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.5882 0.5882 0.5882
 	Kt 1.000 1.0000 1.0000
+	map_Ka Earth.png
 	map_Kd Earth.png
+	map_ks Earth-specularmap.jpg
+	map_d Earth-normalmap.png
 
 newmtl Clouds
 	Ns 10.0000
@@ -24,16 +27,16 @@ newmtl Clouds
 	Ka 0.5882 0.5882 0.5882
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	Kt 0.1000 0.1000 0.1000
-	map_Ka Earth-cloud.jpg
-	map_Kd Earth-cloud.jpg
+	Ke 0.1000 0.1000 0.1000
+	Kt 0.5000 0.5000 0.5000
+	map_Ka Earth-cloud.png
+	map_Kd Earth-cloud.png
 	map_d Map__24_Composite.tga
 
-newmtl 03___Default
+newmtl Atmosphere
 	Ns 10.0000
 	Ni 1.5000
-	d 0.2000
+	d 0.0100
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
@@ -41,7 +44,7 @@ newmtl 03___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	Kt 0.0100 0.0100 0.0100
+	Kt 0.1000 0.1000 0.1000
 	map_Ka Map__28_Falloff.tga
 	map_Kd Map__28_Falloff.tga
 	map_d Map__28_Falloff.tga
