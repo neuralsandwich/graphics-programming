@@ -15,6 +15,11 @@ bool ContentManager::initialize()
         cout << "Skybox failed to load" << '\n';
     }
 
+    if (!load_frame_buffer()) {
+        cout << "Frame buffer failed to load" << '\n';
+        return false;
+    }
+
     if (!load_props()) {
         cout << "Props failed to load" << '\n';
         return false;

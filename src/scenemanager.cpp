@@ -15,6 +15,7 @@
 #include <render_framework\render_framework.h>
 #include <iostream>
 #include <GLM\glm.hpp>
+#include <vector>
 
 #include "cameramanager.h"
 #include "contentmanager.h"
