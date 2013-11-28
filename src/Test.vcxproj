@@ -126,8 +126,8 @@
     <None Include="Earth.mtl" />
     <None Include="Earth.vert" />
     <None Include="grey.frag" />
-    <None Include="hdr.vert" />
-    <None Include="hdrblur.frag" />
+    <None Include="sin.vert" />
+    <None Include="sin.frag" />
     <None Include="Map__24_Composite.tga" />
     <None Include="Map__28_Falloff.tga" />
     <None Include="Moon.frag" />

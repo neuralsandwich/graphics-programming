@@ -174,13 +174,13 @@
     <None Include="grey.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="hdr.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="hdrblur.frag">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="pixelate.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sin.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sin.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

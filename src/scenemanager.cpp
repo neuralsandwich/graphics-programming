@@ -129,7 +129,7 @@ void SceneManager::update_scene(float deltaTime)
     }
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_H)) {
         ContentManager::get_instance().post->passes.pop_back();
-        ContentManager::get_instance().post->passes.push_back(ContentManager::get_instance().hdr);
+        ContentManager::get_instance().post->passes.push_back(ContentManager::get_instance().sin);
         // Build post process
         content_manager::get_instance().build("display", ContentManager::get_instance().post);
     }
@@ -139,7 +139,7 @@ void SceneManager::update_scene(float deltaTime)
         // Build post process
         content_manager::get_instance().build("display", ContentManager::get_instance().post);
     }
-
+    ContentManager::get_instance().sin->set_uniform_value("offset", deltaTime);
     CameraManager::get_instance().currentCamera->set_target(_focus);
     CameraManager::get_instance().update(deltaTime);
 

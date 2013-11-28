@@ -28,7 +28,7 @@ public:
 
 	shared_ptr<render_pass> grey;
 
-	shared_ptr<render_pass> hdr;
+	shared_ptr<render_pass> sin;
 
 	shared_ptr<render_pass> pixelate;
 

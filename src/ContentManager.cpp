@@ -55,16 +55,14 @@ bool ContentManager::load_frame_buffer() {
     grey->eff->add_shader("grey.frag", GL_FRAGMENT_SHADER);
     
     // Create hdr framebuffer
-    hdr = make_shared<render_pass>();
-    hdr->buffer = make_shared<frame_buffer>();
-    hdr->buffer->width = renderer::get_instance().get_screen_width();
-    hdr->buffer->height = renderer::get_instance().get_screen_height();
+    sin = make_shared<render_pass>();
+    sin->buffer = make_shared<frame_buffer>();
+    sin->buffer->width = renderer::get_instance().get_screen_width();
+    sin->buffer->height = renderer::get_instance().get_screen_height();
     // Add effect
-    hdr->eff = make_shared<effect>();
-    hdr->eff->add_shader("hdr.vert", GL_VERTEX_SHADER);
-    hdr->eff->add_shader("hdrblur.frag", GL_FRAGMENT_SHADER);
-    hdr->set_uniform_value("inverse_width", 1.0f/renderer::get_instance().get_screen_width());
-    hdr->set_uniform_value("inverse_height", 1.0f/renderer::get_instance().get_screen_height());
+    sin->eff = make_shared<effect>();
+    sin->eff->add_shader("sin.vert", GL_VERTEX_SHADER);
+    sin->eff->add_shader("sin.frag", GL_FRAGMENT_SHADER);
 
     // Create pixelate scale framebuffer
     pixelate = make_shared<render_pass>();
