@@ -10,6 +10,7 @@
 #include "Sputnik.h"
 #include "Earth.h"
 #include "Moon.h"
+#include "Sol.h"
 
 #pragma once
 
@@ -106,6 +107,8 @@ private:
 	Earth earth;
 
 	Moon moon;
+
+	Sol sol;
 
 	// Private constructor (This CameraManager is a singleton)
 	ContentManager() {};

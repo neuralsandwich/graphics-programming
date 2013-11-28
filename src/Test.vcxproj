@@ -111,6 +111,10 @@
     <Object Include="Moon.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </Object>
+    <Object Include="Sol.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </Object>
     <Object Include="Sputnik.obj">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </Object>
@@ -137,6 +141,7 @@
     <None Include="proplist.csv" />
     <None Include="sky_box.frag" />
     <None Include="sky_box.vert" />
+    <None Include="Sol.mtl" />
     <None Include="Sputnik.frag" />
     <None Include="Sputnik.mtl" />
     <None Include="Sputnik.vert" />
