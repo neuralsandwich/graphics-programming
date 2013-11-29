@@ -189,6 +189,12 @@
     <None Include="Sol.mtl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Sol.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Sol.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Earth-specularmap.jpg">

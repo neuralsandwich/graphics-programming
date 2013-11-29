@@ -93,8 +93,6 @@ bool SceneManager::initialize_lighting() {
  */
 void SceneManager::update_scene(float deltaTime)
 {
-    printf("Updating scene.\n");
-
     // Move the camera when keys are pressed
     // Earth Cam
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_1)) {
@@ -118,7 +116,7 @@ void SceneManager::update_scene(float deltaTime)
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_4)) {
         CameraManager::get_instance().setRenderCamera(CameraManager::get_instance().getCameraAtIndex(2));
         _focus = ContentManager::get_instance().get_prop_at(3)->get_mesh(0).trans.position;
-        CameraManager::get_instance().currentCamera->set_distance(10900.0f);
+        CameraManager::get_instance().currentCamera->set_distance(3.0e6f);
     }
     if (glfwGetKey(renderer::get_instance().get_window(), GLFW_KEY_G)) {
         ContentManager::get_instance().post->passes.pop_back();
@@ -159,8 +157,6 @@ void SceneManager::update_scene(float deltaTime)
 */
 void SceneManager::render_scene(float deltaTime)
 {
-    printf("## Rendering ##\n");
-
     if (!(ContentManager::get_instance().post == nullptr)) {
         renderer::get_instance().bind(ContentManager::get_instance().post);
     }

@@ -141,7 +141,9 @@
     <None Include="proplist.csv" />
     <None Include="sky_box.frag" />
     <None Include="sky_box.vert" />
+    <None Include="Sol.frag" />
     <None Include="Sol.mtl" />
+    <None Include="Sol.vert" />
     <None Include="Sputnik.frag" />
     <None Include="Sputnik.mtl" />
     <None Include="Sputnik.vert" />

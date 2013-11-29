@@ -24,10 +24,10 @@ bool CameraManager::initialize()
 	ecam.set_projection(quarter_pi<float>(), // FOV
 		aspect,              // Aspect ratio
 		0.2f,                // Near plane
-		150000000.0f);           // Far plane
+		1.5e10f);       // Far plane
 	// Set the camera properties
 	ecam.set_target(vec3(0.0,0.0,0.0));
-	ecam.set_distance(7039.0f);
+	ecam.set_distance(20000.0f);
 	ecam.set_rotationY(0.336f);
 	registerCamera(ecam);
 
@@ -36,7 +36,7 @@ bool CameraManager::initialize()
 	scam.set_projection(quarter_pi<float>(), // FOV
 		aspect,              // Aspect ratio
 		0.2f,                // Near plane
-		150000000.0f);           // Far plane
+		1.5e10f);           // Far plane
 	// Set the camera properties
 	registerCamera(scam);
 
@@ -45,7 +45,7 @@ bool CameraManager::initialize()
 	mcam.set_projection(quarter_pi<float>(), // FOV
 		aspect,              // Aspect ratio
 		0.2f,                // Near plane
-		150000000.0f);           // Far plane
+		1.5e10f);           // Far plane
 	// Set the camera properties
 	registerCamera(mcam);
 

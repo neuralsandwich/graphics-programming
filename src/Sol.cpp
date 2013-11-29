@@ -8,6 +8,7 @@ Sol::Sol(void)
 	vert = "Sol.vert";
 	frag = "Sol.frag";
 	position = vec3(-0.9e8, 0.0, 0.9e8);
+	//position = vec3(0.0, 0.0, 0.0);
 	velocity = vec3(0.0,  0.0,  0.0);
 	rotation = vec3(0.0,  0.0,  0.0);
 	scale    = vec3(60.0, 60.0, 60.0);

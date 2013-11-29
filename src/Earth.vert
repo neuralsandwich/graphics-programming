@@ -14,11 +14,14 @@ layout (location = 2) in vec2 tex_coord;	// Texture co-ordinate
 layout (location = 4) in vec3 tangent;
 layout (location = 5) in vec3 binormal;
 
+const float FC = 1.0/log(1.0e8*1e-6 + 1);
+
 // Output variables
 out vec3 transformed_position;
 out vec3 light_dir;
 out vec3 view_dir;
 out vec2 vertex_tex_coord;
+out float logz;
 
 void main()
 {
@@ -48,5 +51,7 @@ void main()
   light_dir = light_direction * tbn_transform;
 
   // Using Logarithmic Depth to stop Z fighting on Earth atmosphere
-  gl_Position.z = log(1e-6 * gl_Position.z + 1) / log(1e-6 * 150e6 + 1) * gl_Position.w;
+  //gl_Position.z = log(1e-6 * gl_Position.z + 1) / log(1e-6 * 150e6 + 1) * gl_Position.w;
+  logz = log(gl_Position.w*1e-6 + 1)*FC;
+  gl_Position.z = (2*logz - 1)*gl_Position.w;
 }

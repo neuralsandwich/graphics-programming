@@ -24,6 +24,7 @@ uniform sampler2D tex;
 in vec3 vertex_position;
 in vec3 transformed_normal;
 in vec2 vertex_tex_coord;		// Incoming texture coordinate
+in float logz;
 
 // Outgoing colour
 out vec4 col;
@@ -72,4 +73,6 @@ void main() {
     // Calculate final fragment colour
     col = (primary_colour  * tex_colour) + secondary_colour;
     col.a = 1.0;
+
+	gl_FragDepth = logz;
 }

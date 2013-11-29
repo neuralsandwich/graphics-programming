@@ -26,6 +26,7 @@ in vec3 transformed_position;
 in vec3 light_dir;
 in vec3 view_dir;
 in vec2 vertex_tex_coord;		// Incoming texture coordinate
+in float logz;
 
 // Outgoing colour
 out vec4 colour;
@@ -60,4 +61,6 @@ void main() {
 
   // Calculate final fragment colour
   colour = ((mat.emissive + ambient + diffuse)  * tex_colour) + specular;
+
+  gl_FragDepth = logz;
 }
